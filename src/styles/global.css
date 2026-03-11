@@ -1,0 +1,147 @@
+/* ================================
+   GLOBAL STYLES - Moon Sports Group
+================================ */
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  cursor: none !important;
+}
+
+a, button {
+  cursor: none !important;
+}
+
+/* Section label utility */
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  color: #C9A84C;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-label::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: #C9A84C;
+  flex-shrink: 0;
+}
+
+/* Gold divider */
+.gold-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, #C9A84C, transparent);
+  margin: 24px 0;
+}
+
+/* Hero title initial state for GSAP */
+.hero-title-word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+/* Scroll hint animation */
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+.scroll-line-anim {
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+/* Logo glow pulse */
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.2); opacity: 1; }
+}
+
+.logo-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Service card number */
+.service-num {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  color: rgba(201, 168, 76, 0.06);
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Player card image transition */
+.player-card-img {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  filter: grayscale(20%);
+  transition: transform 0.6s ease, filter 0.4s;
+}
+
+.player-card:hover .player-card-img {
+  transform: scale(1.04);
+  filter: grayscale(0%);
+}
+
+/* Jugador full card bio reveal */
+.jugador-bio {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 12px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s;
+  opacity: 0;
+}
+
+.jugador-card-full:hover .jugador-bio {
+  max-height: 80px;
+  opacity: 1;
+}
+
+.jugador-card-full:hover .jugador-card-body {
+  transform: translateY(-8px);
+}
+
+/* Contact button left border effect */
+.contact-btn::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 0;
+  background: #C9A84C;
+  transition: height 0.4s ease;
+}
+
+.contact-btn:hover::before {
+  height: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .footer-inner {
+    grid-template-columns: 1fr !important;
+  }
+}
