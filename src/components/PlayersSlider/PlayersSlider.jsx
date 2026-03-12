@@ -24,7 +24,7 @@ function PlayerCard({ player }) {
         _hover={{ borderColor: 'brand.goldDark' }}
         data-cursor-hover
       >
-        <Image
+        <Image  
           className="player-card-img"
           src={player.image}
           alt={player.name}
@@ -122,10 +122,16 @@ export default function PlayersSlider() {
       </Box>
 
       {/* Scrollable track */}
-      <Box overflow="hidden" px={{ base: 6, md: 12 }}>
+      <Box 
+      overflow="hidden" 
+      w={'80vw'} 
+      alignContent={'center'}
+      ml={40}
+      px={{ base: 6, md: 12 }}
+      >
         <Flex
           ref={trackRef}
-          gap="20px"
+          gap="28px"
           width="max-content"
           willChange="transform"
         >
@@ -137,7 +143,7 @@ export default function PlayersSlider() {
       </Box>
 
       {/* Manual nav buttons (below the pinned area) */}
-      <Flex gap={3} px={{ base: 6, md: 12 }} mt={10}>
+      <Flex gap={3} px={{ base: 6, md: 12 }} mt={10} ml={28}>
         <Box
           as="button"
           w="48px"

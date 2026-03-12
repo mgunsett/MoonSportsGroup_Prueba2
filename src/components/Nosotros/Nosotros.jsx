@@ -39,13 +39,14 @@ export default function Nosotros() {
       as="section"
       id="nosotros"
       position="relative"
-      mt={{base: 4, md: 8}}
+      mt={{base: 4, md: 0}}
       minH='70vh'
       alignItems="center"
       backgroundImage={`url(${bgJugadores})`}
       backgroundSize="cover"
       backgroundPosition={{ base: 'none', md: 'center' }}
       backgroundRepeat="no-repeat"
+      backgroundAttachment="fixed"
     >
       {/* Gradient overlay */}
       <Box
@@ -59,10 +60,10 @@ export default function Nosotros() {
         ref={sectionRef}
         position="relative"
         zIndex={2}
-        maxW="700px"
+        maxW="650px"
         px={{ base: 6, md: 12 }}
         py={{ base: '80px', md: '120px' }}
-        left={{ base: '0%', md: '16%' }}
+        left={{ base: '0%', md: '12%' }}
       >
         <Text className="section-label gsap-reveal">Quiénes Somos</Text>
 
