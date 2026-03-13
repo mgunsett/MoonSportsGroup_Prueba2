@@ -121,18 +121,12 @@ a, button {
 }
 
 /* Contact button left border effect */
-.contact-btn::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3px;
+.contact-border {
   height: 0;
-  background: #C9A84C;
   transition: height 0.4s ease;
 }
 
-.contact-btn:hover::before {
+.contact-btn:hover .contact-border {
   height: 100%;
 }
 

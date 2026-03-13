@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import {
   Box, Grid, Heading, Image, Text, Flex, Link,
@@ -6,8 +6,9 @@ import {
 import gsap from 'gsap'
 import { players } from '../utils/players'
 import Footer from '../components/Footer/Footer'
+import PlayerModal from '../components/PlayerModal/PlayerModal'
 
-function JugadorCard({ player, index }) {
+function JugadorCard({ player, index, onSelect }) {
   const cardRef = useRef(null)
 
   return (
@@ -19,6 +20,7 @@ function JugadorCard({ player, index }) {
       h="480px"
       cursor="pointer"
       data-cursor-hover
+      onClick={() => onSelect(player)}
     >
       <Image
         src={player.image}
@@ -110,6 +112,7 @@ function JugadorCard({ player, index }) {
 
 export default function JugadoresPage() {
   const gridRef = useRef(null)
+  const [selectedPlayer, setSelectedPlayer] = useState(null)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -210,7 +213,7 @@ export default function JugadoresPage() {
           gap="2px"
         >
           {players.map((player, i) => (
-            <JugadorCard key={player.id} player={player} index={i} />
+            <JugadorCard key={player.id} player={player} index={i} onSelect={setSelectedPlayer} />
           ))}
 
           {/* CTA Card */}
@@ -271,6 +274,12 @@ export default function JugadoresPage() {
       </Box>
 
       <Footer />
+
+      <PlayerModal
+        player={selectedPlayer}
+        isOpen={!!selectedPlayer}
+        onClose={() => setSelectedPlayer(null)}
+      />
     </Box>
   )
 }

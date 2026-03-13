@@ -10,26 +10,26 @@ const services = [
   {
     num: '01',
     icon: '⚽',
-    title: 'Representación de Jugadores',
+    title: 'Representación de Futbolistas',
     desc: 'Negociación de contratos, gestión de transferencias y asesoramiento estratégico para maximizar el potencial de cada jugador a nivel nacional e internacional.',
   },
   {
     num: '02',
-    icon: '🏆',
-    title: 'Representación de Técnicos',
+    icon: '📝',
+    title: 'Representación de Técnicos',  
     desc: 'Acompañamiento profesional a directores técnicos en la búsqueda y negociación de proyectos deportivos acordes a sus objetivos y filosofía de juego.',
   },
   {
     num: '03',
     icon: '📊',
     title: 'Gestión de Imagen',
-    desc: 'Desarrollo de marca personal, acuerdos de patrocinio y construcción de una imagen pública sólida y coherente con los valores del representado.',
+    desc: 'Desarrollo de marca personal, gestión de redes sociales, acuerdos de patrocinio y construcción de una imagen pública sólida y coherente con los valores del representado.',
   },
   {
     num: '04',
     icon: '⚖️',
-    title: 'Asesoría Legal y Financiera',
-    desc: 'Acompañamiento en aspectos jurídicos y financieros para proteger los intereses del cliente en cada etapa de su carrera y vida profesional.',
+    title: 'Negociación de Contratos y Asesoría Legal',
+    desc: 'Expertos en el proceso de negociación de contratos; entendemos exactamente cuánto valor aportan nuestros clientes a sus equipos y sabemos cómo proteger sus intereses. Asesoría legal incluida.',
   },
   {
     num: '05',
@@ -40,8 +40,8 @@ const services = [
   {
     num: '06',
     icon: '🎯',
-    title: 'Desarrollo de Carrera',
-    desc: 'Planificación estratégica a largo plazo para que cada representado alcance el máximo nivel deportivo y profesional a lo largo de su trayectoria.',
+    title: 'Desarrollo profesional',
+    desc: `Preparación física y nutricional. \n Asesoramiento y manejo de medios y preparación para entrevistas. Concierge para asesorar con viajes y logística.`,
   },
 ]
 
@@ -52,26 +52,55 @@ function ServiceCard({ service, index }) {
     const el = cardRef.current
     if (!el) return
 
+    const borderLine = el.querySelector('.card-border-line')
+    const iconBox    = el.querySelector('.card-icon')
+    const numBg      = el.querySelector('.service-num')
+
     const onEnter = () => {
-      gsap.to(el.querySelector('.card-border-line'), {
+      gsap.to(el, {
+        y: -3,
+        boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+        duration: 0.6,
+        ease: 'power2.out',
+      })
+      gsap.to(borderLine, {
         scaleX: 1,
+        duration: 0.7,
+        ease: 'power2.out',
+      })
+      gsap.to(iconBox, {
+        borderColor: '#C9A84C',
+        background: 'rgba(201,168,76,0.1)',
         duration: 0.5,
         ease: 'power2.out',
       })
-      gsap.to(el, {
-        background: 'rgba(201,168,76,0.05)',
-        duration: 0.4,
+      gsap.to(numBg, {
+        color: 'rgba(201,168,76,0.1)',
+        duration: 0.5,
       })
     }
+
     const onLeave = () => {
-      gsap.to(el.querySelector('.card-border-line'), {
-        scaleX: 0,
-        duration: 0.4,
+      gsap.to(el, {
+        y: 0,
+        boxShadow: 'none',
+        duration: 0.6,
         ease: 'power2.inOut',
       })
-      gsap.to(el, {
-        background: '#1A1A1A',
-        duration: 0.4,
+      gsap.to(borderLine, {
+        scaleX: 0,
+        duration: 0.5,
+        ease: 'power2.inOut',
+      })
+      gsap.to(iconBox, {
+        borderColor: '#9A7A35',
+        background: 'rgba(201,168,76,0.05)',
+        duration: 0.5,
+        ease: 'power2.inOut',
+      })
+      gsap.to(numBg, {
+        color: 'rgba(201,168,76,0.06)',
+        duration: 0.5,
       })
     }
 
@@ -91,6 +120,7 @@ function ServiceCard({ service, index }) {
       bg="brand.grayMid"
       p={{ base: '32px', md: '48px 40px' }}
       overflow="hidden"
+      data-cursor-hover
     >
       {/* Large number background */}
       <Box className="service-num">{service.num}</Box>
@@ -110,6 +140,7 @@ function ServiceCard({ service, index }) {
 
       {/* Icon */}
       <Box
+        className="card-icon"
         w="56px"
         h="56px"
         border="1px solid"

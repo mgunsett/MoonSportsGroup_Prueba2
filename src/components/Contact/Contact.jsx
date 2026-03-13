@@ -30,7 +30,7 @@ const contactLinks = [
   },
   {
     label: 'Instagram',
-    href: 'https://instagram.com/moonsportsgroup',
+    href: 'https://www.instagram.com/moonsportsgroup_/',
     color: '#E1306C',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -40,7 +40,7 @@ const contactLinks = [
   },
   {
     label: 'LinkedIn',
-    href: 'https://linkedin.com/company/moonsportsgroup',
+    href: 'https://www.linkedin.com/company/moon-sports-group/',
     color: '#0077B5',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -151,6 +151,15 @@ export default function Contact() {
                 }}
                 data-cursor-hover
               >
+                <Box
+                  className="contact-border"
+                  position="absolute"
+                  left={0}
+                  bottom={0}
+                  w="3px"
+                  bg="brand.gold"
+                  borderRadius="6px 0 0 6px"
+                />
                 <Box color={link.color} flexShrink={0}>
                   {link.icon}
                 </Box>
