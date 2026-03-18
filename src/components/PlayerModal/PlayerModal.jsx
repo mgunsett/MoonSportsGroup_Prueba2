@@ -6,12 +6,16 @@ import {
 } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 import gsap from 'gsap'
+import pizarraDt from '../../assets/images/Pizarra_dt.png'
+import { FaInstagram } from "react-icons/fa";
+import { FaXTwitter, FaThreads  } from "react-icons/fa6";
+
 
 /* ──────── Mini soccer field ──────── */
 function MiniField({ position }) {
   if (!position) return null
   return (
-    <Box position="relative" w="100%" maxW="200px" mx="auto">
+    <Box position="relative" w="100%" maxW={{ base: '140px', md: '170px' }} mx="auto">
       <svg viewBox="0 0 100 140" width="100%" style={{ display: 'block' }}>
         <rect x="0" y="0" width="100" height="140" rx="4" fill="#1a3a1a" stroke="#2d5a2d" strokeWidth="1" />
         <line x1="0" y1="70" x2="100" y2="70" stroke="#2d5a2d" strokeWidth="0.8" />
@@ -23,57 +27,6 @@ function MiniField({ position }) {
         <rect x="32" y="130" width="36" height="10" fill="none" stroke="#2d5a2d" strokeWidth="0.8" />
         <circle cx={position.x} cy={position.y * 1.4} r="5" fill="#C9A84C" opacity="0.9" />
         <circle cx={position.x} cy={position.y * 1.4} r="8" fill="none" stroke="#C9A84C" strokeWidth="0.6" opacity="0.4" />
-      </svg>
-    </Box>
-  )
-}
-
-/* ──────── Tactical clipboard for coaches ──────── */
-function TacticalBoard() {
-  return (
-    <Box position="relative" w="100%" maxW="220px" mx="auto">
-      <svg viewBox="0 0 120 160" width="100%" style={{ display: 'block' }}>
-        {/* Clipboard body */}
-        <rect x="4" y="12" width="112" height="144" rx="6" fill="#2a2218" stroke="#5a4a2a" strokeWidth="1" />
-        {/* Clipboard clip */}
-        <rect x="40" y="4" width="40" height="16" rx="4" fill="#9A7A35" />
-        <rect x="46" y="8" width="28" height="8" rx="2" fill="#2a2218" />
-        {/* Board surface */}
-        <rect x="10" y="24" width="100" height="126" rx="3" fill="#1a1a1a" stroke="#333" strokeWidth="0.5" />
-
-        {/* Tactical drawings — formation lines */}
-        {/* Back line */}
-        <line x1="25" y1="115" x2="95" y2="115" stroke="#C9A84C" strokeWidth="0.5" opacity="0.3" strokeDasharray="3,2" />
-        {/* Mid line */}
-        <line x1="20" y1="80" x2="100" y2="80" stroke="#C9A84C" strokeWidth="0.5" opacity="0.3" strokeDasharray="3,2" />
-        {/* Attack line */}
-        <line x1="30" y1="50" x2="90" y2="50" stroke="#C9A84C" strokeWidth="0.5" opacity="0.3" strokeDasharray="3,2" />
-
-        {/* Formation dots — 4-3-3 */}
-        {/* GK */}
-        <circle cx="60" cy="130" r="3.5" fill="none" stroke="#C9A84C" strokeWidth="1" />
-        {/* Defenders */}
-        <circle cx="25" cy="115" r="3" fill="#C9A84C" opacity="0.8" />
-        <circle cx="45" cy="115" r="3" fill="#C9A84C" opacity="0.8" />
-        <circle cx="75" cy="115" r="3" fill="#C9A84C" opacity="0.8" />
-        <circle cx="95" cy="115" r="3" fill="#C9A84C" opacity="0.8" />
-        {/* Midfielders */}
-        <circle cx="30" cy="80" r="3" fill="#C9A84C" opacity="0.8" />
-        <circle cx="60" cy="80" r="3" fill="#C9A84C" opacity="0.8" />
-        <circle cx="90" cy="80" r="3" fill="#C9A84C" opacity="0.8" />
-        {/* Forwards */}
-        <circle cx="30" cy="50" r="3" fill="#C9A84C" opacity="0.8" />
-        <circle cx="60" cy="50" r="3" fill="#C9A84C" opacity="0.8" />
-        <circle cx="90" cy="50" r="3" fill="#C9A84C" opacity="0.8" />
-
-        {/* Movement arrows */}
-        <path d="M60 75 L60 58 L56 62" fill="none" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5" />
-        <path d="M30 75 L40 65" fill="none" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5" />
-        <path d="M90 75 L80 65" fill="none" stroke="#C9A84C" strokeWidth="0.8" opacity="0.5" />
-
-        {/* Passing lines */}
-        <line x1="45" y1="112" x2="55" y2="84" stroke="#fff" strokeWidth="0.5" opacity="0.15" strokeDasharray="2,2" />
-        <line x1="75" y1="112" x2="65" y2="84" stroke="#fff" strokeWidth="0.5" opacity="0.15" strokeDasharray="2,2" />
       </svg>
     </Box>
   )
@@ -165,7 +118,7 @@ export default function PlayerModal({ player, isOpen, onClose }) {
         bg="transparent"
         boxShadow="none"
         overflow="hidden"
-        maxH="90vh"
+        maxH={{ base: 'auto', md: '85vh' }}
         mx={4}
         borderRadius="12px"
       >
@@ -179,10 +132,21 @@ export default function PlayerModal({ player, isOpen, onClose }) {
           borderColor="rgba(201,168,76,0.2)"
           boxShadow="0 0 40px rgba(201,168,76,0.06), 0 25px 60px rgba(0,0,0,0.6)"
         >
-          {/* Top gold accent line */}
+          {/* Top gold linea */}
           <Box
             position="absolute"
             top={0}
+            left="10%"
+            right="10%"
+            h="1px"
+            background="linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent)"
+            zIndex={2}
+          />
+          {/* Bottom gold linea */}
+          <Box
+            position="absolute"
+            top="auto"
+            bottom={0}
             left="10%"
             right="10%"
             h="1px"
@@ -210,18 +174,19 @@ export default function PlayerModal({ player, isOpen, onClose }) {
             color="brand.whiteMuted"
             border="1px solid"
             borderColor="rgba(255,255,255,0.1)"
-            _hover={{ color: 'brand.gold', borderColor: 'rgba(201,168,76,0.4)' }}
+            _hover={{ color: 'rgba(212, 69, 44, 0.8)', borderColor: 'rgba(201, 95, 76, 0.75)' }}
             aria-label="Cerrar"
             data-cursor-hover
           />
 
-          <ModalBody p={0} overflowY="auto" maxH="90vh">
-            <Flex direction={{ base: 'column', md: 'row' }} minH={{ md: '500px' }}>
+          <ModalBody p={0} overflow="hidden">
+            <Flex direction={{ base: 'column', md: 'row' }}>
 
               {/* ── Left: Image ── */}
               <Box
                 w={{ base: '100%', md: '40%' }}
-                minH={{ base: '280px', md: 'auto' }}
+                minH={{ base: '220px', md: 'auto' }}
+                maxH={{ base: '220px', md: 'none' }}
                 position="relative"
                 overflow="hidden"
               >
@@ -247,7 +212,7 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                     <Text
                       fontFamily="'Bebas Neue', sans-serif"
                       fontSize="56px"
-                      color="rgba(201,168,76,0.2)"
+                      color="rgba(201, 168, 76, 0.48)"
                       lineHeight={1}
                       mb="-6px"
                     >
@@ -256,12 +221,15 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                   )}
                   <Heading
                     fontFamily="'Bebas Neue', sans-serif"
-                    fontSize="36px"
+                    fontSize={{ base: '24px', md: '46px' }}
                     color="brand.white"
                     lineHeight={1}
                     letterSpacing="0.03em"
                   >
-                    {player.name}
+                    {player.name}{' '}
+                    <Box as="span" color="brand.gold">
+                      {player.lastname}
+                    </Box>
                   </Heading>
                   <Flex align="center" gap={2} mt={2}>
                     <Text fontSize="20px">{countryFlag(player.nationality)}</Text>
@@ -273,39 +241,39 @@ export default function PlayerModal({ player, isOpen, onClose }) {
               </Box>
 
               {/* ── Right: Info ── */}
-              <Box w={{ base: '100%', md: '60%' }} p={{ base: 6, md: 10 }}>
+              <Box w={{ base: '100%', md: '60%' }} p={{ base: 4, md: 6 }}>
 
                 {/* Info cards grid */}
                 <Box
                   display="grid"
                   gridTemplateColumns="repeat(2, 1fr)"
-                  gap={3}
+                  gap={2}
                   mb={8}
                 >
                   <InfoCard
-                    icon={<Text fontSize="16px">{countryFlag(player.nationality)}</Text>}
+                    icon={<Text fontSize="20px">{countryFlag(player.nationality)}</Text>}
                     label="País"
                     value={player.nationality}
                   />
                   <InfoCard
-                    icon={<Text fontSize="14px">📅</Text>}
+                    icon={<Text fontSize="18px" mr={2}>📅</Text>}
                     label="Nacimiento"
                     value={new Date(player.birthDate).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })}
                   />
                   <InfoCard
-                    icon={<Text fontSize="14px">🎂</Text>}
+                    icon={<Text fontSize="15px">🎂</Text>}
                     label="Edad"
                     value={`${getAge(player.birthDate)} años`}
                   />
                   <InfoCard
-                    icon={<Text fontSize="14px">🏟️</Text>}
+                    icon={<Image src={player.escudo} alt={player.club} w="28px" h="30px" />}
                     label="Club"
                     value={player.club}
                   />
                 </Box>
 
                 {/* Key numbers */}
-                <Flex gap={{ base: 4, md: 8 }} mb={8} flexWrap="wrap">
+                <Flex gap={{ base: 3, md: 6 }} mb={4} flexWrap="wrap">
                   <KeyStat label={isCoach ? 'Dirigidos' : 'Partidos'} value={stats.matches} />
                   {isCoach ? (
                     <>
@@ -323,7 +291,7 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                 </Flex>
 
                 {/* Ratings + Field / Tactical Board */}
-                <Flex direction={{ base: 'column', md: 'row' }} gap={8}>
+                <Flex direction={{ base: 'column', md: 'row' }} gap={4}>
                   {/* Rating bars */}
                   <Box flex={1}>
                     <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mb={4} fontWeight={600}>
@@ -332,16 +300,44 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                     {Object.entries(stats.ratings).map(([key, val]) => (
                       <StatBar key={key} label={key} value={val} animate={!isMobile} />
                     ))}
+                    {/* Social links */}
+                
+                  <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mt={6} mb={2} fontWeight={600}>
+                    Redes Sociales
+                  </Text>
+                  {player.socials && (
+                  <Flex mt={4} gap={3}>
+                    {player.socials.instagram && (
+                      <SocialLink href={player.socials.instagram} label="Instagram">
+                        <FaInstagram size={16} />
+                      </SocialLink>
+                    )}
+                    {player.socials.twitter && (
+                      <SocialLink href={player.socials.twitter} label="Twitter">
+                        <FaXTwitter size={16} />
+                      </SocialLink>
+                    )}
+                    {player.socials.threads && (
+                      <SocialLink href={player.socials.threads} label="Threads">
+                        <FaThreads size={16} />
+                      </SocialLink>
+                    )}  
+                  </Flex>
+                )}
                   </Box>
 
                   {/* Mini field or Tactical board */}
                   <Box flex={1} display="flex" flexDirection="column" alignItems="center">
                     {isCoach ? (
                       <>
-                        <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mb={4} fontWeight={600}>
-                          Pizarra táctica
-                        </Text>
-                        <TacticalBoard />
+                        <Image
+                          src={pizarraDt}
+                          alt="Pizarra táctica"
+                          w="100%"
+                          maxW={{ base: '180px', md: '150px' }}
+                          mx="auto"
+                          objectFit="contain"
+                        />
                       </>
                     ) : player.fieldPosition ? (
                       <>
@@ -357,25 +353,30 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                   </Box>
                 </Flex>
 
-                {/* Social links */}
-                {player.socials && (
-                  <Flex mt={8} gap={3}>
+                {/* Social links
+                
+                  <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mt={6} mb={2} fontWeight={600}>
+                    Redes Sociales
+                  </Text>
+                  {player.socials && (
+                  <Flex mt={4} gap={3}>
                     {player.socials.instagram && (
                       <SocialLink href={player.socials.instagram} label="Instagram">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                        </svg>
+                        <FaInstagram size={16} />
                       </SocialLink>
                     )}
                     {player.socials.twitter && (
                       <SocialLink href={player.socials.twitter} label="Twitter">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                        </svg>
+                        <FaXTwitter size={16} />
                       </SocialLink>
                     )}
+                    {player.socials.threads && (
+                      <SocialLink href={player.socials.threads} label="Threads">
+                        <FaThreads size={16} />
+                      </SocialLink>
+                    )}  
                   </Flex>
-                )}
+                )} */}
               </Box>
             </Flex>
           </ModalBody>
@@ -398,7 +399,7 @@ function InfoCard({ icon, label, value }) {
       py={3}
       display="flex"
       alignItems="center"
-      gap={3}
+      gap={5}
     >
       <Box flexShrink={0}>{icon}</Box>
       <Box>
@@ -416,7 +417,7 @@ function InfoCard({ icon, label, value }) {
 function KeyStat({ label, value }) {
   return (
     <Box textAlign="center">
-      <Text fontFamily="'Bebas Neue', sans-serif" fontSize="36px" color="brand.gold" lineHeight={1}>
+      <Text fontFamily="'Bebas Neue', sans-serif" fontSize={{ base: '28px', md: '32px' }} color="brand.gold" lineHeight={1}>
         {value}
       </Text>
       <Text fontSize="10px" color="brand.whiteMuted" letterSpacing="0.12em" textTransform="uppercase" mt={1}>
@@ -434,8 +435,8 @@ function SocialLink({ href, label, children }) {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      w="40px"
-      h="40px"
+      w="30px"
+      h="30px"
       bg="brand.grayMid"
       border="1px solid"
       borderColor="brand.grayBorder"

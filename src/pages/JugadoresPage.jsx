@@ -70,7 +70,7 @@ function JugadorCard({ player, index, onSelect }) {
           lineHeight={1}
           mb="-8px"
         >
-          {String(index + 1).padStart(2, '0')}
+          {player.number}
         </Text>
 
         <Text
@@ -80,12 +80,15 @@ function JugadorCard({ player, index, onSelect }) {
           letterSpacing="0.03em"
           lineHeight={1}
         >
-          {player.name}
+          {player.name}{' '}
+          <Box as="span" display="inline-block"color="brand.gold" letterSpacing="0.1em">
+            {player.lastname}
+          </Box>
         </Text>
 
-        <Flex gap={4} mt={3} align="center">
+        <Flex gap={2} mt={2} align="center">
           <Text
-            fontSize="12px"
+            fontSize="9px"
             letterSpacing="0.15em"
             color="brand.gold"
             textTransform="uppercase"
@@ -95,7 +98,7 @@ function JugadorCard({ player, index, onSelect }) {
           </Text>
           <Box w="4px" h="4px" bg="rgba(255,255,255,0.3)" borderRadius="50%" />
           <Text
-            fontSize="12px"
+            fontSize="9px"
             letterSpacing="0.1em"
             color="brand.whiteMuted"
             textTransform="uppercase"
@@ -113,6 +116,20 @@ function JugadorCard({ player, index, onSelect }) {
 export default function JugadoresPage() {
   const gridRef = useRef(null)
   const [selectedPlayer, setSelectedPlayer] = useState(null)
+  const [activeTab, setActiveTab] = useState('player')
+
+  const filteredPlayers = players.filter(p => p.type === activeTab)
+
+  const handleTabChange = (tab) => {
+    if (tab === activeTab) return
+    setActiveTab(tab)
+    // Re-animate cards on tab change
+    gsap.fromTo(
+      '.jugador-card-full',
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out', delay: 0.05 }
+    )
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -201,18 +218,72 @@ export default function JugadoresPage() {
         </Box>
       </Box>
 
+      {/* Tab selector */}
+      <Box maxW="1280px" mx="auto" px={{ base: 4, md: 12 }} mb={10}>
+        <Flex justify="center" align="center" position="relative">
+          {/* Gradient line behind */}
+          <Box
+            position="absolute"
+            bottom={0}
+            left={0}
+            right={0}
+            h="1px"
+            background="linear-gradient(90deg, transparent, rgba(201,168,76,0.2), transparent)"
+          />
+
+          {[
+            { key: 'player', label: 'JUGADORES' },
+            { key: 'coach', label: 'ENTRENADORES' },
+          ].map((tab) => (
+            <Box
+              key={tab.key}
+              as="button"
+              onClick={() => handleTabChange(tab.key)}
+              position="relative"
+              px={{ base: 6, md: 10 }}
+              py={3}
+              fontFamily="'Bebas Neue', sans-serif"
+              fontSize={{ base: '18px', md: '22px' }}
+              letterSpacing="0.15em"
+              color={activeTab === tab.key ? 'brand.gold' : 'brand.whiteMuted'}
+              bg="transparent"
+              border="none"
+              cursor="pointer"
+              transition="color 0.3s"
+              _hover={{ color: 'brand.gold' }}
+              data-cursor-hover
+            >
+              {tab.label}
+              {/* Active indicator */}
+              <Box
+                position="absolute"
+                bottom={0}
+                left="50%"
+                transform="translateX(-50%)"
+                w={activeTab === tab.key ? '60%' : '0%'}
+                h="2px"
+                bg="brand.gold"
+                borderRadius="1px"
+                transition="width 0.3s ease"
+              />
+            </Box>
+          ))}
+        </Flex>
+      </Box>
+
       {/* Grid */}
       <Box maxW="1280px" mx="auto" px={{ base: 4, md: 12 }} pb="120px">
         <Grid
           ref={gridRef}
           templateColumns={{
-            base: '1fr',
+            base: 'repeat(2, 1fr)',
             sm: 'repeat(2, 1fr)',
-            lg: 'repeat(3, 1fr)',
+            md: 'repeat(3, 1fr)',
+            lg: 'repeat(4, 1fr)',
           }}
           gap="2px"
         >
-          {players.map((player, i) => (
+          {filteredPlayers.map((player, i) => (
             <JugadorCard key={player.id} player={player} index={i} onSelect={setSelectedPlayer} />
           ))}
 
@@ -243,7 +314,7 @@ export default function JugadoresPage() {
                 color="brand.white"
                 letterSpacing="0.05em"
               >
-                ¿Sos Jugador?
+                {activeTab === 'player' ? '¿Sos Jugador?' : '¿Sos Entrenador?'}
               </Text>
               <Text fontSize="14px" color="brand.whiteMuted" mt={2}>
                 Sumate a nuestra agencia

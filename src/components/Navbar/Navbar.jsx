@@ -116,7 +116,7 @@ export default function Navbar() {
             <Image
               src={logo}
               alt="Moon Sports Group"
-              h="26px"
+              h="36px"
               filter="brightness(0) invert(1)"
               _hover={{ opacity: 0.8 }}
               transition="opacity 0.3s"
@@ -132,7 +132,7 @@ export default function Navbar() {
                   onClick={(e) => handleNavClick(e, link)}
                 >
                   <Text
-                    fontSize="13px"
+                    fontSize="10px"
                     fontWeight="500"
                     letterSpacing="0.08em"
                     textTransform="uppercase"

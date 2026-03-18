@@ -1,43 +1,47 @@
-// ================================
-// PLAYERS & STAFF DATA
-// ================================
-// Replace the import paths with your actual image files
-// Place all images inside: src/assets/images/
-
 import miguelRondelli   from '../assets/images/miguel_rondelli.png'
 import facundoGarces    from '../assets/images/facundo_garces.png'
 import emanuelBritez    from '../assets/images/emanuel_britez.png'
 import luisRamos        from '../assets/images/luis_ramos.png'
-import losandroAlzugaray from '../assets/images/losandro_alzugaray.png'
+import lisandroAlzugaray from '../assets/images/lisandro_alzugaray1.png'
+import alaves from '../assets/images/alaves.png'
+import cusco from '../assets/images/escudo_cusco.webp'
+import fortaleza from '../assets/images/escudo_fortaleza.png'
 
 export const players = [
   {
     id: 1,
-    name: 'Miguel Rondelli',
-    club: 'Liga de Quito',
-    position: 'Portero',
+    name: 'Miguel',
+    lastname: 'Rondelli',
+    club: 'Cusco FC',
+    escudo: cusco,
+    position: 'Director Técnico',
     nationality: 'Argentina',
     image: miguelRondelli,
-    bio: 'Portero internacional con amplia experiencia en clubes de élite de Sudamérica. Ganador de la Copa Sudamericana con LDU Quito.',
-    type: 'player',
-    number: 1,
-    birthDate: '1995-03-14',
-    fieldPosition: { x: 50, y: 90 },
+    bio: 'Director técnico con experiencia en fútbol sudamericano. Metodología de trabajo diferencial y visión moderna del juego.',
+    type: 'coach',
+    number: 'DT',
+    birthDate: '1978-01-24',
+    fieldPosition: null,
     stats: {
       matches: 142,
-      goals: 0,
-      assists: 2,
-      cleanSheets: 48,
-      ratings: { reflejos: 88, posicionamiento: 82, salida: 75, juego_aereo: 80, pases: 70 },
+      wins: 69,
+      draws: 31,
+      losses: 42,
+      ratings: { tactica: 85, motivacion: 90, gestion: 82, formacion: 88, estrategia: 86 },
     },
     socials: {
       instagram: 'https://instagram.com/miguelrondelli',
+      twitter: 'https://twitter.com/miguelrondelli',
+      threads: 'https://threads.com/@miguelrondelli',
+      tiktok: 'https://tiktok.com/@miguelrondelli',
     },
   },
   {
     id: 2,
-    name: 'Facundo Garcés',
+    name: 'Facundo',
+    lastname: 'Garcés',
     club: 'Deportivo Alavés',
+    escudo: alaves,
     position: 'Defensor Central',
     nationality: 'Argentina',
     image: facundoGarces,
@@ -45,7 +49,7 @@ export const players = [
     type: 'player',
     number: 6,
     birthDate: '1999-08-22',
-    fieldPosition: { x: 40, y: 75 },
+    fieldPosition: { x: 50, y: 75 },
     stats: {
       matches: 118,
       goals: 7,
@@ -59,8 +63,10 @@ export const players = [
   },
   {
     id: 3,
-    name: 'Emanuel Brítez',
+    name: 'Emanuel',
+    lastname: 'Britez',
     club: 'Fortaleza EC',
+    escudo: fortaleza,
     position: 'Lateral Derecho',
     nationality: 'Argentina',
     image: emanuelBritez,
@@ -82,14 +88,16 @@ export const players = [
   },
   {
     id: 4,
-    name: 'Luis Ramos',
-    club: 'Sporting Cristal',
+    name: 'Luis',
+    lastname: 'Ramos',
+    club: 'Alianza Lima',
     position: 'Mediocampista',
     nationality: 'Perú',
+
     image: luisRamos,
-    bio: 'Mediocampista con visión de juego y técnica depurada. Actúa en la Liga 1 de Perú con Sporting Cristal.',
+    bio: 'Mediocampista con visión de juego y técnica depurada. Actúa en la Liga 1 de Perú con Alianza Lima.',
     type: 'player',
-    number: 10,
+    number: 9 ,
     birthDate: '1997-06-18',
     fieldPosition: { x: 50, y: 45 },
     stats: {
@@ -105,16 +113,17 @@ export const players = [
   },
   {
     id: 5,
-    name: 'Losandro Alzugaray',
-    club: 'Disponible',
-    position: 'Director Técnico',
+    name: 'Lisandro',
+    lastname: 'Alzugaray',
+    club: 'Universitario de Deportes',
+    position: 'Mediocampista Ofensivo',
     nationality: 'Argentina',
-    image: losandroAlzugaray,
-    bio: 'Director técnico con experiencia en fútbol sudamericano. Metodología de trabajo diferencial y visión moderna del juego.',
-    type: 'coach',
-    number: null,
+    image: lisandroAlzugaray,
+    bio: 'Mediocampista ofensivo con visión de juego y técnica depurada. Con buena capacidad de creación y distribución del juego.',
+    type: 'player',
+    number: 30,
     birthDate: '1978-01-30',
-    fieldPosition: null,
+    fieldPosition: { x: 50, y: 45 },
     stats: {
       matches: 210,
       wins: 98,
@@ -123,7 +132,7 @@ export const players = [
       ratings: { tactica: 85, motivacion: 90, gestion: 82, formacion: 88, estrategia: 86 },
     },
     socials: {
-      instagram: 'https://instagram.com/losandroalzugaray',
+      instagram: 'https://instagram.com/lisandroalzugaray',
     },
   },
 ]

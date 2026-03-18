@@ -9,10 +9,18 @@ import JugadoresPage from './pages/JugadoresPage'
 function App() {
   const location = useLocation()
 
-  // Scroll to top on route change
+  // Scroll a Top o a un Hash específico al cambiar de ruta
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location.pathname])
+    if (location.hash) {
+      // Pequeño delay para asegurar que el elemento esté en el DOM
+      setTimeout(() => {
+        const el = document.querySelector(location.hash)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      }, 0)
+    } else {
+      window.scrollTo(0, 0) 
+    }
+  }, [location.pathname, location.hash])
 
   return (
     <Box bg="brand.black" minH="100vh" position="relative">

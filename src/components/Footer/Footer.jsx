@@ -1,6 +1,8 @@
 import { Box, Flex, Grid, Image, Link, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 import logo from '../../assets/images/logo_principal.png'
+import { LiaLaptopCodeSolid } from "react-icons/lia";
+
 
 const navLinks = [
   { label: 'Home',      to: '/',           hash: '#hero' },
@@ -68,7 +70,7 @@ export default function Footer() {
             <Image
               src={logo}
               alt="Moon Sports Group"
-              h="48px"
+              h="58px"
               filter="brightness(0) invert(1)"
               opacity={0.6}
             />
@@ -172,7 +174,16 @@ export default function Footer() {
             © 2025 Moon Sports Group. Todos los derechos reservados.
           </Text>
           <Text fontSize="12px" color="rgba(255,255,255,0.3)" letterSpacing="0.05em">
-            Diseñado con excelencia
+            Desarrollo Web -{' '} 
+            <Link 
+            href="https://www.linkedin.com/in/matiasgunsett/" 
+            isExternal 
+            color="rgba(255,255,255,0.5)" 
+            _hover={{ color: 'rgba(76, 126, 201, 0.97)' }}
+            transition="color 0.3s"
+            >
+              Matias Gunsett <LiaLaptopCodeSolid style={{ marginLeft: '4px', display: 'inline-block', verticalAlign: 'middle', fontSize: '20px' }} />
+            </Link>
           </Text>
         </Flex>
       </Box>
