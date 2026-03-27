@@ -7,8 +7,8 @@ import {
 import { CloseIcon } from '@chakra-ui/icons'
 import gsap from 'gsap'
 import pizarraDt from '../../assets/images/Pizarra_dt.png'
-import { FaInstagram } from "react-icons/fa";
-import { FaXTwitter, FaThreads  } from "react-icons/fa6";
+import { FaInstagram, FaTiktok } from "react-icons/fa";
+import { FaXTwitter, FaThreads } from "react-icons/fa6";
 
 
 /* ──────── Mini soccer field ──────── */
@@ -232,7 +232,6 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                     </Box>
                   </Heading>
                   <Flex align="center" gap={2} mt={2}>
-                    <Text fontSize="20px">{countryFlag(player.nationality)}</Text>
                     <Text fontSize="12px" color="brand.gold" letterSpacing="0.12em" textTransform="uppercase" fontWeight={600}>
                       {player.position}
                     </Text>
@@ -248,7 +247,7 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                   display="grid"
                   gridTemplateColumns="repeat(2, 1fr)"
                   gap={2}
-                  mb={8}
+                  mb={2}
                 >
                   <InfoCard
                     icon={<Text fontSize="20px">{countryFlag(player.nationality)}</Text>}
@@ -266,14 +265,25 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                     value={`${getAge(player.birthDate)} años`}
                   />
                   <InfoCard
-                    icon={<Image src={player.escudo} alt={player.club} w="28px" h="30px" />}
+                    icon={<Image src={player.escudo} alt={player.club} h={player.sizes?.h} w={player.sizes?.w} />}
                     label="Club"
                     value={player.club}
                   />
                 </Box>
 
                 {/* Key numbers */}
-                <Flex gap={{ base: 3, md: 6 }} mb={4} flexWrap="wrap">
+                <Flex
+                  bg="rgba(255,255,255,0.03)"
+                  border="1px solid"
+                  borderColor="rgba(255,255,255,0.06)"
+                  borderRadius="8px"
+                  px={4}
+                  py={2}
+                  alignItems="center"
+                  justify="center"
+                  mb={4}
+                >
+                <Flex gap={{ base: 3, md: 12 }} flexWrap="wrap">
                   <KeyStat label={isCoach ? 'Dirigidos' : 'Partidos'} value={stats.matches} />
                   {isCoach ? (
                     <>
@@ -284,10 +294,11 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                   ) : (
                     <>
                       <KeyStat label="Goles" value={stats.goals} />
-                      <KeyStat label="Asistencias" value={stats.assists} />
+                      {stats.assists != null && <KeyStat label="Asistencias" value={stats.assists} />}
                       {stats.cleanSheets != null && <KeyStat label="Valla invicta" value={stats.cleanSheets} />}
                     </>
                   )}
+                </Flex>
                 </Flex>
 
                 {/* Ratings + Field / Tactical Board */}
@@ -295,7 +306,7 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                   {/* Rating bars */}
                   <Box flex={1}>
                     <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mb={4} fontWeight={600}>
-                      {isCoach ? 'Habilidades' : 'Atributos'}
+                      {isCoach ? ' ' : 'Habilidades'}
                     </Text>
                     {Object.entries(stats.ratings).map(([key, val]) => (
                       <StatBar key={key} label={key} value={val} animate={!isMobile} />
@@ -321,7 +332,12 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                       <SocialLink href={player.socials.threads} label="Threads">
                         <FaThreads size={16} />
                       </SocialLink>
-                    )}  
+                    )}
+                    {player.socials.tiktok && (
+                      <SocialLink href={player.socials.tiktok} label="TikTok">
+                        <FaTiktok size={16} />
+                      </SocialLink>
+                    )} 
                   </Flex>
                 )}
                   </Box>
@@ -345,7 +361,7 @@ export default function PlayerModal({ player, isOpen, onClose }) {
                           Posición en campo
                         </Text>
                         <MiniField position={player.fieldPosition} />
-                        <Text fontSize="12px" color="brand.whiteMuted" mt={3} textAlign="center">
+                        <Text fontSize="12px" color="brand.whiteMuted" letterSpacing="0.3em" mt={3} textAlign="center">
                           {player.position}
                         </Text>
                       </>
@@ -403,7 +419,7 @@ function InfoCard({ icon, label, value }) {
     >
       <Box flexShrink={0}>{icon}</Box>
       <Box>
-        <Text fontSize="10px" color="brand.whiteMuted" letterSpacing="0.12em" textTransform="uppercase" lineHeight={1} mb={1}>
+        <Text fontSize="10px" color="brand.whiteMuted" letterSpacing="0.12em" textTransform="uppercase" lineHeight={1} mb={'2px'} fontWeight={800}>
           {label}
         </Text>
         <Text fontSize="14px" color="brand.white" fontWeight={500} lineHeight={1.2}>
@@ -417,10 +433,10 @@ function InfoCard({ icon, label, value }) {
 function KeyStat({ label, value }) {
   return (
     <Box textAlign="center">
-      <Text fontFamily="'Bebas Neue', sans-serif" fontSize={{ base: '28px', md: '32px' }} color="brand.gold" lineHeight={1}>
+      <Text fontFamily="'Bebas Neue', sans-serif" fontSize={{ base: '28px', md: '40px' }} color="brand.gold" lineHeight={1}>
         {value}
       </Text>
-      <Text fontSize="10px" color="brand.whiteMuted" letterSpacing="0.12em" textTransform="uppercase" mt={1}>
+      <Text fontSize="10px" color="brand.whiteMuted" letterSpacing="0.12em" textTransform="uppercase" >
         {label}
       </Text>
     </Box>

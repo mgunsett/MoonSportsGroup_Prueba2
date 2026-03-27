@@ -212,9 +212,9 @@ export default function Services() {
         <Heading
           className="gsap-reveal"
           fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '40px', md: '72px' }}
+          fontSize={{ base: '50px', md: '72px' }}
           lineHeight={1}
-          mb={6}
+          mb={{ base: 2, md: 6 }}
         >
           LO QUE <Box as="span" color="brand.gold">HACEMOS</Box>
         </Heading>
@@ -226,7 +226,7 @@ export default function Services() {
           maxW="500px"
           lineHeight={1.7}
           fontWeight={300}
-          mb={16}
+          mb={{ base: 10, md: 16 }}
         >
           Brindamos un servicio integral a nuestros representados, cubriendo cada
           aspecto de su carrera profesional.

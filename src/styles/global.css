@@ -37,7 +37,6 @@ a, button {
 
 /* Gold divider */
 .gold-divider {
-  width: 60px;
   height: 2px;
   background: linear-gradient(90deg, #C9A84C, transparent);
   margin: 24px 0;
@@ -85,8 +84,6 @@ a, button {
 
 /* Player card image transition */
 .player-card-img {
-  width: 100%;
-  height: 340px;
   object-fit: cover;
   object-position: top;
   display: block;
@@ -114,10 +111,12 @@ a, button {
 .jugador-card-full:hover .jugador-bio {
   max-height: 80px;
   opacity: 1;
+
 }
 
 .jugador-card-full:hover .jugador-card-body {
   transform: translateY(-8px);
+  cursor: none !important;
 }
 
 /* Contact button left border effect */

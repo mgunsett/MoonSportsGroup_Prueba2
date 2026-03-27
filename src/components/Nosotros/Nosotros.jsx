@@ -9,18 +9,18 @@ gsap.registerPlugin(ScrollTrigger)
 function StatItem({ target, label }) {
   const counterRef = useGsapCounter(target)
   return (
-    <Flex direction="column" gap="4px">
+    <Flex direction="column" gap={"4px"}>
       <Text
         ref={counterRef}
         fontFamily="'Bebas Neue', sans-serif"
-        fontSize={{ base: '38px', md: '48px' }}
+        fontSize={{ base: '42px', md: '48px' }}
         color="brand.gold"
         lineHeight={1}
       >
         0+
       </Text>
       <Text
-        fontSize={{ base: '10px', md: '12px' }}
+        fontSize={{ base: '10px', md: '14px' }}
         letterSpacing="0.15em"
         color="brand.whiteMuted"
         textTransform="uppercase"
@@ -70,14 +70,14 @@ export default function Nosotros() {
         <Heading
           className="gsap-reveal"
           fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '40px', md: '72px' }}
+          fontSize={{ base: '50px', md: '72px' }}
           lineHeight={1}
           mb={0}
         >
           SOBRE <Box as="span" color="brand.gold">NOSOTROS</Box>
         </Heading>
 
-        <Box className="gold-divider gsap-reveal" />
+        <Box className="gold-divider gsap-reveal" w={{ base: '160px', md: '60px' }}/>
 
         <Text
           className="gsap-reveal"

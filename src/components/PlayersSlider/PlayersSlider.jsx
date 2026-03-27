@@ -13,7 +13,7 @@ function PlayerCard({ player }) {
     <Link to="/jugadores" style={{ textDecoration: 'none', flexShrink: 0 }}>
       <Box
         className="player-card"
-        w="280px"
+        w={{ base: '340px', md: '280px' }}
         position="relative"
         overflow="hidden"
         borderRadius="4px"
@@ -26,20 +26,23 @@ function PlayerCard({ player }) {
       >
         <Image  
           className="player-card-img"
+          width="100%"
+          height={{ base: '380px', md: '340px' }}
           src={player.image}
           alt={player.name}
         />
         <Box
-          p="20px 24px"
+          p={{ base: '6px 18px', md: '15px 15px' }}
           background="linear-gradient(to top, #1A1A1A 0%, rgba(26,26,26,0.9) 100%)"
-        >
+        > 
           <Text
             fontFamily="'Bebas Neue', sans-serif"
-            fontSize="22px"
+            fontSize={{ base: '32px', md: '28px' }}
             letterSpacing="0.05em"
             color="brand.white"
           >
-            {player.name}
+            {player.name}{'  '}
+            <Box as="span" color="brand.gold">{player.lastname}</Box>
           </Text>
           <Text
             fontSize="12px"
@@ -47,7 +50,7 @@ function PlayerCard({ player }) {
             color="brand.gold"
             textTransform="uppercase"
             fontWeight={500}
-            mt="4px"
+            mt={{ base: "2px", md: "4px" }}
           >
             {player.club}
           </Text>
@@ -114,7 +117,7 @@ export default function PlayersSlider() {
         <Heading
           className="gsap-reveal"
           fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '40px', md: '72px' }}
+          fontSize={{ base: '50px', md: '72px' }}
           lineHeight={1}
         >
           LOS <Box as="span" color="brand.gold">JUGADORES</Box>
@@ -124,9 +127,9 @@ export default function PlayersSlider() {
       {/* Scrollable track */}
       <Box 
       overflow="hidden" 
-      w={'80vw'} 
+      w={{ base: '100%', md: '80vw' }} 
       alignContent={'center'}
-      ml={40}
+      ml={{ base: 0, md: 40 }}
       px={{ base: 6, md: 12 }}
       >
         <Flex

@@ -17,10 +17,11 @@ function JugadorCard({ player, index, onSelect }) {
       className="jugador-card-full"
       position="relative"
       overflow="hidden"
-      h="480px"
+      h={{ base: "450px", md: "480px" }}
       cursor="pointer"
       data-cursor-hover
       onClick={() => onSelect(player)}
+      _hover={{ cursor: 'none' }}
     >
       <Image
         src={player.image}
@@ -75,20 +76,20 @@ function JugadorCard({ player, index, onSelect }) {
 
         <Text
           fontFamily="'Bebas Neue', sans-serif"
-          fontSize="32px"
+          fontSize={{ base: '25px', md: '32px' }}
           color="brand.white"
-          letterSpacing="0.03em"
+          letterSpacing="-0.03em"
           lineHeight={1}
         >
           {player.name}{' '}
-          <Box as="span" display="inline-block"color="brand.gold" letterSpacing="0.1em">
+          <Box as="span" display="inline-block" color="brand.gold" letterSpacing="0.05em">
             {player.lastname}
           </Box>
         </Text>
 
         <Flex gap={2} mt={2} align="center">
           <Text
-            fontSize="9px"
+            fontSize={{ base: '8px', md: '9px' }}
             letterSpacing="0.15em"
             color="brand.gold"
             textTransform="uppercase"
@@ -107,7 +108,7 @@ function JugadorCard({ player, index, onSelect }) {
           </Text>
         </Flex>
 
-        <Text className="jugador-bio">{player.bio}</Text>
+        <Text className="jugador-bio" display={{ base: 'none', md: 'block' }}>{player.bio}</Text>
       </Box>
     </Box>
   )
@@ -194,9 +195,10 @@ export default function JugadoresPage() {
 
           <Heading
             fontFamily="'Bebas Neue', sans-serif"
-            fontSize={{ base: '48px', md: '96px' }}
+            fontSize={{ base: '50px', md: '96px' }}
             lineHeight={1}
-            mt={4} mb={6}
+            mt={4} 
+            mb={{ base: 2, md: 6 }}
           >
             NUESTROS{' '}
             <Box as="span" color="brand.gold">
@@ -207,6 +209,7 @@ export default function JugadoresPage() {
           <Text
             color="brand.whiteMuted"
             fontSize="16px"
+            px={{ base: 4, md: 0 }}
             maxW="600px"
             mx="auto"
             lineHeight={1.7}
@@ -276,8 +279,8 @@ export default function JugadoresPage() {
         <Grid
           ref={gridRef}
           templateColumns={{
-            base: 'repeat(2, 1fr)',
-            sm: 'repeat(2, 1fr)',
+            base: 'repeat(2, 50%)',
+            sm: 'repeat(1, 1fr)',
             md: 'repeat(3, 1fr)',
             lg: 'repeat(4, 1fr)',
           }}
@@ -300,7 +303,7 @@ export default function JugadoresPage() {
             justifyContent="center"
             cursor="pointer"
             transition="border-color 0.4s"
-            _hover={{ borderColor: 'brand.goldDark' }}
+            _hover={{ borderColor: 'brand.goldDark', cursor: 'none' }}
             onClick={() => {
               document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })
             }}

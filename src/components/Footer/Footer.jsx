@@ -176,13 +176,13 @@ export default function Footer() {
           <Text fontSize="12px" color="rgba(255,255,255,0.3)" letterSpacing="0.05em">
             Desarrollo Web -{' '} 
             <Link 
-            href="https://www.linkedin.com/in/matiasgunsett/" 
+            href="https://matiasgunsett.netlify.app/" 
             isExternal 
-            color="rgba(255,255,255,0.5)" 
-            _hover={{ color: 'rgba(76, 126, 201, 0.97)' }}
+            color="#2D5A47" 
+            _hover={{ borderColor: '#e8d5a370', color: '#e8d5a380' }}
             transition="color 0.3s"
             >
-              Matias Gunsett <LiaLaptopCodeSolid style={{ marginLeft: '4px', display: 'inline-block', verticalAlign: 'middle', fontSize: '20px' }} />
+              Matias Gunsett <LiaLaptopCodeSolid style={{ marginLeft: '4px', display: 'inline-block', verticalAlign: 'middle', fontSize: '20px', color: '#E8D5A3' }} />
             </Link>
           </Text>
         </Flex>

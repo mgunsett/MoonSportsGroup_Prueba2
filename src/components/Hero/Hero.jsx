@@ -84,7 +84,7 @@ export default function Hero() {
       ref={sectionRef}
       as="section"
       id="hero"
-      h="100vh"
+      h={{ base: "110vh", md: "100vh" }}
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -161,7 +161,7 @@ export default function Hero() {
 
       {/* Content — split layout */}
       <Flex
-        ref={contentRef}
+        ref={{ base: null , md: contentRef }}
         w="full"
         maxW="1400px"
         mx="auto"
@@ -177,7 +177,7 @@ export default function Hero() {
         <VStack
           align={{ base: 'center', lg: 'flex-start' }}
           textAlign={{ base: 'center', lg: 'left' }}
-          spacing={5}
+          spacing={{ base: 2, md: 5 }}
           maxW={{ base: '100%', lg: '50%' }}
         >
           <Text
@@ -196,21 +196,21 @@ export default function Hero() {
             ref={titleRef}
             as="h1"
             fontFamily="'Bebas Neue', sans-serif"
-            fontSize={{ base: '48px', md: '72px', lg: '88px', xl: '96px' }}
-            lineHeight="0.95"
+            fontSize={{ base: '50px', md: '72px', lg: '88px', xl: '96px' }}
+            lineHeight={{ base: '0.65', md: '0.95' }}
             letterSpacing="0.02em"
             color="brand.white"
             opacity={0}
             transform="translateX(-50px)"
           >
             MOON SPORTS
-            <br />
-            <Box as="span" color="brand.gold">GROUP</Box>
+            <br/>
+            <Box as="span" color="brand.gold" fontSize={{ base: '55px', md: '72px'}}>GROUP</Box>
           </Heading>
 
           <Text
             ref={subtitleRef}
-            fontSize={{ base: '14px', md: '16px' }}
+            fontSize={{ base: '15px', md: '16px' }}
             color="brand.whiteMuted"
             fontWeight={300}
             letterSpacing="0.05em"
@@ -226,10 +226,10 @@ export default function Hero() {
           {/* Gold divider */}
           <Box
             ref={dividerRef}
-            w="60px"
+            w={{ base: '160px', md: '60px' }}
             h="2px"
             background="linear-gradient(90deg, #C9A84C, transparent)"
-            mt={2}
+            mt={{ base: 4, md: 2 }}
             opacity={0}
             transform="scaleX(0)"
             transformOrigin="left"
@@ -242,14 +242,24 @@ export default function Hero() {
             justify={{ base: 'center', lg: 'flex-start' }}
             opacity={0}
             transform="translateY(20px)"
-            mt={2}
+            mt={{ base: 4, md: 2 }}
           >
             <Link to="/jugadores">
-              <Button variant="gold">Nuestros Representados</Button>
+              <Button 
+              variant="gold" 
+              px={{ base: 12, md: 6 }}
+              py={{ base: 6, md: 2 }}
+              fontSize={{ base: '16px', md: '14px' }}
+              >
+                Nuestros Representados
+              </Button>
             </Link>
             <Button
               variant="outline"
               onClick={() => document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })}
+              px={{ base: 20, md: 6 }}
+              py={{ base: 6, md: 2 }}
+              fontSize={{ base: '16px', md: '14px' }}
             >
               Contactar
             </Button>
@@ -310,20 +320,21 @@ export default function Hero() {
       <Flex
         ref={scrollHint}
         position="absolute"
-        bottom="40px"
+        bottom={'40px'}
         direction="column"
         align="center"
         gap="8px"
         opacity={0}
         pointerEvents="none"
+        display={{base: 'none', md: 'flex'}}
       >
         <Box
           className="scroll-line-anim"
           w="1px"
-          h="60px"
+          h={{ base: '40px', lg: '60px' }}
           background="linear-gradient(to bottom, transparent, #C9A84C)"
         />
-        <Text fontSize="10px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase">
+        <Text fontSize={{ base: '8px', lg: '10px' }} letterSpacing="0.3em" color="brand.gold" textTransform="uppercase">
           Scroll
         </Text>
       </Flex>

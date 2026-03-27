@@ -91,9 +91,9 @@ export default function Contact() {
         <Heading
           className="gsap-reveal"
           fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '40px', md: '72px' }}
+          fontSize={{ base: '50px', md: '72px' }}
           lineHeight={1}
-          mb={6}
+          mb={{ base: 2, md: 6 }}
         >
           HABLEMOS <Box as="span" color="brand.gold">HOY</Box>
         </Heading>
@@ -106,7 +106,7 @@ export default function Contact() {
           mx="auto"
           lineHeight={1.7}
           fontWeight={300}
-          mb={16}
+          mb={{ base: 8, md: 16 }}
         >
           Estamos listos para escucharte. Contactanos a través de cualquiera de
           nuestros canales disponibles.
@@ -120,7 +120,7 @@ export default function Contact() {
         >
           {contactLinks.map((link) => (
             <Link
-              key={link.label}
+              key={link.label} 
               href={link.href}
               isExternal
               className="contact-btn"
@@ -130,7 +130,7 @@ export default function Contact() {
                 display="flex"
                 alignItems="center"
                 gap={4}
-                px={{ base: 4, md: 9 }}
+                px={{ base: 6, md: 9 }}
                 py={5}
                 bg="brand.grayMid"
                 border="1px solid"
