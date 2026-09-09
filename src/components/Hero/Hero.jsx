@@ -4,6 +4,7 @@ import { Box, Flex, Heading, Image, Text, Button, VStack } from '@chakra-ui/reac
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from '../../assets/images/logo_principal.png'
+import fondoHero from '../../assets/images/fondo_hero.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -92,6 +93,29 @@ export default function Hero() {
       overflow="hidden"
       bg="linear-gradient(135deg, #080808 0%, #0d0d0d 25%, #080808 50%, #0f0e0a 75%, #080808 100%)"
     >
+      {/* Stadium background image */}
+      <Box
+        position="absolute"
+        inset={0}
+        backgroundImage={`url(${fondoHero})`}
+        backgroundSize="cover"
+        backgroundPosition="center"
+        backgroundRepeat="no-repeat"
+        filter="grayscale(30%) brightness(0.75) contrast(1.05)"
+        pointerEvents="none"
+      />
+
+      {/* Dark overlay — keeps text legible over the pitch */}
+      <Box
+        position="absolute"
+        inset={0}
+        background={{
+          base: 'linear-gradient(180deg, rgba(8,8,8,0.8) 0%, rgba(8,8,8,0.42) 30%, rgba(8,8,8,0.7) 62%, rgba(8,8,8,0.92) 100%)',
+          lg:   'linear-gradient(180deg, rgba(8,8,8,0.75) 0%, rgba(8,8,8,0.3) 35%, rgba(8,8,8,0.45) 70%, rgba(8,8,8,0.68) 100%)',
+        }}
+        pointerEvents="none"
+      />
+
       {/* Animated background orbs */}
       <Box
         ref={bgGlow1}
@@ -133,32 +157,6 @@ export default function Hero() {
         opacity={0.03}
       />
 
-      {/* Subtle grid overlay */}
-      <Box
-        position="absolute"
-        inset={0}
-        backgroundImage="linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
-                          linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px)"
-        backgroundSize="80px 80px"
-        style={{
-          maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
-          WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
-        }}
-        pointerEvents="none"
-      />
-
-      {/* Vertical accent line */}
-      <Box
-        position="absolute"
-        top="0"
-        right="45%"
-        w="1px"
-        h="100%"
-        background="linear-gradient(to bottom, transparent 10%, rgba(201,168,76,0.06) 50%, transparent 90%)"
-        pointerEvents="none"
-        display={{ base: 'none', lg: 'block' }}
-      />
-
       {/* Content — split layout */}
       <Flex
         ref={{ base: null , md: contentRef }}
@@ -169,7 +167,7 @@ export default function Hero() {
         alignItems="center"
         justifyContent="center"
         flexDirection={{ base: 'column-reverse', lg: 'row' }}
-        gap={{ base: 8, lg: 60 }}
+        gap={{ base: 8, lg: 40 }}
         position="relative"
         zIndex={2}
       >
@@ -177,7 +175,7 @@ export default function Hero() {
         <VStack
           align={{ base: 'center', lg: 'flex-start' }}
           textAlign={{ base: 'center', lg: 'left' }}
-          spacing={{ base: 2, md: 5 }}
+          spacing={{ base: 2, md: 4 }}
           maxW={{ base: '100%', lg: '50%' }}
         >
           <Text
@@ -189,15 +187,15 @@ export default function Hero() {
             opacity={0}
             transform="translateX(-40px)"
           >
-            ◆ Representación de Élite
+            Representación de Élite
           </Text>
 
           <Heading
             ref={titleRef}
             as="h1"
             fontFamily="'Bebas Neue', sans-serif"
-            fontSize={{ base: '50px', md: '72px', lg: '88px', xl: '96px' }}
-            lineHeight={{ base: '0.65', md: '0.95' }}
+            fontSize={{ base: '50px', md: '72px', lg: '108px', xl: '116px' }}
+            lineHeight={{ base: '0.65', md: '0.55' }}
             letterSpacing="0.02em"
             color="brand.white"
             opacity={0}
@@ -205,7 +203,7 @@ export default function Hero() {
           >
             MOON SPORTS
             <br/>
-            <Box as="span" color="brand.gold" fontSize={{ base: '55px', md: '72px'}}>GROUP</Box>
+            <Box as="span" color="brand.gold" fontSize={{ base: '75px', md: '92px'}}>GROUP</Box>
           </Heading>
 
           <Text
@@ -255,11 +253,13 @@ export default function Hero() {
               </Button>
             </Link>
             <Button
-              variant="outline"
               onClick={() => document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })}
               px={{ base: 20, md: 6 }}
               py={{ base: 6, md: 2 }}
               fontSize={{ base: '16px', md: '14px' }}
+              bg="brand.grayLight"
+              color="brand.gold"
+              _hover={{ bg: 'brand.grayBorder', transform: 'translateY(-2px)' }}
             >
               Contactar
             </Button>
@@ -316,28 +316,7 @@ export default function Hero() {
         </Box>
       </Flex>
 
-      {/* Scroll hint */}
-      <Flex
-        ref={scrollHint}
-        position="absolute"
-        bottom={'40px'}
-        direction="column"
-        align="center"
-        gap="8px"
-        opacity={0}
-        pointerEvents="none"
-        display={{base: 'none', md: 'flex'}}
-      >
-        <Box
-          className="scroll-line-anim"
-          w="1px"
-          h={{ base: '40px', lg: '60px' }}
-          background="linear-gradient(to bottom, transparent, #C9A84C)"
-        />
-        <Text fontSize={{ base: '8px', lg: '10px' }} letterSpacing="0.3em" color="brand.gold" textTransform="uppercase">
-          Scroll
-        </Text>
-      </Flex>
+      
     </Box>
   )
 }

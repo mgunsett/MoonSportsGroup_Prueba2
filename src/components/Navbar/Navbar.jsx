@@ -170,7 +170,6 @@ export default function Navbar() {
             border="none"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            data-cursor-hover
           >
             <HamburgerIcon isOpen={menuOpen} />
           </Box>
@@ -207,7 +206,6 @@ export default function Navbar() {
                   borderRadius="12px"
                   transition="background 0.3s"
                   _hover={{ bg: 'rgba(201,168,76,0.08)' }}
-                  data-cursor-hover
                 >
                   <Text
                     fontSize="11px"

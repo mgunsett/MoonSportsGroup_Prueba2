@@ -7,14 +7,6 @@ html {
   overflow-x: hidden;
 }
 
-body {
-  cursor: none !important;
-}
-
-a, button {
-  cursor: none !important;
-}
-
 /* Section label utility */
 .section-label {
   font-size: 11px;
@@ -70,18 +62,6 @@ a, button {
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
-/* Service card number */
-.service-num {
-  position: absolute;
-  top: 24px;
-  right: 28px;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 56px;
-  color: rgba(201, 168, 76, 0.06);
-  line-height: 1;
-  pointer-events: none;
-}
-
 /* Player card image transition */
 .player-card-img {
   object-fit: cover;
@@ -116,7 +96,6 @@ a, button {
 
 .jugador-card-full:hover .jugador-card-body {
   transform: translateY(-8px);
-  cursor: none !important;
 }
 
 /* Contact button left border effect */
@@ -131,9 +110,6 @@ a, button {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .services-grid {
-    grid-template-columns: 1fr !important;
-  }
   .footer-inner {
     grid-template-columns: 1fr !important;
   }

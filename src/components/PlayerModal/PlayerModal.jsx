@@ -176,7 +176,6 @@ export default function PlayerModal({ player, isOpen, onClose }) {
             borderColor="rgba(255,255,255,0.1)"
             _hover={{ color: 'rgba(212, 69, 44, 0.8)', borderColor: 'rgba(201, 95, 76, 0.75)' }}
             aria-label="Cerrar"
-            data-cursor-hover
           />
 
           <ModalBody p={0} overflow="hidden">
@@ -461,7 +460,6 @@ function SocialLink({ href, label, children }) {
       transition="all 0.3s"
       _hover={{ borderColor: 'brand.gold', color: 'brand.gold' }}
       aria-label={label}
-      data-cursor-hover
     >
       {children}
     </Link>

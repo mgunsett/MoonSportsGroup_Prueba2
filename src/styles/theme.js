@@ -27,7 +27,6 @@ const theme = extendTheme({
         color: '#FFFFFF',
         fontFamily: "'Outfit', sans-serif",
         overflowX: 'hidden',
-        cursor: 'none',
       },
       '*': {
         boxSizing: 'border-box',
@@ -54,7 +53,6 @@ const theme = extendTheme({
         letterSpacing: '0.1em',
         textTransform: 'uppercase',
         borderRadius: '4px',
-        cursor: 'none',
         _focus: { boxShadow: 'none' },
       },
       variants: {

@@ -22,7 +22,6 @@ function PlayerCard({ player }) {
         borderColor="brand.grayBorder"
         transition="border-color 0.4s"
         _hover={{ borderColor: 'brand.goldDark' }}
-        data-cursor-hover
       >
         <Image  
           className="player-card-img"

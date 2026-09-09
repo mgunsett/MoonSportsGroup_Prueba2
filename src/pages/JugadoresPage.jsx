@@ -19,9 +19,7 @@ function JugadorCard({ player, index, onSelect }) {
       overflow="hidden"
       h={{ base: "450px", md: "480px" }}
       cursor="pointer"
-      data-cursor-hover
       onClick={() => onSelect(player)}
-      _hover={{ cursor: 'none' }}
     >
       <Image
         src={player.image}
@@ -254,7 +252,6 @@ export default function JugadoresPage() {
               cursor="pointer"
               transition="color 0.3s"
               _hover={{ color: 'brand.gold' }}
-              data-cursor-hover
             >
               {tab.label}
               {/* Active indicator */}
@@ -303,11 +300,10 @@ export default function JugadoresPage() {
             justifyContent="center"
             cursor="pointer"
             transition="border-color 0.4s"
-            _hover={{ borderColor: 'brand.goldDark', cursor: 'none' }}
+            _hover={{ borderColor: 'brand.goldDark' }}
             onClick={() => {
               document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })
             }}
-            data-cursor-hover
           >
             <Box textAlign="center" p={10}>
               <Text fontSize="48px" mb={4} color="brand.gold">+</Text>
