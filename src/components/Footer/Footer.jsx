@@ -14,6 +14,7 @@ const navLinks = [
 
 const socialLinks = [
   {
+    label: 'Instagram',
     href: 'https://www.instagram.com/moonsportsgroup_/',
     icon: (
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -22,6 +23,7 @@ const socialLinks = [
     ),
   },
   {
+    label: 'LinkedIn',
     href: 'https://www.linkedin.com/company/moon-sports-group/',
     icon: (
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -30,6 +32,7 @@ const socialLinks = [
     ),
   },
   {
+    label: 'WhatsApp',
     href: 'https://wa.me/5491100000000',
     icon: (
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -69,14 +72,14 @@ export default function Footer() {
           <Box>
             <Image
               src={logo}
-              alt="Moon Sports Group"
+              alt="Moon Sports Group — agencia de representación de futbolistas"
               h="58px"
               filter="brightness(0) invert(1)"
               opacity={0.6}
             />
             <Text
               fontSize="13px"
-              color="rgba(255,255,255,0.3)"
+              color="rgba(255,255,255,0.5)"
               mt={4}
               lineHeight={1.7}
               maxW="240px"
@@ -129,16 +132,38 @@ export default function Footer() {
             >
               Contacto
             </Text>
-            <Text fontSize="13px" color="rgba(255,255,255,0.5)" mb={2}>
+            <Link
+              href="mailto:info@moonsportsgroup.com"
+              display="block"
+              fontSize="13px"
+              color="rgba(255,255,255,0.5)"
+              mb={2}
+              transition="color 0.3s"
+              _hover={{ color: 'brand.gold', textDecoration: 'none' }}
+            >
               info@moonsportsgroup.com
-            </Text>
-            <Text fontSize="13px" color="rgba(255,255,255,0.5)" mb={6}>
+            </Link>
+            <Link
+              href="tel:+5491100000000"
+              display="block"
+              fontSize="13px"
+              color="rgba(255,255,255,0.5)"
+              mb={6}
+              transition="color 0.3s"
+              _hover={{ color: 'brand.gold', textDecoration: 'none' }}
+            >
               +54 911 0000 0000
-            </Text>
+            </Link>
 
             <Flex gap={4}>
-              {socialLinks.map((s, i) => (
-                <Link key={i} href={s.href} isExternal>
+              {socialLinks.map((s) => (
+                <Link
+                  key={s.label}
+                  href={s.href}
+                  isExternal
+                  rel="noopener noreferrer"
+                  aria-label={`Moon Sports Group en ${s.label}`}
+                >
                   <Box
                     w="40px"
                     h="40px"
@@ -170,15 +195,16 @@ export default function Footer() {
           flexWrap="wrap"
           gap={4}
         >
-          <Text fontSize="12px" color="rgba(255,255,255,0.3)" letterSpacing="0.05em">
+          <Text fontSize="12px" color="rgba(255,255,255,0.5)" letterSpacing="0.05em">
             © 2025 Moon Sports Group. Todos los derechos reservados.
           </Text>
-          <Text fontSize="12px" color="rgba(255,255,255,0.3)" letterSpacing="0.05em">
+          <Text fontSize="12px" color="rgba(255,255,255,0.5)" letterSpacing="0.05em">
             Desarrollo Web -{' '} 
             <Link 
-            href="https://matiasgunsett.netlify.app/" 
-            isExternal 
-            color="#2D5A47" 
+            href="https://matiasgunsett.netlify.app/"
+            isExternal
+            rel="noopener noreferrer"
+            color="#2D5A47"
             _hover={{ borderColor: '#e8d5a370', color: '#e8d5a380' }}
             transition="color 0.3s"
             >

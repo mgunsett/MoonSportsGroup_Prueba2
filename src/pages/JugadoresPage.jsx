@@ -1,116 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import {
-  Box, Grid, Heading, Image, Text, Flex, Link,
-} from '@chakra-ui/react'
+import { Box, Grid, Heading, Text, Flex } from '@chakra-ui/react'
 import gsap from 'gsap'
 import { players } from '../utils/players'
 import Footer from '../components/Footer/Footer'
 import PlayerModal from '../components/PlayerModal/PlayerModal'
-
-function JugadorCard({ player, index, onSelect }) {
-  const cardRef = useRef(null)
-
-  return (
-    <Box
-      ref={cardRef}
-      className="jugador-card-full"
-      position="relative"
-      overflow="hidden"
-      h={{ base: "450px", md: "480px" }}
-      cursor="pointer"
-      onClick={() => onSelect(player)}
-    >
-      <Image
-        src={player.image}
-        alt={player.name}
-        w="100%"
-        h="100%"
-        objectFit="cover"
-        objectPosition="top"
-        filter="grayscale(30%)"
-        transition="transform 0.8s ease, filter 0.4s"
-        sx={{
-          '.jugador-card-full:hover &': {
-            transform: 'scale(1.06)',
-            filter: 'grayscale(0%)',
-          },
-        }}
-      />
-
-      {/* Overlay */}
-      <Box
-        className="jugador-card-overlay"
-        position="absolute"
-        inset={0}
-        background="linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.3) 40%, transparent 70%)"
-        transition="background 0.4s"
-        sx={{
-          '.jugador-card-full:hover &': {
-            background: 'linear-gradient(to top, rgba(8,8,8,0.98) 0%, rgba(8,8,8,0.6) 50%, rgba(201,168,76,0.05) 100%)',
-          },
-        }}
-      />
-
-      {/* Body */}
-      <Box
-        className="jugador-card-body"
-        position="absolute"
-        bottom={0}
-        left={0}
-        right={0}
-        p="32px 28px"
-        transition="transform 0.4s ease"
-      >
-        <Text
-          fontFamily="'Bebas Neue', sans-serif"
-          fontSize="64px"
-          color="rgba(201,168,76,0.15)"
-          lineHeight={1}
-          mb="-8px"
-        >
-          {player.number}
-        </Text>
-
-        <Text
-          fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '25px', md: '32px' }}
-          color="brand.white"
-          letterSpacing="-0.03em"
-          lineHeight={1}
-        >
-          {player.name}{' '}
-          <Box as="span" display="inline-block" color="brand.gold" letterSpacing="0.05em">
-            {player.lastname}
-          </Box>
-        </Text>
-
-        <Flex gap={2} mt={2} align="center">
-          <Text
-            fontSize={{ base: '8px', md: '9px' }}
-            letterSpacing="0.15em"
-            color="brand.gold"
-            textTransform="uppercase"
-            fontWeight={600}
-          >
-            {player.club}
-          </Text>
-          <Box w="4px" h="4px" bg="rgba(255,255,255,0.3)" borderRadius="50%" />
-          <Text
-            fontSize="9px"
-            letterSpacing="0.1em"
-            color="brand.whiteMuted"
-            textTransform="uppercase"
-          >
-            {player.position}
-          </Text>
-        </Flex>
-
-        <Text className="jugador-bio" display={{ base: 'none', md: 'block' }}>{player.bio}</Text>
-      </Box>
-    </Box>
-  )
-}
+import { PlayerCard } from '../components/PlayerCard/PlayerCard'
+import { Seo } from '../components/Seo/Seo'
+import { breadcrumbSchema, playersListSchema } from '../utils/seo'
 
 export default function JugadoresPage() {
   const gridRef = useRef(null)
@@ -166,6 +63,19 @@ export default function JugadoresPage() {
 
   return (
     <Box bg="brand.black" minH="100vh" pt="100px">
+      <Seo
+        title="Nuestros Representados — Futbolistas y Directores Técnicos"
+        description="Conocé a los futbolistas y directores técnicos representados por Moon Sports Group: perfiles, clubes y trayectoria de jugadores profesionales en ligas de Sudamérica y Europa."
+        path="/jugadores"
+        type="profile"
+        jsonLd={[
+          playersListSchema(players),
+          breadcrumbSchema([
+            { name: 'Inicio', path: '/' },
+            { name: 'Representados', path: '/jugadores' },
+          ]),
+        ]}
+      />
 
       {/* Header */}
       <Box py="80px" pb="64px" textAlign="center" position="relative" overflow="hidden">
@@ -192,9 +102,11 @@ export default function JugadoresPage() {
           </Text>
 
           <Heading
-            fontFamily="'Bebas Neue', sans-serif"
-            fontSize={{ base: '50px', md: '96px' }}
+            as="h1"
+            fontFamily="heading"
+            fontSize={{ base: '90px', md: '122px' }}
             lineHeight={1}
+            letterSpacing="0.02em"
             mt={4} 
             mb={{ base: 2, md: 6 }}
           >
@@ -272,72 +184,95 @@ export default function JugadoresPage() {
       </Box>
 
       {/* Grid */}
-      <Box maxW="1280px" mx="auto" px={{ base: 4, md: 12 }} pb="120px">
+      <Box maxW="1280px" mx="auto" px={{ base: 6, md: 12 }} pb="120px">
         <Grid
           ref={gridRef}
           templateColumns={{
-            base: 'repeat(2, 50%)',
-            sm: 'repeat(1, 1fr)',
+            base: 'repeat(2, 1fr)',
             md: 'repeat(3, 1fr)',
             lg: 'repeat(4, 1fr)',
           }}
-          gap="2px"
+          gap={{ base: 3, md: 4 }}
         >
-          {filteredPlayers.map((player, i) => (
-            <JugadorCard key={player.id} player={player} index={i} onSelect={setSelectedPlayer} />
+          {filteredPlayers.map((player) => (
+            <Box key={player.id} className="jugador-card-full">
+              <PlayerCard player={player} onClick={setSelectedPlayer} />
+            </Box>
           ))}
 
           {/* CTA Card */}
           <Box
             className="jugador-card-full"
-            position="relative"
-            h="480px"
-            bg="brand.grayMid"
-            border="1px dashed"
-            borderColor="brand.grayBorder"
+            as={RouterLink}
+            to="/#contacto"
             display="flex"
             alignItems="center"
             justifyContent="center"
-            cursor="pointer"
-            transition="border-color 0.4s"
-            _hover={{ borderColor: 'brand.goldDark' }}
-            onClick={() => {
-              document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })
+            minH={{ base: '260px', md: '340px' }}
+            borderRadius="xl"
+            border="1px dashed"
+            borderColor="rgba(201,168,76,0.25)"
+            bg="radial-gradient(120% 90% at 50% 100%, rgba(201,168,76,0.07) 0%, transparent 65%), #0A0A0A"
+            transition="border-color 0.45s ease, transform 0.45s ease, background 0.45s ease"
+            _hover={{
+              borderColor: 'rgba(201,168,76,0.6)',
+              transform: { md: 'translateY(-6px)' },
+              textDecoration: 'none',
             }}
           >
-            <Box textAlign="center" p={10}>
-              <Text fontSize="48px" mb={4} color="brand.gold">+</Text>
+            <Box textAlign="center" px={{ base: 4, md: 8 }} py={8}>
+              <Flex
+                w={{ base: '42px', md: '52px' }}
+                h={{ base: '42px', md: '52px' }}
+                mx="auto"
+                mb={4}
+                align="center"
+                justify="center"
+                borderRadius="xl"
+                border="1px solid"
+                borderColor="rgba(201,168,76,0.22)"
+                bg="linear-gradient(145deg, rgba(201,168,76,0.16) 0%, rgba(201,168,76,0.04) 48%, rgba(255,255,255,0.02) 100%)"
+                boxShadow="inset 0 1px 0 rgba(232,201,106,0.22)"
+                color="brand.gold"
+                fontSize={{ base: '22px', md: '26px' }}
+                fontWeight={300}
+                lineHeight={1}
+              >
+                +
+              </Flex>
+
               <Text
                 fontFamily="'Bebas Neue', sans-serif"
-                fontSize="28px"
+                fontSize={{ base: '20px', md: '26px' }}
                 color="brand.white"
                 letterSpacing="0.05em"
+                lineHeight={1.1}
               >
                 {activeTab === 'player' ? '¿Sos Jugador?' : '¿Sos Entrenador?'}
               </Text>
-              <Text fontSize="14px" color="brand.whiteMuted" mt={2}>
+              <Text
+                fontSize={{ base: '11px', md: '13px' }}
+                color="brand.whiteMuted"
+                mt={2}
+                fontWeight={300}
+              >
                 Sumate a nuestra agencia
               </Text>
-              <RouterLink to="/#contacto">
-                <Box
-                  as="span"
-                  display="inline-block"
-                  mt={6}
-                  px={6}
-                  py={3}
-                  bg="linear-gradient(135deg, #C9A84C, #9A7A35)"
-                  color="brand.black"
-                  fontWeight={700}
-                  fontSize="12px"
-                  letterSpacing="0.1em"
-                  textTransform="uppercase"
-                  borderRadius="4px"
-                  transition="all 0.3s"
-                  _hover={{ transform: 'translateY(-2px)' }}
-                >
-                  Contactar
-                </Box>
-              </RouterLink>
+
+              <Box
+                as="span"
+                display="inline-flex"
+                alignItems="center"
+                gap={2}
+                mt={5}
+                fontSize={{ base: '10px', md: '11px' }}
+                letterSpacing="0.18em"
+                textTransform="uppercase"
+                fontWeight={600}
+                color="brand.gold"
+              >
+                Contactar
+              </Box>
             </Box>
           </Box>
         </Grid>

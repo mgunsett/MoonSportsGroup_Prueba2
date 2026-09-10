@@ -191,7 +191,7 @@ export default function PlayerModal({ player, isOpen, onClose }) {
               >
                 <Image
                   src={player.image}
-                  alt={player.name}
+                  alt={`${player.name} ${player.lastname}, ${player.position} de ${player.club}`}
                   w="100%"
                   h="100%"
                   objectFit="cover"

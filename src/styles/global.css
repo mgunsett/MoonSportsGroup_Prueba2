@@ -10,22 +10,16 @@ html {
 /* Section label utility */
 .section-label {
   font-size: 11px;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.3em;
   color: #C9A84C;
   text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
-.section-label::before {
-  content: '';
-  width: 40px;
-  height: 1px;
-  background: #C9A84C;
-  flex-shrink: 0;
-}
+
 
 /* Gold divider */
 .gold-divider {
@@ -60,42 +54,6 @@ html {
 
 .logo-glow {
   animation: pulseGlow 3s ease-in-out infinite;
-}
-
-/* Player card image transition */
-.player-card-img {
-  object-fit: cover;
-  object-position: top;
-  display: block;
-  filter: grayscale(20%);
-  transition: transform 0.6s ease, filter 0.4s;
-}
-
-.player-card:hover .player-card-img {
-  transform: scale(1.04);
-  filter: grayscale(0%);
-}
-
-/* Jugador full card bio reveal */
-.jugador-bio {
-  font-size: 13px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 12px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.4s;
-  opacity: 0;
-}
-
-.jugador-card-full:hover .jugador-bio {
-  max-height: 80px;
-  opacity: 1;
-
-}
-
-.jugador-card-full:hover .jugador-card-body {
-  transform: translateY(-8px);
 }
 
 /* Contact button left border effect */

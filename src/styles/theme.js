@@ -17,7 +17,7 @@ const theme = extendTheme({
     },
   },
   fonts: {
-    heading: "'Bebas Neue', sans-serif",
+    heading: "'Six Caps', sans-serif",
     body:    "'Outfit', sans-serif",
   },
   styles: {

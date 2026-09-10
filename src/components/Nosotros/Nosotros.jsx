@@ -68,11 +68,10 @@ export default function Nosotros() {
         <Text className="section-label gsap-reveal">Quiénes Somos</Text>
 
         <Heading
-          className="gsap-reveal"
-          fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '50px', md: '72px' }}
+          fontFamily="heading"
+          fontSize={{ base: '80px', md: '92px' }}
           lineHeight={1}
-          mb={0}
+          letterSpacing="0.02em"
         >
           SOBRE <Box as="span" color="brand.gold">NOSOTROS</Box>
         </Heading>

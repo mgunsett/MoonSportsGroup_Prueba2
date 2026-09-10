@@ -24,10 +24,12 @@ function App() {
   return (
     <Box bg="brand.black" minH="100vh" position="relative">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/jugadores" element={<JugadoresPage />} />
-      </Routes>
+      <Box as="main">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/jugadores" element={<JugadoresPage />} />
+        </Routes>
+      </Box>
     </Box>
   )
 }

@@ -1,0 +1,9 @@
+# Moon Sports Group — robots.txt
+User-agent: *
+Allow: /
+
+# Bots de IA / scrapers de contenido (descomentar para bloquear)
+# User-agent: GPTBot
+# Disallow: /
+
+Sitemap: https://www.moonsportsgroup.com/sitemap.xml

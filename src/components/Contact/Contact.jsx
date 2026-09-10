@@ -90,9 +90,10 @@ export default function Contact() {
 
         <Heading
           className="gsap-reveal"
-          fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '50px', md: '72px' }}
+          fontFamily="heading"
+          fontSize={{ base: '80px', md: '92px' }}
           lineHeight={1}
+          letterSpacing="0.02em"
           mb={{ base: 2, md: 6 }}
         >
           HABLEMOS <Box as="span" color="brand.gold">HOY</Box>
@@ -120,9 +121,12 @@ export default function Contact() {
         >
           {contactLinks.map((link) => (
             <Link
-              key={link.label} 
+              key={link.label}
               href={link.href}
               isExternal
+              // Chakra con isExternal solo agrega rel="noopener", falta noreferrer
+              rel="noopener noreferrer"
+              aria-label={`Contactar a Moon Sports Group por ${link.label}`}
               className="contact-btn"
               style={{ textDecoration: 'none' }}
             >

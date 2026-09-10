@@ -168,7 +168,7 @@ export const players = [
     image: ezequielPiovi,
     bio: 'Volante central con gran capacidad de recuperación y distribución del balón. Fundamental en el equilibrio del equipo.',
     type: 'player',
-    number: 5,
+    number: 21,
     birthDate: '1992-08-20',
     fieldPosition: { x: 50, y: 60 },
     stats: {

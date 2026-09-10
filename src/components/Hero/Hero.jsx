@@ -85,7 +85,7 @@ export default function Hero() {
       ref={sectionRef}
       as="section"
       id="hero"
-      h={{ base: "110vh", md: "100vh" }}
+      h={{ base: "130vh", md: "100vh" }}
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -185,7 +185,6 @@ export default function Hero() {
             letterSpacing="0.4em"
             color="brand.gold"
             opacity={0}
-            transform="translateX(-40px)"
           >
             Representación de Élite
           </Text>
@@ -193,17 +192,25 @@ export default function Hero() {
           <Heading
             ref={titleRef}
             as="h1"
-            fontFamily="'Bebas Neue', sans-serif"
-            fontSize={{ base: '50px', md: '72px', lg: '108px', xl: '116px' }}
-            lineHeight={{ base: '0.65', md: '0.55' }}
-            letterSpacing="0.02em"
+            fontFamily="heading"
+            fontSize={{ base: '100px', md: '122px', lg: '162px', xl: '186px' }}
+            lineHeight={{ base: 0.85, md: 0.78 }}
             color="brand.white"
             opacity={0}
-            transform="translateX(-50px)"
           >
             MOON SPORTS
-            <br/>
-            <Box as="span" color="brand.gold" fontSize={{ base: '75px', md: '92px'}}>GROUP</Box>
+            <Box
+              as="span"
+              display="block"
+              color="brand.gold"
+              fontSize={{ base: '75px', md: '126px' }}
+              lineHeight={0.8}
+              mt={{ base: -1, md: 0 }}
+              letterSpacing="0.02em"
+              fontWeight={200}
+            >
+              GROUP
+            </Box>
           </Heading>
 
           <Text
@@ -215,7 +222,7 @@ export default function Hero() {
             maxW="480px"
             lineHeight={1.8}
             opacity={0}
-            transform="translateX(-40px)"
+           
           >
             Gestionamos carreras de futbolistas y técnicos profesionales
             con visión estratégica y compromiso total.
@@ -305,7 +312,8 @@ export default function Hero() {
           <Image
             ref={logoRef}
             src={logo}
-            alt="Moon Sports Group"
+            alt="Moon Sports Group — agencia de representación de futbolistas"
+            fetchpriority="high"
             w={{ base: '240px', lg: '320px' }}
             h={{ base: '240px', lg: '320px' }}
             objectFit="contain"

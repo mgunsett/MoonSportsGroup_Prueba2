@@ -1,9 +1,11 @@
 import { useLayoutEffect, useRef } from 'react'
-import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
+import { Box, Flex, Grid, Heading, Text, Image } from '@chakra-ui/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGsapReveal } from '../../hooks/useGsapReveal'
 import { BentoCard } from './BentoCard'
+import recurso1 from '../../assets/images/recursos/recurso_1.png'
+import recurso2 from '../../assets/images/recursos/recurso_2.png'
 import {
   BallIcon,
   BoardIcon,
@@ -56,9 +58,9 @@ const services = [
 
 // Distribución del bento grid (índice = servicio)
 const layout = [
+  {},
+  {},
   { col: { md: 'span 2', lg: 'span 2' } },
-  {},
-  {},
   {},
   { col: { lg: 'span 2' } },
   {},
@@ -99,8 +101,36 @@ export default function Services() {
       id="services"
       py={{ base: '80px', md: '120px' }}
       bg="brand.grayDark"
+      position="relative"
+      overflow="hidden"
     >
-      <Box maxW="1280px" mx="auto" px={{ base: 6, md: 12 }} ref={sectionRef}>
+      {/* Recurso decorativo — esquina superior derecha */}
+      <Image
+        src={recurso2}
+        alt=""
+        loading="lazy"
+        aria-hidden="true"
+        position="absolute"
+        top={-2}
+        right={0}
+        w={{ base: '220px', md: '600px' }}
+        h="auto"
+        opacity={0.12}
+        zIndex={0}
+        pointerEvents="none"
+        userSelect="none"
+        transform="rotate(-90deg)"
+        transformOrigin="center"
+      />
+
+      <Box
+        maxW="1280px"
+        mx="auto"
+        px={{ base: 6, md: 12 }}
+        position="relative"
+        zIndex={1}
+        ref={sectionRef}
+      >
         <Text className="section-label gsap-reveal">Nuestros Servicios</Text>
 
         <Flex
@@ -110,11 +140,12 @@ export default function Services() {
           mb={{ base: 2, md: 6 }}
         >
           <Heading
-            fontFamily="'Bebas Neue', sans-serif"
-            fontSize={{ base: '50px', md: '72px' }}
+            fontFamily="heading"
+            fontSize={{ base: '80px', md: '92px' }}
             lineHeight={1}
+            letterSpacing="0.02em"
           >
-            LO QUE <Box as="span" color="brand.gold">HACEMOS</Box>
+          QUE <Box as="span" color="brand.gold">HACEMOS</Box>
           </Heading>
 
           
@@ -131,7 +162,7 @@ export default function Services() {
         >
           Brindamos un servicio integral a nuestros representados, cubriendo cada
           aspecto de su carrera profesional.
-        </Text>
+        </Text> 
 
         <Grid
           ref={gridRef}

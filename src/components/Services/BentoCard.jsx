@@ -80,7 +80,7 @@ export function BentoCard({ service, gridColumn, gridRow }) {
         }}
       />
 
-      {/* Número fantasma con contorno dorado */}
+      {/* Número fantasma con contorno dorado
       <Text
         aria-hidden="true"
         position="absolute"
@@ -103,42 +103,72 @@ export function BentoCard({ service, gridColumn, gridRow }) {
         }}
       >
         {service.num}
-      </Text>
+      </Text> */}
 
       {/* Header: ícono + título (+ flecha en mobile) */}
       <Flex
-        align="center"
+        align="flex-start"
         gap={4}
         cursor={{ base: 'pointer', md: 'default' }}
         onClick={() => isMobile && setIsOpen((prev) => !prev)}
         role={isMobile ? 'button' : undefined}
         aria-expanded={isMobile ? isOpen : undefined}
       >
-        <Flex
-          w={{ base: '38px', md: '44px' }}
-          h={{ base: '38px', md: '44px' }}
-          flexShrink={0}
-          align="center"
-          justify="center"
-          border="1px solid"
-          borderColor="rgba(201,168,76,0.3)"
-          borderRadius="lg"
-          bg="rgba(201,168,76,0.06)"
-          color="brand.gold"
-          fontSize={{ base: '18px', md: '20px' }}
-          transition="all 0.4s ease"
-          _groupHover={{
-            borderColor: 'brand.gold',
-            bg: 'rgba(201,168,76,0.12)',
-          }}
-        >
-          {service.icon}
-        </Flex>
+        <Box position="relative" flexShrink={0} mt={{ md: 0.5 }}>
+          {/* Halo dorado difuso — solo aparece en hover de la card */}
+          <Box
+            position="absolute"
+            inset="-45%"
+            borderRadius="full"
+            background="radial-gradient(circle, rgba(201,168,76,0.35) 0%, transparent 65%)"
+            filter="blur(12px)"
+            opacity={0}
+            pointerEvents="none"
+            transition="opacity 0.5s ease"
+            _groupHover={{ opacity: 1 }}
+          />
+
+          <Flex
+            position="relative"
+            w={{ base: '42px', md: '52px' }}
+            h={{ base: '42px', md: '52px' }}
+            align="center"
+            justify="center"
+            border="1px solid"
+            borderColor="rgba(201,168,76,0.22)"
+            borderRadius="xl"
+            bg="linear-gradient(145deg, rgba(201,168,76,0.16) 0%, rgba(201,168,76,0.04) 48%, rgba(255,255,255,0.02) 100%)"
+            boxShadow="inset 0 1px 0 rgba(232,201,106,0.22), inset 0 -8px 14px -8px rgba(0,0,0,0.55)"
+            color="brand.gold"
+            fontSize={{ base: '20px', md: '24px' }}
+            transition="border-color 0.45s ease, background 0.45s ease, box-shadow 0.45s ease, color 0.45s ease, transform 0.45s ease"
+            _groupHover={{
+              borderColor: 'rgba(232,201,106,0.7)',
+              bg: 'linear-gradient(145deg, rgba(201,168,76,0.28) 0%, rgba(201,168,76,0.08) 50%, rgba(255,255,255,0.03) 100%)',
+              boxShadow:
+                'inset 0 1px 0 rgba(232,201,106,0.4), 0 10px 22px -8px rgba(201,168,76,0.45)',
+              color: 'brand.goldLight',
+              transform: { md: 'translateY(-2px)' },
+            }}
+            sx={{
+              '& svg': {
+                transition: 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)',
+              },
+              '[role=group]:hover & svg': { transform: 'scale(1.08)' },
+              '@media (prefers-reduced-motion: reduce)': {
+                transition: 'none',
+                '& svg': { transition: 'none' },
+              },
+            }}
+          >
+            {service.icon}
+          </Flex>
+        </Box>
 
         <Heading
           as="h3"
           fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '20px', md: '24px' }}
+          fontSize={{ base: '20px', md: '30px' }}
           letterSpacing="0.04em"
           lineHeight={1.1}
           color="brand.white"
@@ -151,6 +181,7 @@ export function BentoCard({ service, gridColumn, gridRow }) {
         <Box
           display={{ base: 'flex', md: 'none' }}
           ml="auto"
+          alignSelf="center"
           color="brand.gold"
           transform={isOpen ? 'rotate(180deg)' : 'rotate(0deg)'}
           transition="transform 0.35s ease"

@@ -115,7 +115,7 @@ export default function Navbar() {
           <Link to="/" onClick={() => { window.scrollTo(0, 0); setMenuOpen(false) }}>
             <Image
               src={logo}
-              alt="Moon Sports Group"
+              alt="Moon Sports Group — agencia de representación de futbolistas"
               h="36px"
               filter="brightness(0) invert(1)"
               _hover={{ opacity: 0.8 }}
