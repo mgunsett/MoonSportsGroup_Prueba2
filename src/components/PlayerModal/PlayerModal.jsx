@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react'
 import { CloseIcon } from '@chakra-ui/icons'
 import gsap from 'gsap'
-import pizarraDt from '../../assets/images/Pizarra_dt.png'
+import pizarraDt from '../../assets/images/Pizarra_dt.webp'
 import { FaInstagram, FaTiktok } from "react-icons/fa";
 import { FaXTwitter, FaThreads } from "react-icons/fa6";
 

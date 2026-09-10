@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Box, Flex, Heading, Image, Text, Button, VStack } from '@chakra-ui/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import logo from '../../assets/images/logo_principal.png'
+import logo from '../../assets/images/logo_principal.webp'
 import fondoHero from '../../assets/images/fondo_hero.webp'
 
 gsap.registerPlugin(ScrollTrigger)

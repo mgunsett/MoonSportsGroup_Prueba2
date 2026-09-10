@@ -4,8 +4,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGsapReveal } from '../../hooks/useGsapReveal'
 import { BentoCard } from './BentoCard'
-import recurso1 from '../../assets/images/recursos/recurso_1.png'
-import recurso2 from '../../assets/images/recursos/recurso_2.png'
+import recurso2 from '../../assets/images/recursos/recurso_2.webp'
 import {
   BallIcon,
   BoardIcon,

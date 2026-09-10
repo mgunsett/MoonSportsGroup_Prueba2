@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Box, Flex, Image, Text, useBreakpointValue } from '@chakra-ui/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import logo from '../../assets/images/logo_principal.png'
+import logo from '../../assets/images/logo_principal.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 

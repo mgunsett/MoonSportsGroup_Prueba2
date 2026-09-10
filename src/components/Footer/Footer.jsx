@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Image, Link, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
-import logo from '../../assets/images/logo_principal.png'
+import logo from '../../assets/images/logo_principal.webp'
 import { LiaLaptopCodeSolid } from "react-icons/lia";
 
 

@@ -2,7 +2,7 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGsapReveal, useGsapCounter } from '../../hooks/useGsapReveal'
-import bgJugadores from '../../assets/images/bg_jugadores.png'
+import bgJugadores from '../../assets/images/bg_jugadores.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 

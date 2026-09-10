@@ -6,4 +6,4 @@ Allow: /
 # User-agent: GPTBot
 # Disallow: /
 
-Sitemap: https://www.moonsportsgroup.com/sitemap.xml
+Sitemap: https://moonsportsgroup1.netlify.app/sitemap.xml
