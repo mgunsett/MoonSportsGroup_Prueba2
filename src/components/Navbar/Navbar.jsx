@@ -4,14 +4,17 @@ import { Box, Flex, Image, Text, useBreakpointValue } from '@chakra-ui/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from '../../assets/images/logo_principal.webp'
+import { useWeekAgenda } from '../../hooks/useWeekAgenda'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Mismo orden que las secciones de la home.
 const navLinks = [
   { label: 'Home',      to: '/',           hash: '#hero' },
-  { label: 'Nosotros',  to: '/',           hash: '#nosotros' },
   { label: 'Jugadores', to: '/jugadores',  hash: '' },
+  { label: 'Agenda',    to: '/',           hash: '#agenda' },
   { label: 'Servicios', to: '/',           hash: '#services' },
+  { label: 'Nosotros',  to: '/',           hash: '#nosotros' },
   { label: 'Contacto',  to: '/',           hash: '#contacto' },
 ]
 
@@ -57,6 +60,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const isMobile = useBreakpointValue({ base: true, md: false })
+  // "Agenda" sólo aparece cuando la sección tiene partidos esta semana.
+  const { matches } = useWeekAgenda()
+  const links = navLinks.filter((l) => l.hash !== '#agenda' || matches.length > 0)
 
   // Close menu on route change
   useEffect(() => {
@@ -125,10 +131,10 @@ export default function Navbar() {
 
           {/* Desktop Links */}
           <Flex display={{ base: 'none', md: 'flex' }} align="center" gap={12}>
-            {navLinks.map((link) => (
+            {links.map((link) => (
               <Box key={link.label} position="relative" role="group">
                 <Link
-                  to={link.to}
+                  to={link.hash ? `${link.to}${link.hash}` : link.to}
                   onClick={(e) => handleNavClick(e, link)}
                 >
                   <Text
@@ -191,10 +197,10 @@ export default function Navbar() {
             transition="height 0.3s"
           />
           <Flex direction="column" gap={1} pb={2}>
-            {navLinks.map((link, i) => (
+            {links.map((link, i) => (
               <Link
                 key={link.label}
-                to={link.to}
+                to={link.hash ? `${link.to}${link.hash}` : link.to}
                 onClick={(e) => handleNavClick(e, link)}
                 style={{ textDecoration: 'none' }}
               >

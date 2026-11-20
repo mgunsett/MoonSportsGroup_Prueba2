@@ -2,6 +2,7 @@ import Hero          from '../components/Hero/Hero'
 import Services      from '../components/Services/Services'
 import Nosotros      from '../components/Nosotros/Nosotros'
 import PlayersSlider from '../components/PlayersSlider/PlayersSlider'
+import MatchAgenda   from '../components/MatchAgenda/MatchAgenda'
 import Contact       from '../components/Contact/Contact'
 import Footer        from '../components/Footer/Footer'
 import { Seo }       from '../components/Seo/Seo'
@@ -17,10 +18,13 @@ export default function HomePage() {
         keywords={KEYWORDS.join(', ')}
         jsonLd={[organizationSchema, websiteSchema]}
       />
+      {/* Orden: quiénes son → a quién representan → dónde juegan esta
+          semana → cómo trabajan → por qué confiar → contacto */}
       <Hero />
+      <PlayersSlider />
+      <MatchAgenda />
       <Services />
       <Nosotros />
-      <PlayersSlider />
       <Contact />
       <Footer />
     </>
