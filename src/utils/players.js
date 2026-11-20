@@ -10,7 +10,8 @@ import ezequielPiovi from '../assets/images/ezequiel_piovi.webp'
 import estudiantes from '../assets/images/estudiantes.webp'
 import matiasDiBenedetto from '../assets/images/matias_dibenedetto.webp'
 import franciscoFydriszewski from '../assets/images/francisco_fydriszewski.webp'
-import independienteMedellin from '../assets/images/dim.webp'
+import junior from '../assets/images/escudo_junior.webp'
+import melgar from '../assets/images/escudo_melgar.webp'
 import cainFara from '../assets/images/cain_fara.webp'
 import juanruizgomez from '../assets/images/juan_ruizgomez.webp'
 import emelec from '../assets/images/emelec.webp'
@@ -31,9 +32,9 @@ export const players = [
     lastname: 'Rondelli',
     slug: 'miguel_rondelli',
     clubCountry: 'Perú',
-    club: 'Cusco FC',
-    escudo: cusco,
-    sizes: { h: '30px', w: '30px' },
+    club: 'FBC Melgar',
+    escudo: melgar,
+    sizes: { h: '30px', w: '19px' },
     position: 'Director Técnico',
     nationality: 'Argentina',
     image: miguelRondelli,
@@ -230,9 +231,9 @@ export const players = [
     lastname: 'Fydriszewski',
     slug: 'francisco_fydriszewski',
     clubCountry: 'Colombia',
-    club: 'Ind de Medellín',
-    escudo: independienteMedellin,
-    sizes: { h: '30px', w: '30px' },
+    club: 'Junior de Barranquilla',
+    escudo: junior,
+    sizes: { h: '30px', w: '26px' },
     position: 'Delantero',
     nationality: 'Argentina / Perú',
     image: franciscoFydriszewski,
