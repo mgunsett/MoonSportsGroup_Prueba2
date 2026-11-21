@@ -1,7 +1,7 @@
 import Hero          from '../components/Hero/Hero'
 import Services      from '../components/Services/Services'
 import Nosotros      from '../components/Nosotros/Nosotros'
-import PlayersSlider from '../components/PlayersSlider/PlayersSlider'
+import PlayersPanels from '../components/PlayersPanels/PlayersPanels'
 import MatchAgenda   from '../components/MatchAgenda/MatchAgenda'
 import Contact       from '../components/Contact/Contact'
 import Footer        from '../components/Footer/Footer'
@@ -21,7 +21,7 @@ export default function HomePage() {
       {/* Orden: quiénes son → a quién representan → dónde juegan esta
           semana → cómo trabajan → por qué confiar → contacto */}
       <Hero />
-      <PlayersSlider />
+      <PlayersPanels />
       <MatchAgenda />
       <Services />
       <Nosotros />
