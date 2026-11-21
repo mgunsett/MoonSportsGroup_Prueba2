@@ -186,7 +186,7 @@ export default function PlayersPanels() {
         </Box>
       </Box>
 
-      <PlayerModal player={modalPlayer} isOpen={!!modalPlayer} onClose={() => setModalPlayer(null)} />
+      <PlayerModal player={modalPlayer} isOpen={!!modalPlayer} onClose={() => setModalPlayer(null)} list={ordered} />
     </Box>
   )
 }

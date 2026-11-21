@@ -178,7 +178,7 @@ export default function JugadoresPage() {
       </Box>
 
       <Footer />
-      <PlayerModal player={selectedPlayer} isOpen={!!selectedPlayer} onClose={() => setSelectedPlayer(null)} />
+      <PlayerModal player={selectedPlayer} isOpen={!!selectedPlayer} onClose={() => setSelectedPlayer(null)} list={list} />
     </Box>
   )
 }

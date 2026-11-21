@@ -1,467 +1,276 @@
-import { useEffect, useRef, useState } from 'react'
-import {
-  Box, Flex, Heading, Text, Image, Link, IconButton,
-  Modal, ModalOverlay, ModalContent, ModalBody,
-  useBreakpointValue,
-} from '@chakra-ui/react'
-import { CloseIcon } from '@chakra-ui/icons'
-import gsap from 'gsap'
-import pizarraDt from '../../assets/images/Pizarra_dt.webp'
-import { FaInstagram, FaTiktok } from "react-icons/fa";
-import { FaXTwitter, FaThreads } from "react-icons/fa6";
+import { useEffect, useMemo, useState } from 'react'
+import { Box, Flex, Grid, Image, Modal, ModalContent, ModalOverlay, Text, useBreakpointValue } from '@chakra-ui/react'
+import { FaInstagram, FaTiktok } from 'react-icons/fa'
+import { FaThreads, FaXTwitter } from 'react-icons/fa6'
+import { FiArrowLeft, FiArrowRight, FiX } from 'react-icons/fi'
+import { players as allPlayers } from '../../utils/players'
 
+// ─── FICHA DEL REPRESENTADO · Radar ──────────────────────────────
+// Modelo "Radar" (Estadísticas N3) del catálogo plantillas_skills:
+// apellido gigante de fondo, recorte al centro, datos a la izquierda y
+// radar de atributos + números a la derecha. Anterior / Siguiente (y las
+// flechas del teclado) recorren la lista sin cerrar. En mobile ocupa
+// toda la pantalla: foto arriba, datos y radar abajo.
+//
+// Props: player (el que se abre), isOpen, onClose y, opcional, `list`
+// (el orden en que se navega; por defecto, todos los representados).
 
-/* ──────── Mini soccer field ──────── */
-function MiniField({ position }) {
-  if (!position) return null
-  return (
-    <Box position="relative" w="100%" maxW={{ base: '140px', md: '170px' }} mx="auto">
-      <svg viewBox="0 0 100 140" width="100%" style={{ display: 'block' }}>
-        <rect x="0" y="0" width="100" height="140" rx="4" fill="#1a3a1a" stroke="#2d5a2d" strokeWidth="1" />
-        <line x1="0" y1="70" x2="100" y2="70" stroke="#2d5a2d" strokeWidth="0.8" />
-        <circle cx="50" cy="70" r="14" fill="none" stroke="#2d5a2d" strokeWidth="0.8" />
-        <circle cx="50" cy="70" r="1.5" fill="#2d5a2d" />
-        <rect x="20" y="0" width="60" height="22" fill="none" stroke="#2d5a2d" strokeWidth="0.8" />
-        <rect x="32" y="0" width="36" height="10" fill="none" stroke="#2d5a2d" strokeWidth="0.8" />
-        <rect x="20" y="118" width="60" height="22" fill="none" stroke="#2d5a2d" strokeWidth="0.8" />
-        <rect x="32" y="130" width="36" height="10" fill="none" stroke="#2d5a2d" strokeWidth="0.8" />
-        <circle cx={position.x} cy={position.y * 1.4} r="5" fill="#C9A84C" opacity="0.9" />
-        <circle cx={position.x} cy={position.y * 1.4} r="8" fill="none" stroke="#C9A84C" strokeWidth="0.6" opacity="0.4" />
-      </svg>
-    </Box>
-  )
+const EASE = 'cubic-bezier(.23,1,.32,1)'
+const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+
+const RATING_LABEL = {
+  pase: 'Pase', vision: 'Visión', regate: 'Regate', tecnica: 'Técnica', efectividad: 'Efectividad', recuperacion: 'Recuperación',
+  aereo: 'Juego aéreo', desbordes: 'Desborde', creatividad: 'Creatividad', disparo: 'Disparo', tactica: 'Táctica',
+  motivacion: 'Motivación', formacion: 'Formación', estrategia: 'Estrategia', velocidad: 'Velocidad', definicion: 'Definición',
+  marca: 'Marca', anticipacion: 'Anticipación', distribucion: 'Distribución', oportunidades: 'Oportunidades',
+  liderazgo: 'Liderazgo', resistencia: 'Resistencia',
+}
+const label = (k) => RATING_LABEL[k] || k.charAt(0).toUpperCase() + k.slice(1)
+
+const SOCIALS = {
+  instagram: { icon: FaInstagram, name: 'Instagram' },
+  twitter: { icon: FaXTwitter, name: 'X' },
+  threads: { icon: FaThreads, name: 'Threads' },
+  tiktok: { icon: FaTiktok, name: 'TikTok' },
 }
 
-/* ──────── Stat bar (horizontal) ──────── */
-function StatBar({ label, value, animate }) {
-  const barRef = useRef(null)
-
-  useEffect(() => {
-    if (barRef.current && animate) {
-      gsap.fromTo(barRef.current,
-        { width: '0%' },
-        { width: `${value}%`, duration: 0.8, ease: 'power2.out', delay: 0.3 }
-      )
-    }
-  }, [value, animate])
-
-  return (
-    <Box mb={2}>
-      <Flex justify="space-between" mb={1}>
-        <Text fontSize="11px" color="brand.whiteMuted" letterSpacing="0.08em" textTransform="uppercase">
-          {label.replace(/_/g, ' ')}
-        </Text>
-        <Text fontSize="11px" color="brand.gold" fontWeight={600}>{value}</Text>
-      </Flex>
-      <Box w="100%" h="4px" bg="rgba(255,255,255,0.08)" borderRadius="2px" overflow="hidden">
-        <Box
-          ref={barRef}
-          h="100%"
-          bg="brand.gold"
-          borderRadius="2px"
-          w={animate ? '0%' : `${value}%`}
-        />
-      </Box>
-    </Box>
-  )
+function fmtDate(s) {
+  if (!s) return '—'
+  const [y, m, d] = s.split('-')
+  return `${+d} de ${MONTHS[+m - 1]} de ${y}`
 }
 
-/* ──────── Country flag emoji helper ──────── */
-function countryFlag(nationality) {
-  const map = {
-    Argentina: '🇦🇷',
-    Perú: '🇵🇪',
-    Peru: '🇵🇪',
-    Brasil: '🇧🇷',
-    Ecuador: '🇪🇨',
-    Colombia: '🇨🇴',
-    Uruguay: '🇺🇾',
-    Chile: '🇨🇱',
+function getAge(s) {
+  if (!s) return null
+  const b = new Date(s)
+  const t = new Date()
+  let a = t.getFullYear() - b.getFullYear()
+  if (t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) a -= 1
+  return a
+}
+
+function statsOf(p) {
+  const s = p.stats || {}
+  if (p.type === 'coach') return [[s.matches, 'Dirigidos'], [s.wins, 'Victorias'], [s.draws, 'Empates']]
+  if (s.cleanSheets != null) return [[s.matches, 'Partidos'], [s.goals, 'Goles'], [s.cleanSheets, 'Vallas inv.']]
+  return [[s.matches, 'Partidos'], [s.goals, 'Goles'], [s.assists, 'Asist.']]
+}
+
+/* ──────── Radar de atributos (SVG) ──────── */
+function Radar({ ratings }) {
+  const entries = Object.entries(ratings || {})
+  if (entries.length < 3) return null
+  const R = 100
+  const cx = 150
+  const cy = 130
+  const n = entries.length
+  const pt = (i, r) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / n
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)]
   }
-  return map[nationality] || '🏳️'
-}
+  const poly = (r) => entries.map((_, i) => pt(i, r).join(',')).join(' ')
+  const area = entries.map(([, v], i) => pt(i, (R * v) / 100).join(',')).join(' ')
 
-/* ──────── Age from birthdate ──────── */
-function getAge(dateStr) {
-  const birth = new Date(dateStr)
-  const today = new Date()
-  let age = today.getFullYear() - birth.getFullYear()
-  const m = today.getMonth() - birth.getMonth()
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
-  return age
-}
-
-/* ──────── Main modal ──────── */
-export default function PlayerModal({ player, isOpen, onClose }) {
-  const contentRef = useRef(null)
-  const isMobile = useBreakpointValue({ base: true, md: false })
-
-  useEffect(() => {
-    if (isOpen && contentRef.current && !isMobile) {
-      gsap.fromTo(contentRef.current,
-        { opacity: 0, scale: 0.95, y: 20 },
-        { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: 'power3.out', delay: 0.05 }
-      )
-    }
-  }, [isOpen, isMobile])
-
-  if (!player) return null
-
-  const isCoach = player.type === 'coach'
-  const { stats } = player
-
-  return (
-    <Modal isOpen={isOpen} onClose={onClose} size="5xl" isCentered motionPreset="none">
-      <ModalOverlay bg="rgba(0,0,0,0.85)" backdropFilter="blur(8px)" />
-      <ModalContent
-        ref={contentRef}
-        bg="transparent"
-        boxShadow="none"
-        overflow="hidden"
-        maxH={{ base: 'auto', md: '85vh' }}
-        mx={4}
-        borderRadius="12px"
-      >
-        {/* Outer glow border wrapper */}
-        <Box
-          position="relative"
-          borderRadius="12px"
-          overflow="hidden"
-          bg="brand.grayDark"
-          border="1px solid"
-          borderColor="rgba(201,168,76,0.2)"
-          boxShadow="0 0 40px rgba(201,168,76,0.06), 0 25px 60px rgba(0,0,0,0.6)"
-        >
-          {/* Top gold linea */}
-          <Box
-            position="absolute"
-            top={0}
-            left="10%"
-            right="10%"
-            h="1px"
-            background="linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent)"
-            zIndex={2}
-          />
-          {/* Bottom gold linea */}
-          <Box
-            position="absolute"
-            top="auto"
-            bottom={0}
-            left="10%"
-            right="10%"
-            h="1px"
-            background="linear-gradient(90deg, transparent, rgba(201,168,76,0.5), transparent)"
-            zIndex={2}
-          />
-
-          {/* Close button */}
-          <IconButton
-            icon={<CloseIcon boxSize={3} />}
-            onClick={onClose}
-            position="absolute"
-            top={3}
-            right={3}
-            zIndex={10}
-            size="sm"
-            variant="unstyled"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            w="32px"
-            h="32px"
-            borderRadius="50%"
-            bg="rgba(0,0,0,0.5)"
-            color="brand.whiteMuted"
-            border="1px solid"
-            borderColor="rgba(255,255,255,0.1)"
-            _hover={{ color: 'rgba(212, 69, 44, 0.8)', borderColor: 'rgba(201, 95, 76, 0.75)' }}
-            aria-label="Cerrar"
-          />
-
-          <ModalBody p={0} overflow="hidden">
-            <Flex direction={{ base: 'column', md: 'row' }}>
-
-              {/* ── Left: Image ── */}
-              <Box
-                w={{ base: '100%', md: '40%' }}
-                minH={{ base: '220px', md: 'auto' }}
-                maxH={{ base: '220px', md: 'none' }}
-                position="relative"
-                overflow="hidden"
-              >
-                <Image
-                  src={player.image}
-                  alt={`${player.name} ${player.lastname}, ${player.position} de ${player.club}`}
-                  w="100%"
-                  h="100%"
-                  objectFit="cover"
-                  objectPosition="top"
-                  position="absolute"
-                  inset={0}
-                />
-                <Box
-                  position="absolute"
-                  inset={0}
-                  background="linear-gradient(to top, rgba(17,17,17,1) 0%, rgba(17,17,17,0.3) 50%, transparent 100%)"
-                />
-
-                {/* Name overlay on image */}
-                <Box position="absolute" bottom={0} left={0} right={0} p={6}>
-                  {player.number && (
-                    <Text
-                      fontFamily="'Bebas Neue', sans-serif"
-                      fontSize="56px"
-                      color="rgba(201, 168, 76, 0.48)"
-                      lineHeight={1}
-                      mb="-6px"
-                    >
-                      {player.number}
-                    </Text>
-                  )}
-                  <Heading
-                    fontFamily="'Bebas Neue', sans-serif"
-                    fontSize={{ base: '24px', md: '46px' }}
-                    color="brand.white"
-                    lineHeight={1}
-                    letterSpacing="0.03em"
-                  >
-                    {player.name}{' '}
-                    <Box as="span" color="brand.gold">
-                      {player.lastname}
-                    </Box>
-                  </Heading>
-                  <Flex align="center" gap={2} mt={2}>
-                    <Text fontSize="12px" color="brand.gold" letterSpacing="0.12em" textTransform="uppercase" fontWeight={600}>
-                      {player.position}
-                    </Text>
-                  </Flex>
-                </Box>
-              </Box>
-
-              {/* ── Right: Info ── */}
-              <Box w={{ base: '100%', md: '60%' }} p={{ base: 4, md: 6 }}>
-
-                {/* Info cards grid */}
-                <Box
-                  display="grid"
-                  gridTemplateColumns="repeat(2, 1fr)"
-                  gap={2}
-                  mb={2}
-                >
-                  <InfoCard
-                    icon={<Text fontSize="20px">{countryFlag(player.nationality)}</Text>}
-                    label="País"
-                    value={player.nationality}
-                  />
-                  <InfoCard
-                    icon={<Text fontSize="18px" mr={2}>📅</Text>}
-                    label="Nacimiento"
-                    value={new Date(player.birthDate).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })}
-                  />
-                  <InfoCard
-                    icon={<Text fontSize="15px">🎂</Text>}
-                    label="Edad"
-                    value={`${getAge(player.birthDate)} años`}
-                  />
-                  <InfoCard
-                    icon={<Image src={player.escudo} alt={player.club} h={player.sizes?.h} w={player.sizes?.w} />}
-                    label="Club"
-                    value={player.club}
-                  />
-                </Box>
-
-                {/* Key numbers */}
-                <Flex
-                  bg="rgba(255,255,255,0.03)"
-                  border="1px solid"
-                  borderColor="rgba(255,255,255,0.06)"
-                  borderRadius="8px"
-                  px={4}
-                  py={2}
-                  alignItems="center"
-                  justify="center"
-                  mb={4}
-                >
-                <Flex gap={{ base: 3, md: 12 }} flexWrap="wrap">
-                  <KeyStat label={isCoach ? 'Dirigidos' : 'Partidos'} value={stats.matches} />
-                  {isCoach ? (
-                    <>
-                      <KeyStat label="Victorias" value={stats.wins} />
-                      <KeyStat label="Empates" value={stats.draws} />
-                      <KeyStat label="Derrotas" value={stats.losses} />
-                    </>
-                  ) : (
-                    <>
-                      <KeyStat label="Goles" value={stats.goals} />
-                      {stats.assists != null && <KeyStat label="Asistencias" value={stats.assists} />}
-                      {stats.cleanSheets != null && <KeyStat label="Valla invicta" value={stats.cleanSheets} />}
-                    </>
-                  )}
-                </Flex>
-                </Flex>
-
-                {/* Ratings + Field / Tactical Board */}
-                <Flex direction={{ base: 'column', md: 'row' }} gap={4}>
-                  {/* Rating bars */}
-                  <Box flex={1}>
-                    <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mb={4} fontWeight={600}>
-                      {isCoach ? ' ' : 'Habilidades'}
-                    </Text>
-                    {Object.entries(stats.ratings).map(([key, val]) => (
-                      <StatBar key={key} label={key} value={val} animate={!isMobile} />
-                    ))}
-                    {/* Social links */}
-                
-                  <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mt={6} mb={2} fontWeight={600}>
-                    Redes Sociales
-                  </Text>
-                  {player.socials && (
-                  <Flex mt={4} gap={3}>
-                    {player.socials.instagram && (
-                      <SocialLink href={player.socials.instagram} label="Instagram">
-                        <FaInstagram size={16} />
-                      </SocialLink>
-                    )}
-                    {player.socials.twitter && (
-                      <SocialLink href={player.socials.twitter} label="Twitter">
-                        <FaXTwitter size={16} />
-                      </SocialLink>
-                    )}
-                    {player.socials.threads && (
-                      <SocialLink href={player.socials.threads} label="Threads">
-                        <FaThreads size={16} />
-                      </SocialLink>
-                    )}
-                    {player.socials.tiktok && (
-                      <SocialLink href={player.socials.tiktok} label="TikTok">
-                        <FaTiktok size={16} />
-                      </SocialLink>
-                    )} 
-                  </Flex>
-                )}
-                  </Box>
-
-                  {/* Mini field or Tactical board */}
-                  <Box flex={1} display="flex" flexDirection="column" alignItems="center">
-                    {isCoach ? (
-                      <>
-                        <Image
-                          src={pizarraDt}
-                          alt="Pizarra táctica"
-                          w="100%"
-                          maxW={{ base: '180px', md: '150px' }}
-                          mx="auto"
-                          objectFit="contain"
-                        />
-                      </>
-                    ) : player.fieldPosition ? (
-                      <>
-                        <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mb={4} fontWeight={600}>
-                          Posición en campo
-                        </Text>
-                        <MiniField position={player.fieldPosition} />
-                        <Text fontSize="12px" color="brand.whiteMuted" letterSpacing="0.3em" mt={3} textAlign="center">
-                          {player.position}
-                        </Text>
-                      </>
-                    ) : null}
-                  </Box>
-                </Flex>
-
-                {/* Social links
-                
-                  <Text fontSize="11px" letterSpacing="0.3em" color="brand.gold" textTransform="uppercase" mt={6} mb={2} fontWeight={600}>
-                    Redes Sociales
-                  </Text>
-                  {player.socials && (
-                  <Flex mt={4} gap={3}>
-                    {player.socials.instagram && (
-                      <SocialLink href={player.socials.instagram} label="Instagram">
-                        <FaInstagram size={16} />
-                      </SocialLink>
-                    )}
-                    {player.socials.twitter && (
-                      <SocialLink href={player.socials.twitter} label="Twitter">
-                        <FaXTwitter size={16} />
-                      </SocialLink>
-                    )}
-                    {player.socials.threads && (
-                      <SocialLink href={player.socials.threads} label="Threads">
-                        <FaThreads size={16} />
-                      </SocialLink>
-                    )}  
-                  </Flex>
-                )} */}
-              </Box>
-            </Flex>
-          </ModalBody>
-        </Box>
-      </ModalContent>
-    </Modal>
-  )
-}
-
-/* ──────── Sub-components ──────── */
-
-function InfoCard({ icon, label, value }) {
   return (
     <Box
-      bg="rgba(255,255,255,0.03)"
-      border="1px solid"
-      borderColor="rgba(255,255,255,0.06)"
-      borderRadius="8px"
-      px={4}
-      py={3}
-      display="flex"
-      alignItems="center"
-      gap={5}
+      as="svg"
+      viewBox="-62 0 424 260"
+      w="100%"
+      maxW="340px"
+      mx="auto"
+      display="block"
+      role="img"
+      aria-label={`Atributos: ${entries.map(([k, v]) => `${label(k)} ${v}`).join(', ')}`}
+      sx={{
+        '.grid *': { fill: 'none', stroke: 'rgba(255,255,255,0.1)' },
+        '.area': { fill: 'rgba(201,168,76,0.28)', stroke: '#C9A84C', strokeWidth: 1.5 },
+        text: { fill: 'rgba(255,255,255,0.62)', fontFamily: 'Outfit, sans-serif', fontSize: '9.5px', letterSpacing: '0.06em', textTransform: 'uppercase' },
+        'text.v': { fill: '#C9A84C', fontFamily: "'Bebas Neue', sans-serif", fontSize: '13px' },
+      }}
     >
-      <Box flexShrink={0}>{icon}</Box>
-      <Box>
-        <Text fontSize="10px" color="brand.whiteMuted" letterSpacing="0.12em" textTransform="uppercase" lineHeight={1} mb={'2px'} fontWeight={800}>
-          {label}
-        </Text>
-        <Text fontSize="14px" color="brand.white" fontWeight={500} lineHeight={1.2}>
-          {value}
-        </Text>
-      </Box>
+      <g className="grid">
+        {[0.25, 0.5, 0.75, 1].map((f) => <polygon key={f} points={poly(R * f)} />)}
+        {entries.map(([k], i) => {
+          const [x, y] = pt(i, R)
+          return <line key={k} x1={cx} y1={cy} x2={x} y2={y} />
+        })}
+      </g>
+      <polygon className="area" points={area} />
+      {entries.map(([k, v], i) => {
+        const [x, y] = pt(i, R + 20)
+        const anchor = x < cx - 5 ? 'end' : x > cx + 5 ? 'start' : 'middle'
+        return (
+          <g key={k}>
+            <text x={x} y={y} textAnchor={anchor}>{label(k)}</text>
+            <text className="v" x={x} y={y + 13} textAnchor={anchor}>{v}</text>
+          </g>
+        )
+      })}
     </Box>
   )
 }
 
-function KeyStat({ label, value }) {
-  return (
-    <Box textAlign="center">
-      <Text fontFamily="'Bebas Neue', sans-serif" fontSize={{ base: '28px', md: '40px' }} color="brand.gold" lineHeight={1}>
-        {value}
-      </Text>
-      <Text fontSize="10px" color="brand.whiteMuted" letterSpacing="0.12em" textTransform="uppercase" >
-        {label}
-      </Text>
-    </Box>
-  )
+const roundBtn = {
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'full',
+  border: '1px solid rgba(255,255,255,0.18)', color: 'brand.whiteMuted',
+  transition: `color 200ms ease, border-color 200ms ease, transform 160ms ${EASE}`,
+  _active: { transform: 'scale(0.95)' },
+  sx: { '@media (hover: hover) and (pointer: fine)': { _hover: { color: 'brand.gold', borderColor: 'brand.gold' } } },
 }
 
-function SocialLink({ href, label, children }) {
+export default function PlayerModal({ player, isOpen, onClose, list }) {
+  const isMobile = useBreakpointValue({ base: true, lg: false }, { ssr: false })
+  const order = useMemo(() => (list && list.length ? list : allPlayers), [list])
+  const [current, setCurrent] = useState(player)
+
+  // Al abrir (o cambiar el jugador desde afuera) se muestra ese
+  useEffect(() => { if (player) setCurrent(player) }, [player])
+
+  const go = (dir) => {
+    const i = order.findIndex((p) => p.id === current?.id)
+    setCurrent(order[(i + dir + order.length) % order.length])
+  }
+
+  useEffect(() => {
+    if (!isOpen) return undefined
+    const onKey = (e) => {
+      if (e.key === 'ArrowRight') go(1)
+      if (e.key === 'ArrowLeft') go(-1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }) // se re-suscribe en cada render para usar el `current` actual
+
+  const p = current
+  if (!p) return null
+  const isCoach = p.type === 'coach'
+  const dorsal = isCoach ? 'DT' : String(p.number).trim()
+  const age = getAge(p.birthDate)
+  const socials = Object.entries(p.socials || {}).filter(([k, url]) => url && SOCIALS[k])
+
   return (
-    <Link
-      href={href}
-      isExternal
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      w="30px"
-      h="30px"
-      bg="brand.grayMid"
-      border="1px solid"
-      borderColor="brand.grayBorder"
-      borderRadius="6px"
-      color="brand.whiteMuted"
-      transition="all 0.3s"
-      _hover={{ borderColor: 'brand.gold', color: 'brand.gold' }}
-      aria-label={label}
-    >
-      {children}
-    </Link>
+    <Modal isOpen={isOpen} onClose={onClose} size={isMobile ? 'full' : '6xl'} isCentered={!isMobile} motionPreset={isMobile ? 'slideInBottom' : 'scale'} scrollBehavior="inside">
+      <ModalOverlay bg="rgba(0,0,0,0.78)" backdropFilter="blur(6px)" />
+      <ModalContent
+        aria-label={`Ficha de ${p.name} ${p.lastname}`}
+        bg="transparent"
+        boxShadow="none"
+        m={isMobile ? 0 : 'auto'}
+        maxW={isMobile ? '100vw' : 'min(1180px, calc(100vw - 48px))'}
+        maxH={isMobile ? '100dvh' : 'calc(100dvh - 48px)'}
+        h={isMobile ? '100dvh' : 'auto'}
+        borderRadius={isMobile ? 0 : '14px'}
+        overflow="hidden"
+      >
+        <Grid
+          key={p.id}
+          position="relative"
+          templateColumns={{ base: '1fr', lg: 'minmax(0,1fr) minmax(0,1.05fr) minmax(0,1fr)' }}
+          minH={{ base: '100dvh', lg: '600px' }}
+          maxH={{ base: '100dvh', lg: 'calc(100dvh - 48px)' }}
+          overflowY={{ base: 'auto', lg: 'hidden' }}
+          bg="radial-gradient(70% 70% at 45% 70%, rgba(201,168,76,0.16), transparent 70%), #0C0C0C"
+          border={{ base: 'none', lg: '1px solid rgba(201,168,76,0.3)' }}
+          borderRadius={{ base: 0, lg: '14px' }}
+          color="brand.white"
+          sx={{
+            animation: `fichaIn 320ms ${EASE}`,
+            '@keyframes fichaIn': { from: { opacity: 0, transform: 'translateY(8px)' } },
+            '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
+          }}
+        >
+          {/* Cerrar */}
+          <Box as="button" type="button" onClick={onClose} aria-label="Cerrar ficha" position="absolute" top={{ base: 3, lg: 4 }} right={{ base: 3, lg: 4 }}
+            zIndex={5} w="40px" h="40px" bg="rgba(0,0,0,0.5)" {...roundBtn}>
+            <FiX size={18} />
+          </Box>
+
+          {/* Apellido gigante de fondo */}
+          <Text aria-hidden="true" position="absolute" left="50%" top={{ base: '180px', lg: '46%' }} transform="translate(-50%, -50%)"
+            fontFamily="display" fontSize={{ base: '150px', lg: 'clamp(180px, 22vw, 300px)' }} lineHeight={0.8} whiteSpace="nowrap"
+            textTransform="uppercase" color="transparent" pointerEvents="none" sx={{ WebkitTextStroke: '1.5px rgba(201,168,76,0.18)' }}>
+            {p.lastname}
+          </Text>
+
+          {/* Recorte (arriba en mobile, al centro en desktop) */}
+          <Box position="relative" zIndex={1} order={{ base: -1, lg: 0 }} gridColumn={{ lg: 2 }} gridRow={{ lg: 1 }} h={{ base: '340px', lg: 'auto' }}
+            _after={{ content: '""', display: { base: 'block', lg: 'none' }, position: 'absolute', insetX: 0, bottom: 0, h: '35%', bg: 'linear-gradient(transparent, #0C0C0C)' }}>
+            <Image src={p.image} alt={`${p.name} ${p.lastname}, ${p.position} de ${p.club}`} position="absolute" inset={0} w="100%" h="100%" objectFit="contain" objectPosition="bottom center"
+              filter="drop-shadow(0 20px 40px rgba(0,0,0,0.7))" />
+          </Box>
+
+          {/* Datos */}
+          <Flex position="relative" zIndex={1} gridColumn={{ lg: 1 }} gridRow={{ lg: 1 }} direction="column" justify="space-between" gap={6}
+            px={{ base: 4, lg: 0 }} pl={{ lg: 8 }} pt={{ base: 0, lg: 8 }} pb={{ base: 2, lg: 7 }} mt={{ base: '-50px', lg: 0 }}>
+            <Box>
+              <Text aria-hidden="true" display={{ base: 'none', lg: 'block' }} fontFamily="label" fontSize="110px" lineHeight={0.8} color="brand.gold">{dorsal}</Text>
+              <Text as="h2" fontFamily="display" fontSize={{ base: '44px', lg: '54px' }} lineHeight={0.86} textTransform="uppercase">
+                {p.name}
+                <Box as="span" display="block" color="brand.gold">{p.lastname}</Box>
+              </Text>
+              <Text mt={2} fontSize="11px" fontWeight={600} letterSpacing="0.22em" textTransform="uppercase" color="brand.whiteMuted">{p.position}</Text>
+            </Box>
+
+            <Grid as="dl" templateColumns="auto 1fr" columnGap={4} rowGap={2} fontSize="13.5px">
+              {[
+                ['Club', <Flex as="span" align="center" gap="6px" key="c">{p.escudo && <Image src={p.escudo} alt="" w="18px" h="18px" objectFit="contain" />}{p.club}</Flex>],
+                ['País', p.nationality],
+                ['Edad', age != null ? `${age} años` : '—'],
+                ['Nacimiento', fmtDate(p.birthDate)],
+              ].map(([k, v]) => (
+                <Box key={k} display="contents">
+                  <Text as="dt" alignSelf="center" fontSize="10.5px" letterSpacing="0.16em" textTransform="uppercase" color="rgba(255,255,255,0.42)">{k}</Text>
+                  <Box as="dd">{v}</Box>
+                </Box>
+              ))}
+            </Grid>
+
+            {socials.length > 0 && (
+              <Flex gap={2}>
+                {socials.map(([k, url]) => {
+                  const { icon: Icon, name } = SOCIALS[k]
+                  return (
+                    <Box key={k} as="a" href={url} target="_blank" rel="noopener noreferrer" aria-label={`${name} de ${p.name} ${p.lastname}`} w="38px" h="38px" {...roundBtn}>
+                      <Icon size={15} />
+                    </Box>
+                  )
+                })}
+              </Flex>
+            )}
+          </Flex>
+
+          {/* Radar + números + navegación */}
+          <Flex position="relative" zIndex={1} gridColumn={{ lg: 3 }} gridRow={{ lg: 1 }} direction="column" gap={5}
+            px={{ base: 4, lg: 0 }} pr={{ lg: 8 }} pt={{ base: 4, lg: 8 }} pb={{ base: 8, lg: 7 }}>
+            <Text fontSize="11px" fontWeight={600} letterSpacing="0.24em" textTransform="uppercase" color="brand.gold">
+              {isCoach ? 'Perfil técnico' : 'Atributos'}
+            </Text>
+            <Radar ratings={p.stats?.ratings} />
+
+            <Grid templateColumns="repeat(3, 1fr)" borderTop="1px solid rgba(255,255,255,0.18)" pt="14px">
+              {statsOf(p).map(([n, l]) => (
+                <Box key={l}>
+                  <Text fontFamily="display" fontSize="46px" lineHeight={0.85} sx={{ fontVariantNumeric: 'tabular-nums' }}>{n ?? '—'}</Text>
+                  <Text fontSize="10px" letterSpacing="0.16em" textTransform="uppercase" color="rgba(255,255,255,0.42)">{l}</Text>
+                </Box>
+              ))}
+            </Grid>
+
+            {p.bio && <Text fontSize="13.5px" lineHeight={1.6} color="rgba(255,255,255,0.6)">{p.bio}</Text>}
+
+            {order.length > 1 && (
+              <Flex gap={2} mt="auto">
+                {[[-1, 'Anterior', FiArrowLeft], [1, 'Siguiente', FiArrowRight]].map(([dir, txt, Icon]) => (
+                  <Box key={txt} as="button" type="button" onClick={() => go(dir)} aria-label={`Representado ${txt.toLowerCase()}`}
+                    gap={2} px="14px" py="9px" fontSize="12px" {...roundBtn} flexDirection={dir > 0 ? 'row-reverse' : 'row'}>
+                    <Icon size={14} />{txt}
+                  </Box>
+                ))}
+              </Flex>
+            )}
+          </Flex>
+        </Grid>
+      </ModalContent>
+    </Modal>
   )
 }
