@@ -56,15 +56,6 @@ html {
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
-/* Contact button left border effect */
-.contact-border {
-  height: 0;
-  transition: height 0.4s ease;
-}
-
-.contact-btn:hover .contact-border {
-  height: 100%;
-}
 
 /* Responsive */
 @media (max-width: 768px) {
