@@ -7,11 +7,19 @@ const onHover = (styles) => ({
   '.player-card:focus-visible &': styles,
 })
 
+// Tres números según el puesto (para el resumen que aparece al pasar el mouse)
+export function cardStats(p) {
+  const s = p.stats || {}
+  if (p.type === 'coach') return [[s.matches, 'Dirigidos'], [s.wins, 'Victorias'], [s.draws, 'Empates']]
+  if (s.cleanSheets != null) return [[s.matches, 'Partidos'], [s.goals, 'Goles'], [s.cleanSheets, 'Vallas inv.']]
+  return [[s.matches, 'Partidos'], [s.goals, 'Goles'], [s.assists, 'Asist.']]
+}
+
 /**
  * Card de representado — compartida por el slider del Home y la grilla de /jugadores.
  * `onClick` la vuelve interactiva (abre el modal) y accesible por teclado.
  */
-export function PlayerCard({ player, onClick }) {
+export function PlayerCard({ player, onClick, showStats = false }) {
   const interactive = typeof onClick === 'function'
 
   const handleKeyDown = (e) => {
@@ -110,6 +118,39 @@ export function PlayerCard({ player, onClick }) {
         >
           {player.number}
         </Text>
+
+        {/* Números: sólo con mouse (en mobile no hay hover) */}
+        {showStats && (
+          <Box
+            aria-hidden="true"
+            display={{ base: 'none', md: 'grid' }}
+            gridTemplateColumns="repeat(3, 1fr)"
+            gap={1}
+            position="absolute"
+            left={3}
+            right={3}
+            bottom={3}
+            // la foto usa un z-index enorme (el navegador lo limita a 2147483647): igual valor + después en el DOM = queda encima
+            zIndex={2147483647}
+            px={3}
+            py="10px"
+            borderRadius="10px"
+            bg="rgba(10,10,10,0.75)"
+            backdropFilter="blur(8px)"
+            border="1px solid rgba(201,168,76,0.25)"
+            opacity={0}
+            transform="translateY(10px)"
+            transition="opacity 250ms ease, transform 300ms cubic-bezier(.23,1,.32,1)"
+            sx={onHover({ opacity: 1, transform: 'none' })}
+          >
+            {cardStats(player).map(([n, label]) => (
+              <Box key={label}>
+                <Text fontFamily="label" fontSize="24px" lineHeight={1} color="brand.gold">{n}</Text>
+                <Text fontSize="9px" letterSpacing="0.14em" textTransform="uppercase" color="rgba(255,255,255,0.45)">{label}</Text>
+              </Box>
+            ))}
+          </Box>
+        )}
       </Box>
 
       {/* ---- Datos ---- */}
