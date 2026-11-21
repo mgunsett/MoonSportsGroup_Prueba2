@@ -4,6 +4,7 @@ import { FaInstagram, FaTiktok } from 'react-icons/fa'
 import { FaThreads, FaXTwitter } from 'react-icons/fa6'
 import { FiArrowLeft, FiArrowRight, FiX } from 'react-icons/fi'
 import { players as allPlayers } from '../../utils/players'
+import { useSeasonStats } from '../../hooks/useSeasonStats'
 
 // ─── FICHA DEL REPRESENTADO · Radar ──────────────────────────────
 // Modelo "Radar" (Estadísticas N3) del catálogo plantillas_skills:
@@ -106,6 +107,39 @@ function Radar({ ratings }) {
           </g>
         )
       })}
+    </Box>
+  )
+}
+
+/* ──────── Temporada en curso (desde panel_resultados) ──────── */
+function SeasonStats({ slug }) {
+  const season = useSeasonStats(slug)
+  if (!season) return null // cargando, sin datos o DT sin estadísticas
+  const items = [
+    [season.partidos, 'Partidos'],
+    [season.goles, 'Goles'],
+    [season.asistencias, 'Asist.'],
+    [season.minutos != null ? `${Number(season.minutos).toLocaleString('es-AR')}'` : null, 'Minutos'],
+    [season.rating != null ? Number(season.rating).toFixed(1) : null, 'Rating'],
+  ].filter(([v]) => v != null)
+
+  return (
+    <Box border="1px solid rgba(201,168,76,0.3)" borderRadius="10px" bg="rgba(201,168,76,0.06)" px={4} py={3}
+      sx={{ animation: `seasonIn 300ms ${EASE}`, '@keyframes seasonIn': { from: { opacity: 0, transform: 'translateY(6px)' } }, '@media (prefers-reduced-motion: reduce)': { animation: 'none' } }}>
+      <Flex justify="space-between" align="baseline" mb={2}>
+        <Text fontSize="10.5px" fontWeight={600} letterSpacing="0.2em" textTransform="uppercase" color="brand.gold">
+          Temporada {season.temporada}
+        </Text>
+        <Text fontSize="10px" color="rgba(255,255,255,0.4)">API-Football</Text>
+      </Flex>
+      <Grid templateColumns={`repeat(${items.length}, minmax(0,1fr))`} gap={2}>
+        {items.map(([v, l]) => (
+          <Box key={l} minW={0}>
+            <Text fontFamily="label" fontSize={{ base: '22px', md: '26px' }} lineHeight={1} sx={{ fontVariantNumeric: 'tabular-nums' }}>{v}</Text>
+            <Text fontSize="9px" letterSpacing="0.12em" textTransform="uppercase" color="rgba(255,255,255,0.42)" noOfLines={1}>{l}</Text>
+          </Box>
+        ))}
+      </Grid>
     </Box>
   )
 }
@@ -247,7 +281,11 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
             </Text>
             <Radar ratings={p.stats?.ratings} />
 
-            <Grid templateColumns="repeat(3, 1fr)" borderTop="1px solid rgba(255,255,255,0.18)" pt="14px">
+            <Box borderTop="1px solid rgba(255,255,255,0.18)" pt="14px">
+            <Text fontSize="10.5px" fontWeight={600} letterSpacing="0.2em" textTransform="uppercase" color="rgba(255,255,255,0.42)" mb={2}>
+              En su carrera
+            </Text>
+            <Grid templateColumns="repeat(3, 1fr)">
               {statsOf(p).map(([n, l]) => (
                 <Box key={l}>
                   <Text fontFamily="display" fontSize="46px" lineHeight={0.85} sx={{ fontVariantNumeric: 'tabular-nums' }}>{n ?? '—'}</Text>
@@ -255,6 +293,9 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
                 </Box>
               ))}
             </Grid>
+            </Box>
+
+            {!isCoach && <SeasonStats slug={p.slug} />}
 
             {p.bio && <Text fontSize="13.5px" lineHeight={1.6} color="rgba(255,255,255,0.6)">{p.bio}</Text>}
 

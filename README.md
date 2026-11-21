@@ -203,3 +203,22 @@ Sección de la home entre los jugadores y "Qué hacemos". Muestra los partidos d
 - **Sumar un representado a la agenda:** agregale `slug` y `clubCountry` en `players.js` (el `slug` tiene que existir en el panel).
 
 **Configuración:** copiá `.env.example` a `.env` con las variables `VITE_FIREBASE_*` del panel, y cargalas también en el hosting (se leen en build time).
+
+## 📊 Estadísticas de la temporada en la ficha
+
+La ficha de cada representado (`PlayerModal`) muestra dos bloques de números:
+
+- **En su carrera:** totales escritos a mano en `src/utils/players.js` (`stats`). Las habilidades del radar (`stats.ratings`) también son manuales: API-Football no las tiene.
+- **Temporada {año}:** partidos, goles, asistencias, minutos y rating de la temporada en curso. Salen de `players/{slug}/stats/season`, que escribe `panel_resultados` al sincronizar con API-Football. Se actualizan solos.
+
+Detalles:
+- Se lee recién al abrir la ficha y queda en memoria (`src/hooks/useSeasonStats.js`).
+- Si el jugador no tiene `apiPlayerId` en el panel, no jugó en la temporada o es DT, el bloque no aparece.
+- Si las reglas de Firestore no permiten leer `stats`, el bloque no aparece y la consola muestra `[Ficha] …`. La regla necesaria, dentro de `match /players/{slug}`:
+
+  ```
+  match /stats/{docId} {
+    allow read: if true;
+    allow write: if request.auth != null;
+  }
+  ```
