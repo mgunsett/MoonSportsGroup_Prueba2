@@ -14,11 +14,25 @@ const theme = extendTheme({
       white:     '#FFFFFF',
       whiteMuted:'rgba(255,255,255,0.7)',
       whiteDim:  'rgba(255,255,255,0.15)',
+      // Paleta de las placas de Instagram (sección Agenda)
+      coal:      '#1d1a17',
+      coal2:     '#26221e',
+      coal3:     '#302b26',
+      cream:     '#f2e6cf',
+      creamMuted:'rgba(242,230,207,0.64)',
+      creamFaint:'rgba(242,230,207,0.42)',
+      line:      'rgba(242,230,207,0.10)',
+      line2:     'rgba(242,230,207,0.18)',
+      live:      '#e5484d',
     },
   },
   fonts: {
     heading: "'Six Caps', sans-serif",
     body:    "'Outfit', sans-serif",
+    // Títulos con la tipografía de Instagram. Provisoria: Bahianita.
+    // Cuando tengamos la fuente real de la marca, se cambia sólo acá.
+    display: "'Bahianita', 'Six Caps', sans-serif",
+    label:   "'Bebas Neue', sans-serif",
   },
   styles: {
     global: {

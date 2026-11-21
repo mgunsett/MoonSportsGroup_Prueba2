@@ -10,7 +10,8 @@ import ezequielPiovi from '../assets/images/ezequiel_piovi.webp'
 import estudiantes from '../assets/images/estudiantes.webp'
 import matiasDiBenedetto from '../assets/images/matias_dibenedetto.webp'
 import franciscoFydriszewski from '../assets/images/francisco_fydriszewski.webp'
-import independienteMedellin from '../assets/images/dim.webp'
+import junior from '../assets/images/escudo_junior.webp'
+import melgar from '../assets/images/escudo_melgar.webp'
 import cainFara from '../assets/images/cain_fara.webp'
 import juanruizgomez from '../assets/images/juan_ruizgomez.webp'
 import emelec from '../assets/images/emelec.webp'
@@ -21,14 +22,19 @@ import julianAquino from '../assets/images/julian_aquino.webp'
 import atlanta from '../assets/images/atlanta.webp'
 
 
+// slug:        id del jugador en panel_resultados (players/{slug}/matches en Firestore).
+//              Con él, sus partidos aparecen en la agenda de la home.
+// clubCountry: país de la liga donde juega hoy. Define la hora local de la agenda.
 export const players = [
   {
     id: 1,
     name: 'Miguel',
     lastname: 'Rondelli',
-    club: 'Cusco FC',
-    escudo: cusco,
-    sizes: { h: '30px', w: '30px' },
+    slug: 'miguel_rondelli',
+    clubCountry: 'Perú',
+    club: 'FBC Melgar',
+    escudo: melgar,
+    sizes: { h: '30px', w: '19px' },
     position: 'Director Técnico',
     nationality: 'Argentina',
     image: miguelRondelli,
@@ -54,6 +60,8 @@ export const players = [
     id: 2,
     name: 'Nicolas',
     lastname: 'Silva',
+    slug: 'nicolas_silva',
+    clubCountry: 'Perú',
     club: 'Cusco FC',
     escudo: cusco,
     sizes: { h: '30px', w: '30px' },
@@ -80,6 +88,8 @@ export const players = [
     id: 3,
     name: 'Luis',
     lastname: 'Ramos',
+    slug: 'luis_ramos',
+    clubCountry: 'Perú',
     club: 'Alianza Lima',
     escudo: alianzaLima,
     sizes: { h: '30px', w: '25px' },
@@ -106,6 +116,8 @@ export const players = [
     id: 4,
     name: 'Lisandro',
     lastname: 'Alzugaray',
+    slug: 'licha_alzugaray',
+    clubCountry: 'Perú',
     club: 'Univ de Deportes',
     escudo: universitario,
     sizes: { h: '30px', w: '30px' },
@@ -132,6 +144,8 @@ export const players = [
     id: 5,
     name: 'Facundo',
     lastname: 'Callejo',
+    slug: 'facu_callejo',
+    clubCountry: 'Perú',
     club: 'Cusco FC',
     escudo: cusco,
     position: 'Delantero',
@@ -160,6 +174,8 @@ export const players = [
     id: 6,
     name: 'Ezequiel',
     lastname: 'Piovi',
+    slug: 'keki-piovi',
+    clubCountry: 'Argentina',
     club: 'Estudiantes LP',
     escudo: estudiantes,
     sizes: { h: '30px', w: '23px' },
@@ -185,6 +201,8 @@ export const players = [
     id: 7,
     name: 'Matias',
     lastname: 'Di Benedetto',
+    slug: 'matias_dibenedetto',
+    clubCountry: 'Perú',
     club: 'Univ de Deportes',
     escudo: universitario,
     sizes: { h: '30px', w: '23px' },
@@ -211,9 +229,11 @@ export const players = [
     id: 8,
     name: 'Francisco',
     lastname: 'Fydriszewski',
-    club: 'Ind de Medellín',
-    escudo: independienteMedellin,
-    sizes: { h: '30px', w: '30px' },
+    slug: 'francisco_fydriszewski',
+    clubCountry: 'Colombia',
+    club: 'Junior de Barranquilla',
+    escudo: junior,
+    sizes: { h: '30px', w: '26px' },
     position: 'Delantero',
     nationality: 'Argentina / Perú',
     image: franciscoFydriszewski,
@@ -237,6 +257,8 @@ export const players = [
     id: 9,
     name: 'Cain',
     lastname: 'Fara',
+    slug: 'cain_fara',
+    clubCountry: 'Perú',
     club: 'Univ de Deportes',
     escudo: universitario,
     sizes: { h: '30px', w: '30px' },
@@ -264,6 +286,8 @@ export const players = [
     id: 10,
     name: 'Juan',
     lastname: 'Ruiz Gomez',
+    slug: 'jp_ruizgomez',
+    clubCountry: 'Ecuador',
     club: 'Emelec',
     escudo: emelec,
     sizes: { h: '30px', w: '30px' },
@@ -289,6 +313,8 @@ export const players = [
     id: 11,
     name: 'Hector',
     lastname: 'Fertoli',
+    slug: 'hector_fertoli',
+    clubCountry: 'Perú',
     club: 'Univ de Deportes',
     escudo: universitario,
     sizes: { h: '30px', w: '30px' },
@@ -314,6 +340,8 @@ export const players = [
     id: 12,
     name: 'Andres',
     lastname: 'Zanini',
+    slug: 'andres_zanini',
+    clubCountry: 'Chile',
     club: 'Dep La Serena',
     escudo: depLaSerena,
     sizes: { h: '30px', w: '27px' },  
@@ -339,6 +367,8 @@ export const players = [
     id: 13,
     name: 'Julian',
     lastname: 'Aquino',
+    slug: 'julian_aquino',
+    clubCountry: 'Argentina',
     club: 'Atlanta',
     escudo: atlanta,
     sizes: { h: '30px', w: '27px' },  
