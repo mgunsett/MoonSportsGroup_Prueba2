@@ -37,6 +37,7 @@ export function PlayerCard({ player, onClick, showStats = false }) {
       display="flex"
       flexDirection="column"
       position="relative"
+      isolation="isolate"
       overflow="hidden"
       borderRadius="xl"
       border="1px solid"
@@ -77,7 +78,7 @@ export function PlayerCard({ player, onClick, showStats = false }) {
         />
 
         <Image
-          zIndex={99999999999999}
+          zIndex={1}
           src={player.image}
           alt={`${player.name} ${player.lastname}, ${player.position} de ${player.club}`}
           loading="lazy"
@@ -130,8 +131,7 @@ export function PlayerCard({ player, onClick, showStats = false }) {
             left={3}
             right={3}
             bottom={3}
-            // la foto usa un z-index enorme (el navegador lo limita a 2147483647): igual valor + después en el DOM = queda encima
-            zIndex={2147483647}
+            zIndex={3}
             px={3}
             py="10px"
             borderRadius="10px"
@@ -161,7 +161,7 @@ export function PlayerCard({ player, onClick, showStats = false }) {
         px={{ base: 3, md: 5 }}
         pt={{ base: 2, md: 3 }}
         pb={{ base: 4, md: 5 }}
-        zIndex={99999}
+        zIndex={2}
       >
         <Text
           fontFamily="'Bebas Neue', sans-serif"
