@@ -112,16 +112,31 @@ function Radar({ ratings }) {
 }
 
 /* ──────── Temporada en curso (desde panel_resultados) ──────── */
-function SeasonStats({ slug }) {
-  const season = useSeasonStats(slug)
+const isDefender = (p) => /^Defensor/i.test(p.position || '')
+const n = (v) => (v === null || v === undefined || v === '' ? null : Number(v))
+
+function SeasonStats({ player }) {
+  const season = useSeasonStats(player.slug)
   if (!season) return null // cargando, sin datos o DT sin estadísticas
+
+  // Defensores: "Recuperos" (quites + intercepciones) en lugar de asistencias
+  const recuperos = n(season.quites) != null || n(season.intercepciones) != null
+    ? (n(season.quites) || 0) + (n(season.intercepciones) || 0)
+    : null
+  const third = isDefender(player) && recuperos != null
+    ? [recuperos, 'Recup.'] // quites + intercepciones
+    : [season.asistencias, 'Asist.']
+
   const items = [
     [season.partidos, 'Partidos'],
     [season.goles, 'Goles'],
-    [season.asistencias, 'Asist.'],
+    third,
     [season.minutos != null ? `${Number(season.minutos).toLocaleString('es-AR')}'` : null, 'Minutos'],
     [season.rating != null ? Number(season.rating).toFixed(1) : null, 'Rating'],
   ].filter(([v]) => v != null)
+
+  // Sin expulsiones en la temporada (la API suma roja directa + doble amarilla)
+  const noReds = n(season.rojas) === 0 && n(season.partidos) > 0
 
   return (
     <Box border="1px solid rgba(201,168,76,0.3)" borderRadius="10px" bg="rgba(201,168,76,0.06)" px={4} py={3}
@@ -140,6 +155,19 @@ function SeasonStats({ slug }) {
           </Box>
         ))}
       </Grid>
+      {noReds && (
+        <Flex mt={3} pt={3} borderTop="1px solid rgba(201,168,76,0.2)" align="center" gap={3}>
+          {/* tarjeta roja tachada */}
+          <Box position="relative" w="14px" h="19px" flexShrink={0} borderRadius="2px" bg="#e5484d" aria-hidden="true"
+            _after={{ content: '""', position: 'absolute', left: '-4px', right: '-4px', top: '50%', h: '2px', bg: '#0C0C0C', transform: 'rotate(-55deg)', boxShadow: '0 0 0 1px #C9A84C' }} />
+          <Box>
+            <Text fontFamily="label" fontSize="17px" letterSpacing="0.06em" lineHeight={1} color="brand.gold">0 tarjetas rojas</Text>
+            <Text fontSize="11px" color="rgba(255,255,255,0.55)">
+              Ninguna expulsión en {season.partidos} {Number(season.partidos) === 1 ? 'partido' : 'partidos'} de la temporada
+            </Text>
+          </Box>
+        </Flex>
+      )}
     </Box>
   )
 }
@@ -295,7 +323,7 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
             </Grid>
             </Box>
 
-            {!isCoach && <SeasonStats slug={p.slug} />}
+            {!isCoach && <SeasonStats key={p.id} player={p} />}
 
             {p.bio && <Text fontSize="13.5px" lineHeight={1.6} color="rgba(255,255,255,0.6)">{p.bio}</Text>}
 
