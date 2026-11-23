@@ -6,15 +6,6 @@ import { FiArrowLeft, FiArrowRight, FiX } from 'react-icons/fi'
 import { players as allPlayers } from '../../utils/players'
 import { useSeasonStats } from '../../hooks/useSeasonStats'
 
-// ─── FICHA DEL REPRESENTADO · Radar ──────────────────────────────
-// Modelo "Radar" (Estadísticas N3) del catálogo plantillas_skills:
-// apellido gigante de fondo, recorte al centro, datos a la izquierda y
-// radar de atributos + números a la derecha. Anterior / Siguiente (y las
-// flechas del teclado) recorren la lista sin cerrar. En mobile ocupa
-// toda la pantalla: foto arriba, datos y radar abajo.
-//
-// Props: player (el que se abre), isOpen, onClose y, opcional, `list`
-// (el orden en que se navega; por defecto, todos los representados).
 
 const EASE = 'cubic-bezier(.23,1,.32,1)'
 const MONTHS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
@@ -136,7 +127,7 @@ function SeasonStats({ player }) {
   ].filter(([v]) => v != null)
 
   // Sin expulsiones en la temporada (la API suma roja directa + doble amarilla)
-  const noReds = n(season.rojas) === 0 && n(season.partidos) > 0
+  const noReds = isDefender(player) && n(season.rojas) === 0 && n(season.partidos) > 0
 
   return (
     <Box border="1px solid rgba(201,168,76,0.3)" borderRadius="10px" bg="rgba(201,168,76,0.06)" px={4} py={3}
@@ -145,7 +136,7 @@ function SeasonStats({ player }) {
         <Text fontSize="10.5px" fontWeight={600} letterSpacing="0.2em" textTransform="uppercase" color="brand.gold">
           Temporada {season.temporada}
         </Text>
-        <Text fontSize="10px" color="rgba(255,255,255,0.4)">API-Football</Text>
+        
       </Flex>
       <Grid templateColumns={`repeat(${items.length}, minmax(0,1fr))`} gap={2}>
         {items.map(([v, l]) => (
@@ -248,11 +239,11 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
           </Box>
 
           {/* Apellido gigante de fondo */}
-          <Text aria-hidden="true" position="absolute" left="50%" top={{ base: '180px', lg: '46%' }} transform="translate(-50%, -50%)"
-            fontFamily="display" fontSize={{ base: '150px', lg: 'clamp(180px, 22vw, 300px)' }} lineHeight={0.8} whiteSpace="nowrap"
+          {/* <Text aria-hidden="true" position="absolute" left="50%" top={{ base: '180px', lg: '46%' }} transform="translate(-50%, -50%)"
+            fontFamily="display" fontSize={{ base: '150px', lg: 'clamp(180px, 22vw, 400px)' }} lineHeight={0.8} whiteSpace="nowrap"
             textTransform="uppercase" color="transparent" pointerEvents="none" sx={{ WebkitTextStroke: '1.5px rgba(201,168,76,0.18)' }}>
             {p.lastname}
-          </Text>
+          </Text> */}
 
           {/* Recorte (arriba en mobile, al centro en desktop) */}
           <Box position="relative" zIndex={1} order={{ base: -1, lg: 0 }} gridColumn={{ lg: 2 }} gridRow={{ lg: 1 }} h={{ base: '340px', lg: 'auto' }}
@@ -325,7 +316,7 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
 
             {!isCoach && <SeasonStats key={p.id} player={p} />}
 
-            {p.bio && <Text fontSize="13.5px" lineHeight={1.6} color="rgba(255,255,255,0.6)">{p.bio}</Text>}
+            
 
             {order.length > 1 && (
               <Flex gap={2} mt="auto">

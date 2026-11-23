@@ -72,7 +72,7 @@ export function StatusPill({ match }) {
   const label =
     status === 'live' ? 'En juego'
     : status === 'ft' ? 'Finalizado'
-    : `${when.isToday ? 'Hoy' : when.dayShort} · ${when.hasTime ? when.time : 'a confirmar'}`
+    : when.isToday ? 'Hoy' : when.dayShort // la hora ya se muestra en <Kickoff />
   return (
     <Flex
       as="span" align="center" gap="6px" whiteSpace="nowrap" px="9px" py="5px" borderRadius="full" border="1px solid"
@@ -91,20 +91,23 @@ export function StatusPill({ match }) {
   )
 }
 
-// "17:00 ARG" y, si cambia, "15:00 PER" debajo.
+// "17:00 ARG"; en otro país, "15:00 PER" y debajo "17:00 ARG".
 export function Kickoff({ when, size = '24px' }) {
   if (!when.hasTime) {
     return <Text fontFamily="label" fontSize={size} lineHeight={1} color="brand.creamMuted">A conf.</Text>
   }
+  // País distinto de Argentina: primero la hora local, después la de ARG.
+  const main = when.showLocal ? when.localTime : when.time
+  const mainAbbr = when.showLocal ? when.localAbbr : 'ARG'
   return (
     <Flex direction="column" gap="2px">
       <Text fontFamily="label" fontSize={size} lineHeight={1} sx={{ fontVariantNumeric: 'tabular-nums' }}>
-        {when.time}
-        <Text as="span" fontFamily="body" fontSize="10px" letterSpacing="0.12em" color="brand.creamFaint" ml="5px">ARG</Text>
+        {main}
+        <Text as="span" fontFamily="body" fontSize="10px" letterSpacing="0.12em" color="brand.creamFaint" ml="5px">{mainAbbr}</Text>
       </Text>
       {when.showLocal && (
         <Text fontSize="11px" color="brand.creamMuted" sx={{ fontVariantNumeric: 'tabular-nums' }}>
-          {when.localTime} {when.localAbbr}
+          {when.time} ARG
         </Text>
       )}
     </Flex>

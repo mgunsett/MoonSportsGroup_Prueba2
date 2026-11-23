@@ -5,9 +5,6 @@ import {
 } from '@chakra-ui/react'
 import { Kickoff, Shield, StatusPill, hasScore } from './parts'
 
-// ─── AGENDA COMPLETA ─────────────────────────────────────────────
-// Desktop: modal centrado. Mobile: hoja que sube desde abajo.
-// Chakra resuelve foco atrapado, Esc, clic afuera y bloqueo del scroll.
 
 export default function AgendaModal({ isOpen, onClose, matches, week }) {
   const isMobile = useBreakpointValue({ base: true, md: false }, { ssr: false })
@@ -54,9 +51,7 @@ export default function AgendaModal({ isOpen, onClose, matches, week }) {
           <Heading as="h2" fontFamily="display" fontWeight={400} textTransform="uppercase" fontSize={{ base: '36px', md: '44px' }} lineHeight={0.9} pr={12}>
             Agenda de la semana
           </Heading>
-          <Text fontFamily="body" fontWeight={400} fontSize="13px" color="brand.creamMuted" mt={2}>
-            {week} · {matches.length} {matches.length === 1 ? 'partido' : 'partidos'} · {people} {people === 1 ? 'representado' : 'representados'}
-          </Text>
+         
 
           {countries.length > 2 && (
             <Flex
@@ -114,8 +109,7 @@ export default function AgendaModal({ isOpen, onClose, matches, week }) {
           px={{ base: 5, md: 7 }} py={3} borderTop="1px solid" borderColor="brand.line"
           justifyContent="space-between" gap={3} flexWrap="wrap" fontSize="12px" color="brand.creamFaint"
         >
-          <Text>Horario de Argentina (ARG). Debajo, la hora local del país.</Text>
-          <Text>Datos de API-Football · se actualizan cada 3 h</Text>
+          <Text> </Text>
         </ModalFooter>
       </ModalContent>
     </Modal>

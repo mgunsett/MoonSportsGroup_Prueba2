@@ -9,26 +9,16 @@ import gsap from 'gsap'
 import logo from '../../assets/images/logo_principal.webp'
 import { useWeekAgenda } from '../../hooks/useWeekAgenda'
 
-// ─── NAVBAR · Barra ──────────────────────────────────────────────
-// Barra de ancho completo con la marca escrita. Transparente sobre el
-// Hero, sólida al bajar y con una línea dorada de progreso de lectura.
-// Marca la sección en la que estás. En mobile, el menú es una hoja que
-// sube desde abajo (igual que la agenda).
-
 const SOCIALS = [
   { label: 'Instagram', href: 'https://www.instagram.com/moonsportsgroup_/', icon: FaInstagram },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/company/moon-sports-group/', icon: FaLinkedinIn },
   { label: 'WhatsApp', href: 'https://wa.me/5491100000000', icon: FaWhatsapp },
 ]
-
-// Mismo orden que las secciones de la home. "Inicio" va en el logo.
-// `section` es el id que se marca como activo al scrollear la home.
 const NAV_LINKS = [
   { label: 'Jugadores', to: '/jugadores', section: 'jugadores-home', hint: 'Nuestros representados' },
   { label: 'Agenda', to: '/', hash: '#agenda', section: 'agenda' },
   { label: 'Servicios', to: '/', hash: '#services', section: 'services', hint: 'Qué hacemos por cada carrera' },
   { label: 'Nosotros', to: '/', hash: '#nosotros', section: 'nosotros', hint: 'Quiénes somos' },
-  { label: 'Contacto', to: '/', hash: '#contacto', section: 'contacto', hint: 'WhatsApp, email y redes' },
 ]
 const SECTION_IDS = ['hero', ...NAV_LINKS.map((l) => l.section)]
 
@@ -221,7 +211,7 @@ export default function Navbar() {
               _active={{ transform: 'scale(0.97)' }}
               sx={{ '@media (hover: hover) and (pointer: fine)': { _hover: { bg: 'brand.gold', color: 'brand.black' } } }}
             >
-              Hablemos
+              Contacto
             </Box>
 
             {/* Botón de menú (mobile y tablet) */}

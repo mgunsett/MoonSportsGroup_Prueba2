@@ -1,18 +1,10 @@
-// ─── AGENDA DE PARTIDOS DE LA SEMANA ─────────────────────────────
-// Funciones puras: reciben lo que hay en Firestore por jugador
-// (players/{slug}/matches/{last|next}, lo que escribe panel_resultados
-// con la sincronización de API-Football) y arman la agenda de la semana.
-//
-// Horarios: todo se muestra en hora de Argentina y, si es distinta, al
-// lado la hora local del país donde se juega.
-
 export const AR_TZ = 'America/Argentina/Buenos_Aires'
 
 // Mismo mapa que netlify/lib/mappers.js del panel.
 const COUNTRY_TZ = {
   Argentina: AR_TZ,
-  'Perú': 'America/Lima',
-  'México': 'America/Mexico_City',
+  Perú: 'America/Lima',
+  México: 'America/Mexico_City',
   Ecuador: 'America/Guayaquil',
   Colombia: 'America/Bogota',
   Chile: 'America/Santiago',
@@ -20,8 +12,8 @@ const COUNTRY_TZ = {
 
 const COUNTRY_ABBR = {
   Argentina: 'ARG',
-  'Perú': 'PER',
-  'México': 'MEX',
+  Perú: 'PER',
+  México: 'MEX',
   Ecuador: 'ECU',
   Colombia: 'COL',
   Chile: 'CHI',

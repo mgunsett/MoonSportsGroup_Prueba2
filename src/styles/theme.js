@@ -31,7 +31,7 @@ const theme = extendTheme({
     body:    "'Outfit', sans-serif",
     // Títulos con la tipografía de Instagram. Provisoria: Bahianita.
     // Cuando tengamos la fuente real de la marca, se cambia sólo acá.
-    display: "'Bahianita', 'Six Caps', sans-serif",
+    display: "'Six Caps', sans-serif",
     label:   "'Bebas Neue', sans-serif",
   },
   styles: {

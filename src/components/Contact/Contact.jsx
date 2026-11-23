@@ -2,12 +2,9 @@ import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import { FaInstagram, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa'
 import { FiArrowUpRight, FiMail } from 'react-icons/fi'
 import { useGsapReveal } from '../../hooks/useGsapReveal'
+import logoMoon from '../../assets/images/logo_principal.webp'
 
-// ─── CONTACTO · Directorio ───────────────────────────────────────
-// Modelo "Directorio" (Contacto 1) del catálogo plantillas_skills:
-// un renglón por canal, con el dato a la vista y para qué conviene usarlo.
 
-// TODO: confirmar el número real de WhatsApp (este parece de ejemplo).
 export const CONTACT_CHANNELS = [
   { label: 'WhatsApp', handle: '+54 9 11 0000 0000', note: 'La vía más rápida', href: 'https://wa.me/5491100000000', icon: FaWhatsapp },
   { label: 'Email', handle: 'info@moonsportsgroup.com', note: 'Propuestas y documentación', href: 'mailto:info@moonsportsgroup.com', icon: FiMail },
@@ -21,23 +18,31 @@ export default function Contact() {
   const sectionRef = useGsapReveal('up', 0.08)
 
   return (
-    <Box as="section" id="contacto" aria-labelledby="contacto-title" py={{ base: '72px', md: '110px' }} bg="brand.grayDark">
+    <Box as="section" id="contacto" aria-labelledby="contacto-title" py={{ base: '72px', md: '110px' }} bg="brand.grayDark" overflow="clip">
       <Grid
         ref={sectionRef}
         maxW="1280px" mx="auto" px={{ base: 4, md: 12 }}
         templateColumns={{ base: '1fr', lg: 'minmax(0,.8fr) minmax(0,1.2fr)' }}
         gap={{ base: 2, lg: 14 }}
         alignItems="start"
+        
       >
-        <Flex direction="column" gap={4} mb={{ base: 8, lg: 0 }}>
-          <Text className="section-label gsap-reveal">Ponete en contacto</Text>
+        <Flex direction="column" gap={4} mb={{ base: 8, lg: 0 }} position="relative">
+          <Text className="section-label gsap-reveal">Médios y redes</Text>
           <Heading id="contacto-title" className="gsap-reveal" as="h2" fontFamily="display" fontWeight={400} textTransform="uppercase"
             fontSize={{ base: '58px', md: '84px', xl: '96px' }} lineHeight={0.88} letterSpacing="0.01em">
-            Hablemos <Box as="span" color="brand.gold">hoy</Box>
+            CONT<Box as="span" color="brand.gold">ACTO</Box>
           </Heading>
-          <Text className="gsap-reveal" fontSize="16px" fontWeight={300} lineHeight={1.7} color="brand.whiteMuted" maxW="30em">
-            Para clubes, representados y prensa: elegí el canal que te quede más cómodo y te respondemos.
-          </Text>
+          {/* Logo en monocromo, como marca de agua (solo desktop) */}
+          <Box
+            as="img" src={logoMoon} alt="" aria-hidden="true" loading="lazy" position="absolute"
+            display='block'
+            w={{ lg: '10px', xl: '450px' }} h="auto" left={{ base: 40, md: 0 }} top={{ base: -56, md: 60 }}
+            transform={{ base: 'rotate(25deg)', md: 'translate(-40%,0) rotate(20deg) ' }}
+            filter="grayscale(1) brightness(1.6)" opacity={0.12}
+            pointerEvents="none" userSelect="none"
+            zIndex={0}
+          />
         </Flex>
 
         <Box borderTop="1px solid rgba(255,255,255,0.18)">
@@ -70,12 +75,11 @@ export default function Contact() {
               <Box minW={0}>
                 <Text fontFamily="label" fontSize={{ base: '23px', md: '28px' }} letterSpacing="0.03em" lineHeight={1}>{label}</Text>
                 <Text mt={1} fontSize="13px" color="rgba(255,255,255,0.42)" noOfLines={2}>
-                  <Box as="span" color="brand.whiteMuted">{handle}</Box> · {note}
+                  <Box as="span" color="brand.whiteMuted">{handle}</Box>
                 </Text>
               </Box>
-              <Flex align="center" gap={2} color="brand.gold" fontSize="11.5px" fontWeight={600} letterSpacing="0.14em" textTransform="uppercase">
-                <Box as="span" display={{ base: 'none', md: 'inline' }}>Escribir</Box>
-                <Box as="span" className="go-icon" display="flex" transition={`transform 250ms ${EASE}`}><FiArrowUpRight size={16} aria-hidden="true" /></Box>
+              <Flex align="center" gap={2} color="brand.gold" fontSize="11.5px" fontWeight={600} letterSpacing="0.14em" textTransform="uppercase">       
+                <Box as="span" className="go-icon" display="flex" transition={`transform 250ms ${EASE}`}><FiArrowUpRight size={28} aria-hidden="true" /></Box>
               </Flex>
             </Grid>
           ))}

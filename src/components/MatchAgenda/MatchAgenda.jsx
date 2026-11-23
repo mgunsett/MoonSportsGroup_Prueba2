@@ -8,12 +8,6 @@ import { namesLine } from '../../utils/agenda'
 import { Avatars, Shield, hasScore } from './parts'
 import AgendaModal from './AgendaModal'
 
-// ─── PARTIDOS DE LA SEMANA ───────────────────────────────────────
-// Va entre los jugadores y "Qué hacemos". Los datos salen de
-// panel_resultados (API-Football → Firestore). Si esta semana no hay
-// partidos (receso, pretemporada) o Firebase no está configurado, la
-// sección no se muestra y el resto de la home queda igual.
-
 const BOARD_ROWS = 5
 
 export default function MatchAgenda() {
@@ -27,9 +21,7 @@ function AgendaContent({ matches, week }) {
   const modal = useDisclosure()
   const location = useLocation()
 
-  // La sección aparece después de cargar los datos y empuja lo que
-  // está debajo: las animaciones de scroll de las otras secciones
-  // tienen que recalcular dónde empiezan.
+
   useEffect(() => {
     ScrollTrigger.refresh()
     if (location.hash === '#agenda') {
@@ -61,10 +53,11 @@ function AgendaContent({ matches, week }) {
       id="agenda"
       aria-labelledby="agenda-title"
       py={{ base: '72px', md: '110px' }}
-      bg="brand.coal"
+      bg="brand.black"
       color="brand.cream"
       position="relative"
       overflow="hidden"
+      borderTop="1px solid" borderBottom="1px solid" borderColor="brand.line"
     >
       {/* Trazos finos, como en las placas de Instagram */}
       <Box
@@ -101,14 +94,14 @@ function AgendaContent({ matches, week }) {
             Partidos de{' '}
             <Box as="span" color="brand.gold">la semana</Box>
           </Heading>
-          <Text className="gsap-reveal" fontSize="16px" fontWeight={300} lineHeight={1.7} color="brand.creamMuted" maxW="34em">
+          {/* <Text className="gsap-reveal" fontSize="16px" fontWeight={300} lineHeight={1.7} color="brand.creamMuted" maxW="34em">
             Dónde y cuándo juegan nuestros representados. Esta semana tenemos{' '}
             <Text as="strong" color="brand.cream" fontWeight={500}>
               {people} {people === 1 ? 'profesional' : 'profesionales'} en cancha
             </Text>
             , en {matches.length} {matches.length === 1 ? 'partido' : 'partidos'}
             {countries > 1 ? ` de ${countries} países` : ''}.
-          </Text>
+          </Text> */}
 
           <Flex className="gsap-reveal" borderTop="1px solid" borderColor="brand.line" pt={5} mt={1}>
             <Tally value={live} label="En juego" live={live > 0} />
@@ -138,7 +131,7 @@ function AgendaContent({ matches, week }) {
           </Box>
 
           <Flex px={{ base: 4, md: 6 }} py={4} justify="space-between" align="center" gap={3} direction={{ base: 'column', sm: 'row' }}>
-            <Text fontSize="12px" color="brand.creamFaint">Horario de Argentina</Text>
+            <Box/>
             <Button
               onClick={modal.onOpen}
               variant="gold"
@@ -147,7 +140,7 @@ function AgendaContent({ matches, week }) {
               color="brand.coal"
             >
               Ver agenda completa
-              <Text as="span" fontFamily="label" fontSize="15px" letterSpacing="0.06em" opacity={0.75} ml={2}>· {matches.length}</Text>
+              
             </Button>
           </Flex>
         </Box>
@@ -197,7 +190,7 @@ function BoardRow({ match: m }) {
           <Text fontFamily="label" fontSize="18px" lineHeight={1} color="brand.creamMuted" letterSpacing="0.04em">Final</Text>
         ) : (
           <Text fontFamily="label" fontSize="24px" lineHeight={1} sx={{ fontVariantNumeric: 'tabular-nums' }}>
-            {m.when.hasTime ? m.when.time : '—'}
+            {m.when.hasTime ? (m.when.showLocal ? m.when.localTime : m.when.time) : '—'}
           </Text>
         )}
         <Text fontSize="10px" letterSpacing="0.16em" textTransform="uppercase" color="brand.creamMuted">
@@ -205,7 +198,7 @@ function BoardRow({ match: m }) {
         </Text>
         {m.status === 'next' && m.when.showLocal && (
           <Text fontSize="10.5px" color="brand.creamFaint" sx={{ fontVariantNumeric: 'tabular-nums' }}>
-            {m.when.localTime} {m.when.localAbbr}
+            {m.when.time} ARG
           </Text>
         )}
       </Flex>

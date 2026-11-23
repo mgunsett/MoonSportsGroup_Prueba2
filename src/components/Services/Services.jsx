@@ -4,12 +4,6 @@ import { useGsapReveal } from '../../hooks/useGsapReveal'
 import recurso2 from '../../assets/images/recursos/recurso_2.webp'
 import { BallIcon, BoardIcon, CameraIcon, GlobeIcon, ScaleIcon, TargetIcon } from './ServiceIcons'
 
-// ─── QUÉ HACEMOS · Titulares ─────────────────────────────────────
-// Modelo "Titulares" (Prensa N1) del catálogo plantillas_skills: cada
-// servicio es un titular; al tocarlo se despliega su descripción con
-// tres puntos clave. Uno abierto a la vez. Cierra con un llamado a la
-// acción para quien busca representación.
-
 const services = [
   {
     id: 'futbolistas',
@@ -95,9 +89,7 @@ export default function Services() {
             fontSize={{ base: '58px', md: '84px', xl: '96px' }} lineHeight={0.88} letterSpacing="0.01em">
             Qué <Box as="span" color="brand.gold">hacemos</Box>
           </Heading>
-          <Text className="gsap-reveal" fontSize="16px" fontWeight={300} lineHeight={1.7} color="brand.whiteMuted" maxW="34em">
-            Un servicio integral para cada representado: cubrimos todo lo que hace a su carrera, dentro y fuera de la cancha.
-          </Text>
+          
         </Flex>
 
         <Box borderTop="1px solid rgba(255,255,255,0.18)">
@@ -180,10 +172,10 @@ export default function Services() {
           })}
         </Box>
 
-        {/* Cierre */}
+        {/* Cierre
         <Flex className="gsap-reveal" justify="space-between" align="center" gap={5} wrap="wrap" mt={10}>
           <Text fontFamily="label" fontSize={{ base: '24px', md: '26px' }} letterSpacing="0.04em">
-            ¿Querés que <Box as="span" color="brand.gold">te representemos</Box>?
+            ¿Necesi <Box as="span" color="brand.gold">te representemos</Box>?
           </Text>
           <Box
             as="button" type="button" onClick={goContact} w={{ base: '100%', sm: 'auto' }}
@@ -193,9 +185,9 @@ export default function Services() {
             _active={{ transform: 'scale(0.97)' }}
             sx={{ '@media (hover: hover) and (pointer: fine)': { _hover: { boxShadow: '0 10px 28px rgba(201,168,76,0.3)' } } }}
           >
-            Hablemos
+            Contactanos
           </Box>
-        </Flex>
+        </Flex> */}
       </Box>
     </Box>
   )

@@ -8,13 +8,6 @@ import bgJugadores from '../../assets/images/bg_jugadores.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ─── SOBRE NOSOTROS · Dossier ────────────────────────────────────
-// Modelo "Dossier" (Estadísticas N4) del catálogo plantillas_skills.
-// La foto de los representados queda a la derecha, despejada: todo el
-// contenido va en la columna izquierda y un degradado lateral lo hace
-// legible sin tapar la foto. En mobile la foto va arriba.
-
-// Contadores de la agencia (a confirmar con Moon)
 const STATS = [
   { value: 25, label: 'Transferencias' },
   { value: 15, label: 'Representados' },
@@ -113,11 +106,11 @@ export default function Nosotros() {
           position="absolute"
           right={0}
           bottom={0}
-          h={{ lg: 'min(76%, 600px)', xl: 'min(94%, 780px)' }}
+          h={{ lg: 'min(92%, 760px)', xl: '100%' }}
           w="auto"
           maxW="none"
           // difumina el borde superior de la foto (donde arranca su fondo con textura)
-          sx={{ WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, #000 28%)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 28%)' }}
+          sx={{ WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, #000 18%)', maskImage: 'linear-gradient(180deg, transparent 0%, #000 18%)' }}
         />
       </Box>
 
@@ -157,7 +150,7 @@ export default function Nosotros() {
               </Flex>
             </Box>
 
-            <Box>
+            {/* <Box>
               <Text fontSize="11px" fontWeight={600} letterSpacing="0.24em" textTransform="uppercase" color="brand.gold" mb={1}>
                 Cómo trabajamos
               </Text>
@@ -170,7 +163,7 @@ export default function Nosotros() {
                   </Box>
                 </Grid>
               ))}
-            </Box>
+            </Box> */}
           </Grid>
         </Box>
       </Box>

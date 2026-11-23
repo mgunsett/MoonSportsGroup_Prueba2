@@ -5,13 +5,6 @@ import { useGsapReveal } from '../../hooks/useGsapReveal'
 import PlayerModal from '../PlayerModal/PlayerModal'
 import { players } from '../../utils/players'
 
-// ─── LOS JUGADORES · Paneles ─────────────────────────────────────
-// Modelo "Paneles" (Videos N4) del catálogo plantillas_skills, adaptado
-// a un plantel: un panel vertical por representado, ordenados por línea.
-// El abierto muestra foto, nombre, club y 3 números; el resto queda en
-// gris con el apellido en vertical.
-//   Desktop: se abre al pasar el mouse; el clic abre la ficha (PlayerModal).
-//   Mobile:  acordeón de bandas; el primer toque despliega, el segundo abre la ficha.
 
 const LINES = [
   (p) => p.position === 'Delantero',
@@ -113,16 +106,12 @@ export default function PlayersPanels() {
         {/* ---- Encabezado ---- */}
         <Flex ref={headerRef} justify="space-between" align={{ base: 'flex-start', md: 'flex-end' }} direction={{ base: 'column', md: 'row' }} gap={6} mb={{ base: 8, md: 9 }}>
           <Flex direction="column" gap={4} maxW="640px">
-            <Text className="section-label gsap-reveal">Nuestros representados</Text>
+            <Text className="section-label gsap-reveal">Representados</Text>
             <Heading id="jugadores-title" className="gsap-reveal" as="h2" fontFamily="display" fontWeight={400} textTransform="uppercase"
               fontSize={{ base: '58px', md: '84px', xl: '96px' }} lineHeight={0.88} letterSpacing="0.01em">
-              Los <Box as="span" color="brand.gold">jugadores</Box>
+              Nuestros <Box as="span" color="brand.gold">jugadores</Box>
             </Heading>
-            <Text className="gsap-reveal" fontSize="16px" fontWeight={300} lineHeight={1.7} color="brand.whiteMuted">
-              Un panel por cada uno de los{' '}
-              <Text as="strong" color="brand.white" fontWeight={500}>{players.length} profesionales</Text>{' '}
-              que representamos, ordenados por línea. Elegí uno para ver sus números y abrir su ficha.
-            </Text>
+            
           </Flex>
           <Flex
             as={RouterLink} to="/jugadores" className="gsap-reveal" align="center" gap={2} flexShrink={0}

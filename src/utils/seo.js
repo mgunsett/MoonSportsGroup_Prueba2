@@ -4,7 +4,7 @@
 //    afecta canonical, Open Graph, sitemap.xml y JSON-LD.
 // ============================================================
 
-export const SITE_URL = 'https://www.moonsportsgroup.com'
+export const SITE_URL = 'https://www.moonsports-group.com'
 export const SITE_NAME = 'Moon Sports Group'
 export const LOCALE = 'es_AR'
 

@@ -4,10 +4,6 @@ import { FiArrowUp } from 'react-icons/fi'
 import logo from '../../assets/images/logo_principal.webp'
 import sportfolioWeb from '../../assets/images/logo_sport.webp'
 
-// ─── FOOTER · Pulido ─────────────────────────────────────────────
-// Modelo "Pulido" (Footer 1, aplicado en el starter de plantillas_skills):
-// marca y redes arriba; abajo, copyright, "Volver arriba" y el crédito
-// de desarrollo con el logo de Sportfolio (igual que en las landings).
 
 const SOCIALS = [
   { label: 'WhatsApp', href: 'https://wa.me/5491100000000', icon: FaWhatsapp },
@@ -25,7 +21,7 @@ export default function Footer() {
   }
 
   return (
-    <Box as="footer" bg="brand.black" borderTop="1px solid rgba(201,168,76,0.18)" px={{ base: 4, md: 12 }}>
+    <Box as="footer" bg="brand.black" borderTop="1px solid rgba(201,168,76,0.18)" px={{ base: 4, md: 12 }} zIndex={99999}>
       <Box maxW="1280px" mx="auto" pt={{ base: 12, md: 14 }} pb={7}>
         {/* Marca + redes */}
         <Flex justify="space-between" align={{ base: 'flex-start', md: 'center' }} direction={{ base: 'column', md: 'row' }} gap={6}
