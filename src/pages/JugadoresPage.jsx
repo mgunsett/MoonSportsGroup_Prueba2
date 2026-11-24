@@ -1,276 +1,184 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import {
-  Box, Grid, Heading, Image, Text, Flex, Link,
-} from '@chakra-ui/react'
+import { Box, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import gsap from 'gsap'
 import { players } from '../utils/players'
 import Footer from '../components/Footer/Footer'
+import PlayerModal from '../components/PlayerModal/PlayerModal'
+import { PlayerCard } from '../components/PlayerCard/PlayerCard'
+import { Seo } from '../components/Seo/Seo'
+import { breadcrumbSchema, playersListSchema } from '../utils/seo'
 
-function JugadorCard({ player, index }) {
-  const cardRef = useRef(null)
+// ─── /jugadores · Mosaico ────────────────────────────────────────
+// Modelo "Pestañas y mosaico" (Galería 1) del catálogo plantillas_skills:
+// filtro Jugadores / DT, grilla de tarjetas con números al pasar el mouse
+// y una tarjeta final "¿Querés ser parte?" que completa la última fila,
+// así la grilla cierra sin huecos en cualquier ancho.
 
-  return (
-    <Box
-      ref={cardRef}
-      className="jugador-card-full"
-      position="relative"
-      overflow="hidden"
-      h="480px"
-      cursor="pointer"
-      data-cursor-hover
-    >
-      <Image
-        src={player.image}
-        alt={player.name}
-        w="100%"
-        h="100%"
-        objectFit="cover"
-        objectPosition="top"
-        filter="grayscale(30%)"
-        transition="transform 0.8s ease, filter 0.4s"
-        sx={{
-          '.jugador-card-full:hover &': {
-            transform: 'scale(1.06)',
-            filter: 'grayscale(0%)',
-          },
-        }}
-      />
+const TABS = [
+  { key: 'player', label: 'Jugadores' },
+  { key: 'coach', label: 'DT · Director Técnico' },
+]
 
-      {/* Overlay */}
-      <Box
-        className="jugador-card-overlay"
-        position="absolute"
-        inset={0}
-        background="linear-gradient(to top, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.3) 40%, transparent 70%)"
-        transition="background 0.4s"
-        sx={{
-          '.jugador-card-full:hover &': {
-            background: 'linear-gradient(to top, rgba(8,8,8,0.98) 0%, rgba(8,8,8,0.6) 50%, rgba(201,168,76,0.05) 100%)',
-          },
-        }}
-      />
+// Columnas de la grilla por breakpoint (base / md / lg)
+const COLS = { base: 2, md: 3, lg: 4 }
+const spanFor = (n, cols) => `span ${cols - (n % cols)}`
 
-      {/* Body */}
-      <Box
-        className="jugador-card-body"
-        position="absolute"
-        bottom={0}
-        left={0}
-        right={0}
-        p="32px 28px"
-        transition="transform 0.4s ease"
-      >
-        <Text
-          fontFamily="'Bebas Neue', sans-serif"
-          fontSize="64px"
-          color="rgba(201,168,76,0.15)"
-          lineHeight={1}
-          mb="-8px"
-        >
-          {String(index + 1).padStart(2, '0')}
-        </Text>
+const CLUBS = new Set(players.map((p) => p.club)).size
+const COUNTRIES = new Set(players.map((p) => p.clubCountry).filter(Boolean)).size
 
-        <Text
-          fontFamily="'Bebas Neue', sans-serif"
-          fontSize="32px"
-          color="brand.white"
-          letterSpacing="0.03em"
-          lineHeight={1}
-        >
-          {player.name}
-        </Text>
-
-        <Flex gap={4} mt={3} align="center">
-          <Text
-            fontSize="12px"
-            letterSpacing="0.15em"
-            color="brand.gold"
-            textTransform="uppercase"
-            fontWeight={600}
-          >
-            {player.club}
-          </Text>
-          <Box w="4px" h="4px" bg="rgba(255,255,255,0.3)" borderRadius="50%" />
-          <Text
-            fontSize="12px"
-            letterSpacing="0.1em"
-            color="brand.whiteMuted"
-            textTransform="uppercase"
-          >
-            {player.position}
-          </Text>
-        </Flex>
-
-        <Text className="jugador-bio">{player.bio}</Text>
-      </Box>
-    </Box>
-  )
-}
+const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 export default function JugadoresPage() {
   const gridRef = useRef(null)
+  const headerRef = useRef(null)
+  const [selectedPlayer, setSelectedPlayer] = useState(null)
+  const [activeTab, setActiveTab] = useState('player')
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
+  const list = players.filter((p) => p.type === activeTab)
+  const count = (key) => players.filter((p) => p.type === key).length
 
-    // Entrance animation
+  useEffect(() => { window.scrollTo(0, 0) }, [])
+
+  // Entrada del encabezado
+  useLayoutEffect(() => {
+    if (reduceMotion()) return undefined
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.jugador-card-full',
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: 'power3.out',
-          delay: 0.3,
-        }
-      )
-      gsap.fromTo(
-        '.jugadores-header-content > *',
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.12,
-          ease: 'power3.out',
-          delay: 0.1,
-        }
-      )
-    })
-
+      gsap.from('.jug-head > *', { opacity: 0, y: 24, duration: 0.8, stagger: 0.08, ease: 'power3.out', delay: 0.1 })
+    }, headerRef)
     return () => ctx.revert()
   }, [])
 
+  // Las tarjetas entran escalonadas al cargar y al cambiar de pestaña
+  useLayoutEffect(() => {
+    if (reduceMotion() || !gridRef.current) return undefined
+    const ctx = gsap.context(() => {
+      gsap.fromTo(gridRef.current.children, { opacity: 0, y: 24 },
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.04, ease: 'power3.out', clearProps: 'transform' })
+    }, gridRef)
+    return () => ctx.revert()
+  }, [activeTab])
+
   return (
-    <Box bg="brand.black" minH="100vh" pt="100px">
+    <Box bg="brand.black" minH="100vh" pt={{ base: '96px', md: '120px' }}>
+      <Seo
+        title="Nuestros Representados — Futbolistas y Directores Técnicos"
+        description="Conocé a los futbolistas y directores técnicos representados por Moon Sports Group: perfiles, clubes y trayectoria de jugadores profesionales en ligas de Sudamérica y Europa."
+        path="/jugadores"
+        type="profile"
+        jsonLd={[
+          playersListSchema(players),
+          breadcrumbSchema([
+            { name: 'Inicio', path: '/' },
+            { name: 'Representados', path: '/jugadores' },
+          ]),
+        ]}
+      />
 
-      {/* Header */}
-      <Box py="80px" pb="64px" textAlign="center" position="relative" overflow="hidden">
-        {/* Big watermark text */}
-        <Text
-          position="absolute"
-          fontFamily="'Bebas Neue', sans-serif"
-          fontSize={{ base: '80px', md: '180px' }}
-          color="rgba(201,168,76,0.03)"
-          left="50%"
-          top="50%"
-          transform="translate(-50%, -50%)"
-          whiteSpace="nowrap"
-          pointerEvents="none"
-          letterSpacing="0.05em"
-          userSelect="none"
-        >
-          REPRESENTADOS
-        </Text>
+      <Box maxW="1280px" mx="auto" px={{ base: 4, md: 12 }} pb={{ base: '72px', md: '110px' }}>
+        {/* ---- Encabezado ---- */}
+        <Flex ref={headerRef} justify="space-between" align={{ base: 'flex-start', md: 'flex-end' }} direction={{ base: 'column', md: 'row' }} gap={7} mb={10}>
+          <Flex className="jug-head" direction="column" gap={4} maxW="680px">
+            <Text className="section-label">Moon Sports Group</Text>
+            <Heading as="h1" fontFamily="display" fontWeight={400} textTransform="uppercase"
+              fontSize={{ base: '64px', md: '96px', xl: '120px' }} lineHeight={0.88} letterSpacing="0.01em">
+              Nuestros <Box as="span" color="brand.gold">representados</Box>
+            </Heading>
+            <Text fontSize="16px" fontWeight={300} lineHeight={1.7} color="brand.whiteMuted" maxW="34em">
+              Futbolistas y técnicos que confían en Moon Sports Group para gestionar su carrera. Tocá cualquiera para ver su ficha.
+            </Text>
+          </Flex>
+          <Flex className="jug-head" gap={7} w={{ base: '100%', md: 'auto' }} justify={{ base: 'space-between', md: 'flex-start' }}>
+            {[[players.length, 'Representados'], [CLUBS, 'Clubes'], [COUNTRIES, 'Países']].map(([n, l]) => (
+              <Box key={l}>
+                <Text fontFamily="display" fontSize={{ base: '42px', md: '52px' }} lineHeight={0.85}>{n}</Text>
+                <Text fontSize="10.5px" letterSpacing="0.16em" textTransform="uppercase" color="rgba(255,255,255,0.42)">{l}</Text>
+              </Box>
+            ))}
+          </Flex>
+        </Flex>
 
-        <Box className="jugadores-header-content" position="relative" zIndex={1}>
-          <Text className="section-label" style={{ justifyContent: 'center' }}>
-            Moon Sports Group
-          </Text>
+        {/* ---- Filtro Jugadores / DT ---- */}
+        <Flex role="tablist" aria-label="Filtrar representados" gap={2} borderBottom="1px solid rgba(255,255,255,0.08)" mb={7} overflowX="auto"
+          sx={{ scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' } }}>
+          {TABS.map((t) => {
+            const on = activeTab === t.key
+            return (
+              <Box
+                key={t.key}
+                as="button"
+                type="button"
+                role="tab"
+                aria-selected={on}
+                onClick={() => setActiveTab(t.key)}
+                flexShrink={0}
+                px="14px"
+                py={3}
+                mb="-1px"
+                fontFamily="label"
+                fontSize="19px"
+                letterSpacing="0.1em"
+                color={on ? 'brand.gold' : 'brand.whiteMuted'}
+                borderBottom="2px solid"
+                borderColor={on ? 'brand.gold' : 'transparent'}
+                transition="color 200ms ease, border-color 200ms ease"
+                sx={{ '@media (hover: hover) and (pointer: fine)': { _hover: { color: on ? 'brand.gold' : 'brand.white' } } }}
+              >
+                {t.label}
+                <Text as="span" fontFamily="body" fontSize="11px" fontWeight={600} ml="6px" opacity={0.55}>{count(t.key)}</Text>
+              </Box>
+            )
+          })}
+        </Flex>
 
-          <Heading
-            fontFamily="'Bebas Neue', sans-serif"
-            fontSize={{ base: '48px', md: '96px' }}
-            lineHeight={1}
-            mt={4} mb={6}
-          >
-            NUESTROS{' '}
-            <Box as="span" color="brand.gold">
-              REPRESENTADOS
-            </Box>
-          </Heading>
-
-          <Text
-            color="brand.whiteMuted"
-            fontSize="16px"
-            maxW="600px"
-            mx="auto"
-            lineHeight={1.7}
-            fontWeight={300}
-          >
-            Un selecto grupo de futbolistas y técnicos profesionales que confían
-            en Moon Sports Group para gestionar sus carreras al más alto nivel.
-          </Text>
-        </Box>
-      </Box>
-
-      {/* Grid */}
-      <Box maxW="1280px" mx="auto" px={{ base: 4, md: 12 }} pb="120px">
+        {/* ---- Grilla ---- */}
         <Grid
           ref={gridRef}
-          templateColumns={{
-            base: '1fr',
-            sm: 'repeat(2, 1fr)',
-            lg: 'repeat(3, 1fr)',
-          }}
-          gap="2px"
+          role="tabpanel"
+          templateColumns={{ base: `repeat(${COLS.base}, 1fr)`, md: `repeat(${COLS.md}, 1fr)`, lg: `repeat(${COLS.lg}, 1fr)` }}
+          gap={{ base: '10px', md: 4 }}
         >
-          {players.map((player, i) => (
-            <JugadorCard key={player.id} player={player} index={i} />
+          {list.map((player) => (
+            <Box key={player.id}>
+              <PlayerCard player={player} onClick={setSelectedPlayer} showStats />
+            </Box>
           ))}
 
-          {/* CTA Card */}
-          <Box
-            className="jugador-card-full"
-            position="relative"
-            h="480px"
-            bg="brand.grayMid"
-            border="1px dashed"
-            borderColor="brand.grayBorder"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            cursor="pointer"
-            transition="border-color 0.4s"
-            _hover={{ borderColor: 'brand.goldDark' }}
-            onClick={() => {
-              document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })
-            }}
-            data-cursor-hover
+          {/* Completa la última fila: la grilla nunca queda con huecos */}
+          <Flex
+            as={RouterLink}
+            to="/#contacto"
+            gridColumn={{ base: spanFor(list.length, COLS.base), md: spanFor(list.length, COLS.md), lg: spanFor(list.length, COLS.lg) }}
+            direction="column"
+            justify="center"
+            align="flex-start"
+            gap={3}
+            p={{ base: 5, md: 7 }}
+            minH={{ base: '200px', md: '260px' }}
+            borderRadius="xl"
+            border="1px dashed rgba(201,168,76,0.35)"
+            bg="radial-gradient(120% 90% at 50% 100%, rgba(201,168,76,0.08), transparent 65%), #0A0A0A"
+            transition="border-color 300ms ease, transform 300ms cubic-bezier(.23,1,.32,1)"
+            sx={{ '@media (hover: hover) and (pointer: fine)': { _hover: { borderColor: 'rgba(201,168,76,0.6)', transform: 'translateY(-4px)' } } }}
           >
-            <Box textAlign="center" p={10}>
-              <Text fontSize="48px" mb={4} color="brand.gold">+</Text>
-              <Text
-                fontFamily="'Bebas Neue', sans-serif"
-                fontSize="28px"
-                color="brand.white"
-                letterSpacing="0.05em"
-              >
-                ¿Sos Jugador?
-              </Text>
-              <Text fontSize="14px" color="brand.whiteMuted" mt={2}>
-                Sumate a nuestra agencia
-              </Text>
-              <RouterLink to="/#contacto">
-                <Box
-                  as="span"
-                  display="inline-block"
-                  mt={6}
-                  px={6}
-                  py={3}
-                  bg="linear-gradient(135deg, #C9A84C, #9A7A35)"
-                  color="brand.black"
-                  fontWeight={700}
-                  fontSize="12px"
-                  letterSpacing="0.1em"
-                  textTransform="uppercase"
-                  borderRadius="4px"
-                  transition="all 0.3s"
-                  _hover={{ transform: 'translateY(-2px)' }}
-                >
-                  Contactar
-                </Box>
-              </RouterLink>
+            <Text fontFamily="display" fontSize={{ base: '32px', md: '40px' }} lineHeight={0.9} textTransform="uppercase">
+              ¿Querés ser <Box as="span" color="brand.gold">parte</Box>?
+            </Text>
+            <Text fontSize="14px" color="brand.whiteMuted" maxW="26em">
+              {activeTab === 'player'
+                ? 'Si sos futbolista y buscás representación, hablemos.'
+                : 'Si sos director técnico y buscás un nuevo proyecto, hablemos.'}
+            </Text>
+            <Box as="span" mt={1} px={5} py="12px" borderRadius="4px" bg="linear-gradient(135deg, #C9A84C, #9A7A35)" color="brand.black"
+              fontSize="12px" fontWeight={600} letterSpacing="0.12em" textTransform="uppercase">
+              Quiero que me representen
             </Box>
-          </Box>
+          </Flex>
         </Grid>
       </Box>
 
       <Footer />
+      <PlayerModal player={selectedPlayer} isOpen={!!selectedPlayer} onClose={() => setSelectedPlayer(null)} list={list} />
     </Box>
   )
 }
