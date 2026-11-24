@@ -10,14 +10,14 @@ const services = [
   {
     num: '01',
     icon: '⚽',
-    title: 'Representación de Jugadores',
-    desc: 'Negociación de contratos, gestión de transferencias y asesoramiento estratégico para maximizar el potencial de cada jugador a nivel nacional e internacional.',
+    title: 'Representación de futbolistas ',
+    desc: 'Con relaciones sólidas y confiables en diferentes ligas alrededor del mundo, podemos ayudar a desarrollar la carrera de nuestros futbolistas con una infinidad de oportunidades.',
   },
   {
     num: '02',
-    icon: '🏆',
-    title: 'Representación de Técnicos',
-    desc: 'Acompañamiento profesional a directores técnicos en la búsqueda y negociación de proyectos deportivos acordes a sus objetivos y filosofía de juego.',
+    icon: '🥇',
+    title: 'Desarrollo profesional',
+    desc: 'Preparación física y nutricional\nAsesoramiento y manejo de medios y preparación para entrevistas\nConcierge para asesorar con viajes y logística',
   },
   {
     num: '03',
@@ -28,8 +28,8 @@ const services = [
   {
     num: '04',
     icon: '⚖️',
-    title: 'Asesoría Legal y Financiera',
-    desc: 'Acompañamiento en aspectos jurídicos y financieros para proteger los intereses del cliente en cada etapa de su carrera y vida profesional.',
+    title: 'Negociación de contratos',
+    desc: 'Conocimientos y experiencia incomparables en el proceso de negociación de contratos; entendemos exactamente cuánto valor aportar nuestros clientes a sus equipos y sabemos cómo obtener excelentes resultados en la mesa de negociaciones\nAsesoría legal a futbolistas',
   },
   {
     num: '05',
