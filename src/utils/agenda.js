@@ -142,10 +142,10 @@ export function describeKickoff(date, country, hasTime, now = new Date()) {
 }
 
 // rows: [{ person, country, matches: { last, next } }]
-// Devuelve un partido por partido real (no por jugador): si cuatro
-// representados juegan el mismo partido, aparece una vez con los cuatro.
-export function buildWeekAgenda(rows, now = new Date()) {
-  const { start, end } = weekRange(now)
+// Junta los partidos que cumplen `include(date, match)` y devuelve uno por
+// partido real (no por jugador): si cuatro representados juegan el mismo
+// partido, aparece una vez con los cuatro.
+function collectMatches(rows, now, include) {
   const byKey = new Map()
 
   rows.forEach(({ person, country, matches }) => {
@@ -153,7 +153,7 @@ export function buildWeekAgenda(rows, now = new Date()) {
       const m = matches?.[slot]
       if (!m?.home_team) return
       const date = kickoff(m, country)
-      if (!date || date < start || date >= end) return
+      if (!date || !include(date, m)) return
 
       const key = `${dayKey(date)}|${norm(m.home_team)}|${norm(m.away_team)}`
       let entry = byKey.get(key)
@@ -177,7 +177,23 @@ export function buildWeekAgenda(rows, now = new Date()) {
     })
   })
 
-  return [...byKey.values()].sort((a, b) => a.date - b.date)
+  return [...byKey.values()]
+}
+
+// Partidos de la semana (lunes a domingo, hora de Argentina), en orden.
+export function buildWeekAgenda(rows, now = new Date()) {
+  const { start, end } = weekRange(now)
+  return collectMatches(rows, now, (date) => date >= start && date < end)
+    .sort((a, b) => a.date - b.date)
+}
+
+// Últimos partidos finalizados, sin importar la semana: del más reciente
+// al más viejo. El panel guarda el último partido de cada jugador
+// (matches/last), así que hay como mucho uno por club.
+export function buildRecentResults(rows, now = new Date(), limit = 5) {
+  return collectMatches(rows, now, (date, m) => date <= now && hasScore(m))
+    .sort((a, b) => b.date - a.date)
+    .slice(0, limit)
 }
 
 // "Rondelli, Silva y Callejo" / "Alzugaray, Di Benedetto y 2 más"

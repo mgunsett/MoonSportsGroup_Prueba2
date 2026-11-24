@@ -35,8 +35,8 @@ export default function Navbar() {
   const isHome = location.pathname === '/'
 
   // "Agenda" sólo aparece cuando la sección tiene partidos esta semana.
-  const { matches } = useWeekAgenda()
-  const links = NAV_LINKS.filter((l) => l.section !== 'agenda' || matches.length > 0)
+  const { matches, results } = useWeekAgenda()
+  const links = NAV_LINKS.filter((l) => l.section !== 'agenda' || (matches.length > 0 || results.length > 0))
   const agendaHint = `${matches.length} ${matches.length === 1 ? 'partido' : 'partidos'} esta semana`
 
   // Cerrar el menú al cambiar de ruta

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { players } from '../utils/players'
 import { loadFirestore } from '../lib/firebase'
-import { buildWeekAgenda, weekLabel, weekRange } from '../utils/agenda'
+import { buildRecentResults, buildWeekAgenda, weekLabel, weekRange } from '../utils/agenda'
 
 // ─── useWeekAgenda ───────────────────────────────────────────────
 // Lee de Firestore el último y el próximo partido de cada representado
@@ -81,10 +81,12 @@ export function useWeekAgenda() {
   }, [])
 
   const matches = useMemo(() => (rows ? buildWeekAgenda(rows, now) : []), [rows, now])
+  const results = useMemo(() => (rows ? buildRecentResults(rows, now, 5) : []), [rows, now])
 
   return {
     isLoading: rows === undefined,
     matches,
+    results,
     week: weekLabel(now),
     now,
   }

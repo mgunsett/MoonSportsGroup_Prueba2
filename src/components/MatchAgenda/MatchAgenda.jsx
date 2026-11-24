@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Box, Button, Flex, Grid, Heading, Text, useDisclosure } from '@chakra-ui/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -11,12 +11,18 @@ import AgendaModal from './AgendaModal'
 const BOARD_ROWS = 5
 
 export default function MatchAgenda() {
-  const { isLoading, matches, week } = useWeekAgenda()
-  if (isLoading || matches.length === 0) return null
-  return <AgendaContent matches={matches} week={week} />
+  const { isLoading, matches, results, week } = useWeekAgenda()
+  // Se muestra si hay partidos esta semana o, al menos, resultados recientes
+  if (isLoading || (matches.length === 0 && results.length === 0)) return null
+  return <AgendaContent matches={matches} results={results} week={week} />
 }
 
-function AgendaContent({ matches, week }) {
+const VIEWS = [
+  { key: 'next', title: 'Próximos partidos' },
+  { key: 'ft', title: 'Finalizados' },
+]
+
+function AgendaContent({ matches, results, week }) {
   const ref = useGsapReveal('up', 0.08)
   const modal = useDisclosure()
   const location = useLocation()
@@ -38,14 +44,21 @@ function AgendaContent({ matches, week }) {
     countries: new Set(matches.map((m) => m.country)).size,
   }), [matches])
 
-  // La placa muestra lo que viene (en juego + próximos). Si la semana
-  // ya se jugó entera, muestra los resultados, del más reciente al más viejo.
+  // La placa tiene dos vistas que se cambian con las flechas:
+  //   Próximos partidos: en juego + por jugar de esta semana
+  //   Finalizados: los últimos resultados (de esta semana o anteriores)
   const pending = matches.filter((m) => m.status !== 'ft')
-  const showingResults = pending.length === 0
-  const rows = (showingResults ? [...matches].reverse() : pending).slice(0, BOARD_ROWS)
-  const first = rows[0].when.dayMid
-  const last = rows[rows.length - 1].when.dayMid
-  const range = showingResults ? week : first === last ? first : `${first} – ${last}`
+  const [view, setView] = useState(pending.length ? 'next' : 'ft')
+  const available = { next: pending.length > 0, ft: results.length > 0 }
+  const rows = (view === 'next' ? pending : results).slice(0, BOARD_ROWS)
+  const idx = VIEWS.findIndex((v) => v.key === view)
+  const canPrev = idx > 0 && available[VIEWS[idx - 1].key]
+  const canNext = idx < VIEWS.length - 1 && available[VIEWS[idx + 1].key]
+  const caption = rows.length
+    ? (view === 'next'
+      ? (rows[0].when.dayMid === rows[rows.length - 1].when.dayMid ? rows[0].when.dayMid : `${rows[0].when.dayMid} – ${rows[rows.length - 1].when.dayMid}`)
+      : `Últimos ${rows.length}`)
+    : ''
 
   return (
     <Box
@@ -117,16 +130,40 @@ function AgendaContent({ matches, week }) {
           border="1px solid" borderColor="brand.line" borderRadius="8px" overflow="hidden"
           boxShadow="0 40px 80px rgba(0,0,0,0.4)"
         >
-          <Flex justify="space-between" align="flex-end" gap={3} px={{ base: 4, md: 6 }} pt={{ base: 5, md: 6 }} pb={4} borderBottom="1px solid" borderColor="brand.line">
-            <Heading as="h3" fontFamily="display" fontWeight={400} textTransform="uppercase" fontSize={{ base: '30px', md: '40px' }} lineHeight={0.9} whiteSpace="nowrap">
-              {showingResults ? 'Resultados' : 'Próximos partidos'}
-            </Heading>
-            <Text fontFamily="label" fontSize="15px" letterSpacing="0.12em" color="brand.gold" textAlign="right" textTransform="uppercase">
-              {range}
-            </Text>
+          <Flex justify="space-between" align="center" gap={3} px={{ base: 4, md: 6 }} pt={{ base: 5, md: 6 }} pb={4} borderBottom="1px solid" borderColor="brand.line">
+            <Box minW={0}>
+              <Heading as="h3" fontFamily="display" fontWeight={400} textTransform="uppercase" fontSize={{ base: '30px', md: '40px' }} lineHeight={0.9} whiteSpace="nowrap" aria-live="polite">
+                {VIEWS[idx].title}
+              </Heading>
+              <Text mt={1} fontFamily="label" fontSize="14px" letterSpacing="0.12em" color="brand.gold" textTransform="uppercase">
+                {caption}
+              </Text>
+            </Box>
+            <Flex gap={2} flexShrink={0}>
+              {[[-1, canPrev, 'Ver próximos partidos', '‹'], [1, canNext, 'Ver partidos finalizados', '›']].map(([dir, can, lbl, ch]) => (
+                <Box
+                  key={dir}
+                  as="button"
+                  type="button"
+                  onClick={() => can && setView(VIEWS[idx + dir].key)}
+                  disabled={!can}
+                  aria-label={lbl}
+                  w="40px" h="40px" borderRadius="full" display="grid" placeItems="center"
+                  border="1px solid" borderColor={can ? 'rgba(201,168,76,0.5)' : 'brand.line'}
+                  color={can ? 'brand.gold' : 'brand.creamFaint'} opacity={can ? 1 : 0.4} cursor={can ? 'pointer' : 'default'}
+                  fontSize="22px" lineHeight={1} pb="2px"
+                  transition="background-color 200ms ease, transform 160ms cubic-bezier(.23,1,.32,1)"
+                  _active={can ? { transform: 'scale(0.94)' } : undefined}
+                  sx={{ '@media (hover: hover) and (pointer: fine)': { _hover: can ? { bg: 'rgba(201,168,76,0.1)' } : {} } }}
+                >
+                  {ch}
+                </Box>
+              ))}
+            </Flex>
           </Flex>
 
-          <Box as="ul" listStyleType="none">
+          <Box as="ul" listStyleType="none" key={view}
+            sx={{ animation: 'boardIn 300ms cubic-bezier(.23,1,.32,1)', '@keyframes boardIn': { from: { opacity: 0, transform: 'translateX(12px)' } }, '@media (prefers-reduced-motion: reduce)': { animation: 'none' } }}>
             {rows.map((m) => <BoardRow key={m.key} match={m} />)}
           </Box>
 
@@ -194,7 +231,7 @@ function BoardRow({ match: m }) {
           </Text>
         )}
         <Text fontSize="10px" letterSpacing="0.16em" textTransform="uppercase" color="brand.creamMuted">
-          {m.when.isToday ? 'Hoy' : m.when.dayShort}
+          {m.when.isToday ? 'Hoy' : m.status === 'ft' ? m.when.dayMid : m.when.dayShort}
         </Text>
         {m.status === 'next' && m.when.showLocal && (
           <Text fontSize="10.5px" color="brand.creamFaint" sx={{ fontVariantNumeric: 'tabular-nums' }}>
