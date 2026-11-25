@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const STATS = [
   { value: 25, label: 'Transferencias' },
-  { value: 15, label: 'Representados' },
+  { value: 14, label: 'Representados' },
   { value: 8, label: 'Países' },
 ]
 
@@ -50,8 +50,8 @@ function useCounter(target) {
 function Stat({ value, label, first }) {
   const ref = useCounter(value)
   return (
-    <Box py={4} pl={first ? 0 : { base: 3, md: 5 }} borderLeft={first ? 'none' : '1px solid rgba(255,255,255,0.09)'}>
-      <Text fontFamily="display" fontSize={{ base: '44px', md: '56px' }} lineHeight={0.85} sx={{ fontVariantNumeric: 'tabular-nums' }}>
+    <Box py={8} pl={first ? 0 : { base: 3, md: 4 }} pr={first ? 0 : { base: 3, md: 4 }} borderLeft={first ? 'none' : '1px solid rgba(255,255,255,0.09)'}>
+      <Text fontFamily="display" fontSize={{ base: '44px', md: '56px' }} lineHeight={0.85}  sx={{ fontVariantNumeric: 'tabular-nums' }}>
         <span ref={ref}>{value}</span>
         <Box as="span" color="brand.gold">+</Box>
       </Text>
@@ -137,13 +137,14 @@ export default function Nosotros() {
           </Text>
 
           {/* Números + cómo trabajamos */}
-          <Grid className="gsap-reveal" mt={{ base: 9, md: 11 }} templateColumns={{ base: '1fr', md: 'minmax(0,1fr) minmax(0,1.15fr)' }} gap={{ base: 8, md: 10 }} alignItems="start">
-            <Box>
-              <Grid templateColumns="repeat(3, 1fr)" borderTop="1px solid rgba(255,255,255,0.18)" borderBottom="1px solid rgba(255,255,255,0.09)">
+          <Grid className="gsap-reveal" mt={{ base: 9, md: 11 }} templateColumns="1fr" gap={{ base: 8, md: 10 }} alignItems="start">
+            {/* Ancho del bloque de números: cambiar maxW para hacerlo más ancho o angosto */}
+            <Box maxW={{ base: '100%', md: '560px' }}>
+              <Grid templateColumns={`repeat(${STATS.length}, 1fr)`} borderTop="1px solid rgba(255,255,255,0.18)" borderBottom="1px solid rgba(255,255,255,0.09)">
                 {STATS.map((s, i) => <Stat key={s.label} {...s} first={i === 0} />)}
               </Grid>
               <Flex mt={4} align="center" gap={3} px={4} py={3} borderRadius="10px" bg="rgba(22,22,22,0.8)" backdropFilter="blur(6px)" border="1px solid rgba(255,255,255,0.09)">
-                <Text fontFamily="display" fontSize="34px" lineHeight={0.8} color="brand.gold">{ACTIVE}</Text>
+                <Text fontFamily="display" fontSize="38px" lineHeight={0.8} color="brand.gold">{ACTIVE}</Text>
                 <Text fontSize="13.5px" color="brand.whiteMuted" lineHeight={1.4}>
                   representados en actividad hoy, en {CLUBS} clubes de {COUNTRIES} países.
                 </Text>

@@ -290,7 +290,7 @@ export default function Navbar() {
                       >
                         <Box>
                           <Text fontWeight={600} fontSize="17px" color={on ? 'brand.gold' : 'brand.cream'}>{l.label}</Text>
-                          <Text fontSize="13px" color="brand.creamMuted">{l.section === 'agenda' ? agendaHint : l.hint}</Text>
+                          
                         </Box>
                         <Box color="brand.creamFaint" aria-hidden="true"><FiArrowRight size={18} /></Box>
                       </Flex>
@@ -317,7 +317,7 @@ export default function Navbar() {
               textTransform="uppercase"
               _active={{ transform: 'scale(0.98)' }}
             >
-              Quiero ser representado
+              Contacto
             </Box>
 
             <Flex justify="center" gap="10px" mt={4}>

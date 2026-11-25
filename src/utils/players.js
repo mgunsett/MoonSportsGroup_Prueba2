@@ -20,6 +20,7 @@ import andresZanini from '../assets/images/andres_zanini.webp'
 import depLaSerena from '../assets/images/deplaserena.webp'
 import julianAquino from '../assets/images/julian_aquino.webp'
 import atlanta from '../assets/images/atlanta.webp'
+import ivanColman from '../assets/images/ivan_colman.webp'
 
 
 // slug:        id del jugador en panel_resultados (players/{slug}/matches en Firestore).
@@ -138,6 +139,33 @@ export const players = [
     socials: {
       instagram: 'https://www.instagram.com/lisandroalzugaray',
       threads: 'https://www.threads.com/@lisandroalzugaray',
+    },
+  },
+  {
+    id: 14,
+    name: 'Ivan',
+    lastname: 'Colman',
+    slug: 'ivan_colman',
+    clubCountry: 'Perú',
+    club: 'Cusco FC',
+    escudo: cusco,
+    sizes: { h: '30px', w: '25px' },
+    position: 'Volante',
+    nationality: 'Perú',
+    image: ivanColman,
+    bio: 'Volante con gran capacidad de recuperación y distribución del balón. Fundamental en el equilibrio del equipo.',
+    type: 'player',
+    number: 10,
+    birthDate: '1990-05-15',
+    fieldPosition: { x: 50, y: 60 },
+    stats: {
+      matches: 280,
+      goals: 15,
+      assists: 20,
+      ratings: { pase: 92, vision: 88, recuperacion: 95, distribucion: 90, resistencia: 93 },
+    },
+    socials: {
+      instagram: 'https://www.instagram.com/ivancolman14/',
     },
   },
   {

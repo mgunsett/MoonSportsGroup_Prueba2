@@ -222,7 +222,7 @@ export default function Hero() {
             maxW="480px"
             lineHeight={1.8}
             opacity={0}
-           
+            display={{ base: 'none', md: 'block' }}
           >
             Gestionamos carreras de futbolistas y técnicos profesionales
             con visión estratégica y compromiso total.

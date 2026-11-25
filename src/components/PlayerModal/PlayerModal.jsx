@@ -254,10 +254,11 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
 
           {/* Datos */}
           <Flex position="relative" zIndex={1} gridColumn={{ lg: 1 }} gridRow={{ lg: 1 }} direction="column" justify="space-between" gap={6}
-            px={{ base: 4, lg: 0 }} pl={{ lg: 8 }} pt={{ base: 0, lg: 8 }} pb={{ base: 2, lg: 7 }} mt={{ base: '-50px', lg: 0 }}>
+            px={{ base: 4, lg: 0 }} pl={{ lg: 8 }} pt={{ base: 0, lg: 8 }} pb={{ base: 2, lg: 7 }} mt={{ base: '-110px', lg: 0 }}>
+              
             <Box>
-              <Text aria-hidden="true" display={{ base: 'none', lg: 'block' }} fontFamily="label" fontSize="110px" lineHeight={0.8} color="brand.gold">{dorsal}</Text>
-              <Text as="h2" fontFamily="display" fontSize={{ base: '44px', lg: '54px' }} lineHeight={0.86} textTransform="uppercase">
+              <Text aria-hidden="true" display={{ base: 'block', lg: 'block' }} fontFamily="label" fontSize={{base:"80px", md:"110px"}} lineHeight={0.8} color="brand.gold">{dorsal}</Text>
+              <Text as="h2" fontFamily="display" fontSize={{ base: '54px', lg: '54px' }} lineHeight={0.86} textTransform="uppercase">
                 {p.name}
                 <Box as="span" display="block" color="brand.gold">{p.lastname}</Box>
               </Text>

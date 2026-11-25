@@ -36,13 +36,13 @@ function AgendaContent({ matches, results, week }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const { live, upcoming, finished, people, countries } = useMemo(() => ({
+  const { live, upcoming } = useMemo(() => ({
     live: matches.filter((m) => m.status === 'live').length,
     upcoming: matches.filter((m) => m.status === 'next').length,
-    finished: matches.filter((m) => m.status === 'ft').length,
-    people: new Set(matches.flatMap((m) => m.players.map((p) => p.id))).size,
-    countries: new Set(matches.map((m) => m.country)).size,
   }), [matches])
+  // Mismo criterio que la vista "Finalizados" de la placa: últimos resultados,
+  // aunque sean de semanas anteriores
+  const finished = results.length
 
   // La placa tiene dos vistas que se cambian con las flechas:
   //   Próximos partidos: en juego + por jugar de esta semana
@@ -194,7 +194,7 @@ function Tally({ value, label, live = false }) {
       direction="column" gap="2px" flex={1}
       _notFirst={{ pl: { base: 3, md: 5 }, borderLeft: '1px solid', borderColor: 'brand.line' }}
     >
-      <Text fontFamily="display" fontSize={{ base: '36px', md: '44px' }} lineHeight={0.9} color={live ? 'brand.live' : 'brand.cream'} sx={{ fontVariantNumeric: 'tabular-nums' }}>
+      <Text fontFamily="label" fontSize={{ base: '32px', md: '40px' }} lineHeight={0.9} color={live ? 'brand.live' : 'brand.cream'} sx={{ fontVariantNumeric: 'tabular-nums' }}>
         {value}
       </Text>
       <Text fontSize={{ base: '9.5px', md: '11px' }} letterSpacing={{ base: '0.12em', md: '0.18em' }} textTransform="uppercase" color="brand.creamMuted">
