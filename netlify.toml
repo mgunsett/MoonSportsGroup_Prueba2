@@ -1,0 +1,48 @@
+# Moon Sports Group — Netlify
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Un solo dominio para Google: todo redirige (301) a https://moonsports-group.com
+[[redirects]]
+  from = "https://www.moonsports-group.com/*"
+  to = "https://moonsports-group.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://moonsportsgroup1.netlify.app/*"
+  to = "https://moonsports-group.com/:splat"
+  status = 301
+  force = true
+
+# Rutas de la app. /jugadores tiene su propio HTML con sus meta tags
+# (dist/jugadores/index.html, generado al compilar). Las rutas que no
+# existen devuelven 404.html con status 404 (no un 200 "blando").
+[[redirects]]
+  from = "/jugadores/*"
+  to = "/jugadores/index.html"
+  status = 200
+
+# Cabeceras
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Archivos con hash en el nombre: cache de un año
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/og-image.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

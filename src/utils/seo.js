@@ -1,10 +1,10 @@
 // ============================================================
 // Punto único de verdad para SEO.
-// ⚠️ Cambiar SITE_URL al dominio definitivo antes de publicar:
-//    afecta canonical, Open Graph, sitemap.xml y JSON-LD.
+// Dominio definitivo (sin www). Si cambia, actualizar también
+// index.html, public/robots.txt, public/sitemap.xml y netlify.toml.
 // ============================================================
 
-export const SITE_URL = 'https://www.moonsports-group.com'
+export const SITE_URL = 'https://moonsports-group.com'
 export const SITE_NAME = 'Moon Sports Group'
 export const LOCALE = 'es_AR'
 
@@ -39,7 +39,7 @@ export const organizationSchema = {
   '@id': `${SITE_URL}/#organization`,
   name: SITE_NAME,
   url: SITE_URL,
-  logo: `${SITE_URL}/logo_principal.png`,
+  logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon-512.png`, width: 512, height: 512 },
   image: OG_IMAGE,
   sport: 'Football',
   description:
@@ -47,10 +47,14 @@ export const organizationSchema = {
   email: CONTACT.email,
   telephone: CONTACT.phone,
   sameAs: [CONTACT.instagram, CONTACT.linkedin],
-  areaServed: {
-    '@type': 'Place',
-    name: 'Internacional',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    email: CONTACT.email,
+    telephone: CONTACT.phone,
+    availableLanguage: ['es'],
   },
+  areaServed: ['Argentina', 'Perú', 'Colombia', 'Ecuador', 'Chile', 'México'].map((name) => ({ '@type': 'Country', name })),
   knowsAbout: [
     'Representación de futbolistas',
     'Negociación de contratos deportivos',

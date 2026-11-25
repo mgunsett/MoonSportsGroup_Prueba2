@@ -5,9 +5,9 @@ import { LOCALE, OG_IMAGE, SITE_NAME, SITE_URL } from '../../utils/seo'
  * Meta tags por ruta.
  *
  * OJO: esto se inyecta en el cliente. Google ejecuta JS y lo lee, pero los
- * scrapers de WhatsApp / Facebook / LinkedIn / X NO. El Open Graph que ven
- * al compartir un link es el de index.html. Para OG por ruta hace falta
- * prerender (ver reporte SEO).
+ * scrapers de WhatsApp / Facebook / LinkedIn / X NO: ellos leen el HTML
+ * estático (index.html y, para /jugadores, el que genera vite.config.js al
+ * compilar). Mantener los textos iguales en los dos lugares.
  */
 export function Seo({
   title,
@@ -41,6 +41,8 @@ export function Seo({
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={image} />
       <meta property="og:image:alt" content={fullTitle} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
 
       {/* Twitter / X */}
       <meta name="twitter:card" content="summary_large_image" />

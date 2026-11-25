@@ -62,10 +62,9 @@ export default function JugadoresPage() {
   return (
     <Box bg="brand.black" minH="100vh" pt={{ base: '96px', md: '120px' }}>
       <Seo
-        title="Nuestros Representados — Futbolistas y Directores Técnicos"
-        description="Conocé a los futbolistas y directores técnicos representados por Moon Sports Group: perfiles, clubes y trayectoria de jugadores profesionales en ligas de Sudamérica y Europa."
+        title="Nuestros representados"
+        description="Futbolistas y directores técnicos representados por Moon Sports Group: perfiles, clubes, estadísticas y trayectoria en las ligas de Sudamérica."
         path="/jugadores"
-        type="profile"
         jsonLd={[
           playersListSchema(players),
           breadcrumbSchema([

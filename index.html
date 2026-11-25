@@ -5,55 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- ===== SEO base ===== -->
-    <title>Moon Sports Group | Representación de Futbolistas y Técnicos Profesionales</title>
-    <meta
-      name="description"
-      content="Agencia de representación de futbolistas y directores técnicos. Negociamos contratos, gestionamos transferencias internacionales y potenciamos tu marca personal. Hablemos hoy."
+    <title>Moon Sports Group | Agencia de representación de futbolistas</title>
+    <meta data-rh="true" name="description"
+      content="Agencia de representación de futbolistas y técnicos en Sudamérica: contratos, transferencias, asesoría legal e imagen. Conocé a nuestros representados."
     />
-    <meta
-      name="keywords"
-      content="representación de futbolistas, agencia de representación de jugadores, representante de futbolistas, agencia de fútbol profesional, representación de directores técnicos, gestión de carreras deportivas, transferencias de futbolistas, Moon Sports Group"
+    <meta data-rh="true" name="keywords"
+      content="representación de futbolistas, agencia de representación de jugadores, representante de futbolistas, representación de directores técnicos, transferencias de futbolistas, agencia de fútbol Argentina, agencia de fútbol Perú, Moon Sports Group"
     />
     <meta name="author" content="Moon Sports Group" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#080808" />
-    <link rel="canonical" href="https://www.moonsports-group.com/" />
+    <meta name="format-detection" content="telephone=no" />
+    <link data-rh="true" rel="canonical" href="https://moonsports-group.com/" />
+    <link rel="alternate" hreflang="es" href="https://moonsports-group.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://moonsports-group.com/" />
 
-    <!-- ===== Open Graph (WhatsApp, Facebook, LinkedIn) ===== -->
-    <!-- Los scrapers de redes NO ejecutan JS: estas etiquetas son las que
-         se usan al compartir cualquier link del sitio. -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Moon Sports Group" />
-    <meta property="og:locale" content="es_AR" />
-    <meta
-      property="og:title"
-      content="Moon Sports Group | Representación de Futbolistas y Técnicos"
+    <!-- ===== Open Graph (WhatsApp, Facebook, LinkedIn) =====
+         Los scrapers de redes no ejecutan JS: usan estas etiquetas.
+         /jugadores tiene las suyas (se generan al compilar, ver vite.config.js). -->
+    <meta data-rh="true" property="og:type" content="website" />
+    <meta data-rh="true" property="og:site_name" content="Moon Sports Group" />
+    <meta data-rh="true" property="og:locale" content="es_AR" />
+    <meta data-rh="true" property="og:title" content="Moon Sports Group | Representación de futbolistas y técnicos" />
+    <meta data-rh="true" property="og:description"
+      content="Agencia de representación de futbolistas y directores técnicos en Sudamérica. Contratos, transferencias, asesoría legal y gestión de imagen."
     />
-    <meta
-      property="og:description"
-      content="Agencia de representación de futbolistas y directores técnicos. Negociación de contratos, transferencias internacionales y gestión de marca personal."
-    />
-    <meta property="og:url" content="https://www.moonsports-group.com/" />
-    <meta property="og:image" content="https://www.moonsports-group.com/og-image.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Moon Sports Group — Representación de élite" />
+    <meta data-rh="true" property="og:url" content="https://moonsports-group.com/" />
+    <meta data-rh="true" property="og:image" content="https://moonsports-group.com/og-image.jpg" />
+    <meta property="og:image:secure_url" content="https://moonsports-group.com/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta data-rh="true" property="og:image:width" content="1200" />
+    <meta data-rh="true" property="og:image:height" content="630" />
+    <meta data-rh="true" property="og:image:alt" content="Moon Sports Group, agencia de representación de futbolistas y técnicos" />
 
     <!-- ===== Twitter / X ===== -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Moon Sports Group | Representación de Futbolistas y Técnicos"
+    <meta data-rh="true" name="twitter:card" content="summary_large_image" />
+    <meta data-rh="true" name="twitter:title" content="Moon Sports Group | Representación de futbolistas y técnicos" />
+    <meta data-rh="true" name="twitter:description"
+      content="Agencia de representación de futbolistas y directores técnicos en Sudamérica. Contratos, transferencias, asesoría legal y gestión de imagen."
     />
-    <meta
-      name="twitter:description"
-      content="Agencia de representación de futbolistas y directores técnicos. Negociación de contratos, transferencias internacionales y gestión de marca personal."
-    />
-    <meta name="twitter:image" content="https://www.moonsports-group.com/og-image.jpg" />
+    <meta data-rh="true" name="twitter:image" content="https://moonsports-group.com/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Moon Sports Group, agencia de representación de futbolistas y técnicos" />
 
-    <!-- ===== Icons ===== -->
-    <link rel="icon" type="image/png" href="/logo_principal.png" />
-    <link rel="apple-touch-icon" href="/logo_principal.png" />
+    <!-- ===== Íconos y manifest ===== -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- ===== Fonts ===== -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -70,28 +68,43 @@
         "@graph": [
           {
             "@type": "SportsOrganization",
-            "@id": "https://www.moonsportsgroup.com/#organization",
+            "@id": "https://moonsports-group.com/#organization",
             "name": "Moon Sports Group",
-            "url": "https://www.moonsports-group.com",
-            "logo": "https://www.moonsports-group.com/logo_principal.png",
-            "image": "https://www.moonsports-group.com/og-image.jpg",
+            "url": "https://moonsports-group.com/",
+            "logo": { "@type": "ImageObject", "url": "https://moonsports-group.com/icon-512.png", "width": 512, "height": 512 },
+            "image": "https://moonsports-group.com/og-image.jpg",
             "sport": "Football",
             "description": "Agencia de representación de futbolistas y directores técnicos profesionales. Negociación de contratos, gestión de transferencias, asesoría legal y desarrollo de marca personal.",
             "email": "info@moonsportsgroup.com",
-            "telephone": "+54 911 0000 0000",
             "sameAs": [
               "https://www.instagram.com/moonsportsgroup_/",
               "https://www.linkedin.com/company/moon-sports-group/"
             ],
-            "areaServed": { "@type": "Place", "name": "Internacional" }
+            "areaServed": [
+              { "@type": "Country", "name": "Argentina" },
+              { "@type": "Country", "name": "Perú" },
+              { "@type": "Country", "name": "Colombia" },
+              { "@type": "Country", "name": "Ecuador" },
+              { "@type": "Country", "name": "Chile" }
+            ]
           },
           {
             "@type": "WebSite",
-            "@id": "https://www.moonsports-group.com/#website",
-            "url": "https://www.moonsports-group.com",
+            "@id": "https://moonsports-group.com/#website",
+            "url": "https://moonsports-group.com/",
             "name": "Moon Sports Group",
             "inLanguage": "es-AR",
-            "publisher": { "@id": "https://www.moonsports-group.com/#organization" }
+            "publisher": { "@id": "https://moonsports-group.com/#organization" }
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://moonsports-group.com/#webpage",
+            "url": "https://moonsports-group.com/",
+            "name": "Moon Sports Group | Agencia de representación de futbolistas",
+            "isPartOf": { "@id": "https://moonsports-group.com/#website" },
+            "about": { "@id": "https://moonsports-group.com/#organization" },
+            "primaryImageOfPage": "https://moonsports-group.com/og-image.jpg",
+            "inLanguage": "es-AR"
           }
         ]
       }
@@ -99,6 +112,14 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <main style="font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 16px;color:#fff;background:#080808">
+        <h1>Moon Sports Group</h1>
+        <p>Agencia de representación de futbolistas y directores técnicos profesionales en Sudamérica: negociación de contratos, transferencias, asesoría legal y gestión de imagen.</p>
+        <p><a href="/jugadores" style="color:#C9A84C">Ver nuestros representados</a> · <a href="mailto:info@moonsportsgroup.com" style="color:#C9A84C">info@moonsportsgroup.com</a></p>
+        <p>Para ver el sitio completo, activá JavaScript en tu navegador.</p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

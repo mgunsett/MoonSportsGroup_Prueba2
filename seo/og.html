@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>OG Moon Sports Group</title>
+<link href="https://fonts.googleapis.com/css2?family=Bahianita&family=Bebas+Neue&family=Outfit:wght@400;500;600&display=block" rel="stylesheet">
+<style>
+  /* 1200×630. Lo importante (marca + qué hace) queda en el centro-izquierda:
+     WhatsApp y LinkedIn recortan la miniatura a cuadrado o la achican mucho. */
+  :root{--black:#080808;--gold:#C9A84C;--gold-l:#E8C96A;--gold-d:#9A7A35;--cream:#f2e6cf}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:630px;overflow:hidden;background:var(--black)}
+  .og{position:relative;width:1200px;height:630px;overflow:hidden;isolation:isolate;font-family:Outfit,sans-serif;color:#fff;
+    background:radial-gradient(60% 80% at 78% 70%,rgba(201,168,76,.22),transparent 65%),var(--black)}
+  .pitch{position:absolute;inset:0;z-index:-2;background:url(../src/assets/images/fondo_hero.webp) center 70%/cover;filter:grayscale(.6) brightness(.35);opacity:.55;
+    -webkit-mask-image:linear-gradient(90deg,transparent 15%,#000 60%);mask-image:linear-gradient(90deg,transparent 15%,#000 60%)}
+  .moon{position:absolute;right:120px;top:70px;width:470px;height:470px;border-radius:50%;z-index:-1;
+    background:radial-gradient(circle at 60% 40%,rgba(232,201,106,.35),rgba(201,168,76,.1) 55%,transparent 70%);box-shadow:inset 0 0 0 1.5px rgba(201,168,76,.35)}
+  .players{position:absolute;right:-10px;bottom:0;width:720px;height:600px}
+  .players img{position:absolute;bottom:0;height:var(--h);left:var(--x);filter:drop-shadow(0 20px 30px rgba(0,0,0,.7)) brightness(var(--b,1))}
+  .players::after{content:"";position:absolute;inset:auto 0 0;height:22%;background:linear-gradient(transparent,var(--black))}
+  .fade{position:absolute;inset:0;background:linear-gradient(90deg,var(--black) 30%,rgba(8,8,8,.75) 46%,transparent 64%)}
+  .txt{position:absolute;left:72px;top:0;bottom:0;width:560px;display:flex;flex-direction:column;justify-content:center;gap:22px}
+  .brand{display:flex;align-items:center;gap:16px}
+  .brand img{width:74px;height:74px;filter:brightness(0) invert(1)}
+  .brand span{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.32em;color:var(--gold)}
+  h1{font-family:Bahianita,'Bebas Neue',sans-serif;font-weight:400;font-size:150px;line-height:.82;text-transform:uppercase;letter-spacing:.01em}
+  h1 em{display:block;font-style:normal;color:var(--gold);font-size:96px;letter-spacing:.28em;margin-top:6px}
+  p{font-size:27px;line-height:1.35;color:rgba(255,255,255,.82);max-width:17em}
+  .url{display:inline-flex;align-items:center;gap:12px;font-size:21px;font-weight:600;letter-spacing:.06em;color:var(--cream)}
+  .url::before{content:"";width:34px;height:2px;background:var(--gold)}
+  .bar{position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,var(--gold-d),var(--gold-l),var(--gold-d))}
+</style>
+</head>
+<body>
+<div class="og">
+  <div class="pitch"></div>
+  <div class="moon"></div>
+  <div class="players">
+    <img src="../src/assets/images/cain_fara.webp" style="--h:420px;--x:0px;--b:.55" alt="">
+    <img src="../src/assets/images/miguel_rondelli.webp" style="--h:450px;--x:470px;--b:.6" alt="">
+    <img src="../src/assets/images/ezequiel_piovi.webp" style="--h:520px;--x:120px;--b:.8" alt="">
+    <img src="../src/assets/images/luis_ramos1.webp" style="--h:500px;--x:330px;--b:.8" alt="">
+    <img src="../src/assets/images/francisco_fydriszewski.webp" style="--h:585px;--x:230px" alt="">
+  </div>
+  <div class="fade"></div>
+  <div class="txt">
+    <div class="brand"><img src="../src/assets/images/logo_principal.webp" alt=""><span>Agencia de representación</span></div>
+    <h1>Moon Sports<em>Group</em></h1>
+    <p>Representamos futbolistas y técnicos profesionales en Sudamérica.</p>
+    <span class="url">moonsports-group.com</span>
+  </div>
+  <div class="bar"></div>
+</div>
+</body>
+</html>

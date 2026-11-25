@@ -222,3 +222,28 @@ Detalles:
     allow write: if request.auth != null;
   }
   ```
+
+---
+
+## 🔎 SEO — moonsports-group.com
+
+Dominio principal: **https://moonsports-group.com** (sin www). `www` y `moonsportsgroup1.netlify.app` redirigen con 301 (ver `netlify.toml`).
+
+| Qué | Dónde |
+|---|---|
+| Título, descripción, canonical, Open Graph, X y JSON-LD de la home | `index.html` |
+| Lo mismo para `/jugadores` (HTML estático propio, se genera al compilar) | `vite.config.js` → `ROUTES` |
+| Meta por ruta dentro de la app (Helmet) | `src/components/Seo/Seo.jsx`, `src/utils/seo.js` |
+| robots, sitemap, manifest, íconos, 404 | `public/` |
+| Imagen para redes (1200×630) | `public/og-image.jpg`, editable en `seo/og.html` → `node seo/og.mjs` |
+
+Reglas:
+- Si cambiás un título o una descripción, cambialo en los dos lugares (HTML estático y `<Seo>` de la página).
+- Las etiquetas del `index.html` llevan `data-rh="true"`: así Helmet las reemplaza al navegar en vez de duplicarlas.
+- Las rutas que no existen devuelven `404.html` con status 404 (no hay redirect "catch-all").
+- Al sumar una página nueva: agregala a `ROUTES` en `vite.config.js`, a `public/sitemap.xml` y a `netlify.toml` si tiene subrutas.
+
+Después de publicar:
+1. Netlify → **Domain management**: `moonsports-group.com` como dominio principal y `www` como alias.
+2. **Google Search Console**: dar de alta la propiedad de dominio y enviar `https://moonsports-group.com/sitemap.xml`.
+3. **Depurador de Facebook** (developers.facebook.com/tools/debug): pegar la URL y "Volver a extraer" para refrescar la vista previa de WhatsApp / Facebook.
