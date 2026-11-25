@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react'
 import { useGsapReveal } from '../../hooks/useGsapReveal'
 import PlayerModal from '../PlayerModal/PlayerModal'
+import PlayersSpotlight from './PlayersSpotlight'
 import { players } from '../../utils/players'
 
 
@@ -67,17 +68,6 @@ const panelStyles = {
   '.pn.on .det': { opacity: 1, transform: 'none', transition: `opacity 400ms ease 250ms, transform 500ms ${EASE} 250ms` },
   '.pn:focus-visible': { outline: '2px solid', outlineColor: 'brand.gold', outlineOffset: '3px' },
 
-  '@media (max-width: 820px)': {
-    '.panels': { flexDirection: 'column', h: 'auto' },
-    '.pn, .pn.on': { flex: 'none', h: '66px', transition: `height 600ms ${EASE}` },
-    '.pn.on': { h: '470px' },
-    '.pn > img': { h: '220%', bottom: 'auto', top: '-8px', left: 'auto', right: '-10px', transform: 'none' },
-    '.pn.on > img': { h: '92%', top: 'auto', bottom: 0, left: 'auto', right: '-30px' },
-    '.num': { left: '16px', top: '50%', transform: 'translateY(-50%)', fontSize: '20px' },
-    '.pn.on .num': { left: '18px', top: '18px', transform: 'none', fontSize: '90px' },
-    '.vt': { writingMode: 'horizontal-tb', transform: 'translateY(-50%)', left: '58px', top: '50%', bottom: 'auto', fontSize: '19px' },
-    '.det': { left: '18px', right: '18px', bottom: '18px' },
-  },
   '@media (prefers-reduced-motion: reduce)': {
     '.pn, .pn > img, .det, .num': { transition: 'none !important' },
   },
@@ -123,8 +113,13 @@ export default function PlayersPanels() {
           </Flex>
         </Flex>
 
-        {/* ---- Paneles ---- */}
-        <Box sx={panelStyles}>
+        {/* ---- Mobile y tablet: plantel en foco ---- */}
+        <Box display={{ base: 'block', lg: 'none' }}>
+          <PlayersSpotlight list={ordered} statsOf={statsOf} dorsal={dorsal} onOpen={setModalPlayer} modalOpen={!!modalPlayer} />
+        </Box>
+
+        {/* ---- Desktop: paneles ---- */}
+        <Box sx={panelStyles} display={{ base: 'none', lg: 'block' }}>
           <Flex ref={panelsRef} className="panels" gap="6px" h="min(600px, 72vh)">
             {ordered.map((p, i) => {
               const on = i === active
