@@ -50,8 +50,8 @@ function useCounter(target) {
 function Stat({ value, label, first }) {
   const ref = useCounter(value)
   return (
-    <Box py={8} pl={first ? 0 : { base: 3, md: 4 }} pr={first ? 0 : { base: 3, md: 4 }} borderLeft={first ? 'none' : '1px solid rgba(255,255,255,0.09)'}>
-      <Text fontFamily="display" fontSize={{ base: '44px', md: '56px' }} lineHeight={0.85}  sx={{ fontVariantNumeric: 'tabular-nums' }}>
+    <Box py={{ base: 4, md: 'clamp(14px, 2.6vh, 32px)' }} pl={first ? 0 : { base: 3, md: 4 }} pr={first ? 0 : { base: 3, md: 4 }} borderLeft={first ? 'none' : '1px solid rgba(255,255,255,0.09)'}>
+      <Text fontFamily="display" fontSize={{ base: '40px', md: 'clamp(40px, 6vh, 56px)' }} lineHeight={0.85} sx={{ fontVariantNumeric: 'tabular-nums' }}>
         <span ref={ref}>{value}</span>
         <Box as="span" color="brand.gold">+</Box>
       </Text>
@@ -66,16 +66,18 @@ export default function Nosotros() {
   const sectionRef = useGsapReveal('up', 0.1)
 
   return (
-    <Box as="section" id="nosotros" aria-labelledby="nosotros-title" position="relative" bg="brand.black" overflow="clip">
+    <Box as="section" id="nosotros" aria-labelledby="nosotros-title" position="relative" bg="brand.black" overflow="clip"
+      minH={{ lg: '100svh' }} display={{ lg: 'flex' }} alignItems="center">
       {/* ---- Foto · mobile y tablet: arriba, fundida con el contenido ---- */}
       <Box
         aria-hidden="true"
         display={{ base: 'block', lg: 'none' }}
         position="relative"
-        h={{ base: '340px', sm: '420px' }}
+        h={{ base: '250px', sm: '340px' }}
         bgImage={`url(${bgJugadores})`}
-        bgSize={{ base: 'auto 140%', md: 'auto 150%' }}
-        bgPosition={{ base: '100% 30%', md: '80% 40%' }}
+        // anclada arriba con un margen para que la navbar fija no tape las cabezas
+        bgSize={{ base: 'auto 150%', sm: 'auto 150%' }}
+        bgPosition={{ base: '100% 8px', sm: '86% 0px' }}
         bgRepeat="no-repeat"
         pointerEvents="none"
         _after={{
@@ -106,7 +108,7 @@ export default function Nosotros() {
           position="absolute"
           right={0}
           bottom={0}
-          h={{ lg: 'min(92%, 760px)', xl: '100%' }}
+          h={{ lg: 'min(84%, 700px)', xl: '88%' }}
           w="auto"
           maxW="none"
           // difumina el borde superior de la foto (donde arranca su fondo con textura)
@@ -115,35 +117,35 @@ export default function Nosotros() {
       </Box>
 
       {/* ---- Contenido ---- */}
-      <Box ref={sectionRef} position="relative" zIndex={1} maxW="1280px" mx="auto" px={{ base: 4, md: 12 }} pt={{ base: 2, lg: '120px' }} pb={{ base: '72px', lg: '120px' }}>
+      <Box ref={sectionRef} position="relative" zIndex={1} w="100%" maxW="1280px" mx="auto" px={{ base: 4, md: 12 }} pt={{ base: 0, lg: 'clamp(84px, 11vh, 120px)' }} pb={{ base: '32px', md: '64px', lg: 'clamp(36px, 6vh, 96px)' }}>
         <Box maxW={{ base: '100%', lg: '58%' }}>
-          <Flex direction="column" gap={4} mb={{ base: 7, md: 9 }}>
+          <Flex direction="column" gap={{ base: 3, lg: 4 }} mb={{ base: 5, md: 6, lg: 'clamp(16px, 3vh, 36px)' }}>
             <Text className="section-label gsap-reveal">Quiénes somos</Text>
             <Heading id="nosotros-title" className="gsap-reveal" as="h2" fontFamily="display" fontWeight={400} textTransform="uppercase"
-              fontSize={{ base: '58px', md: '84px', xl: '96px' }} lineHeight={0.88} letterSpacing="0.01em">
+              fontSize={{ base: '54px', md: '76px', lg: 'clamp(64px, 9vh, 96px)' }} lineHeight={0.88} letterSpacing="0.01em">
               Sobre <Box as="span" color="brand.gold">nosotros</Box>
             </Heading>
           </Flex>
 
           {/* Texto editorial con palabras clave */}
-          <Text className="gsap-reveal" fontSize={{ base: '21px', md: 'clamp(22px, 2.1vw, 30px)' }} fontWeight={300} lineHeight={1.45} color="brand.whiteMuted" sx={{ textWrap: 'pretty' }}>
+          <Text className="gsap-reveal" fontSize={{ base: '18px', md: '21px', lg: 'clamp(19px, min(2.1vw, 2.7vh), 30px)' }} fontWeight={300} lineHeight={1.45} color="brand.whiteMuted" sx={{ textWrap: 'pretty' }}>
             <Box as="strong" color="brand.white" fontWeight={600}>Moon Sports Group</Box> es una agencia de representación especializada en{' '}
             <Box as="span" color="brand.gold" fontWeight={600}>fútbol profesional</Box>. Combinamos experiencia en el ámbito deportivo con una{' '}
             <Box as="strong" color="brand.white" fontWeight={600}>visión estratégica</Box> para posicionar a cada representado en las mejores ligas.
           </Text>
-          <Text className="gsap-reveal" mt={5} fontSize={{ base: '16px', md: '18px' }} fontWeight={300} lineHeight={1.7} color="brand.whiteMuted" maxW="36em">
+          <Text className="gsap-reveal" mt={{ base: 3, lg: 'clamp(10px, 2vh, 20px)' }} fontSize={{ base: '14.5px', md: '16px', lg: 'clamp(14.5px, 2vh, 18px)' }} fontWeight={300} lineHeight={1.65} color="brand.whiteMuted" maxW="36em">
             Creemos en relaciones a <Box as="span" color="brand.gold" fontWeight={600}>largo plazo</Box>, basadas en la confianza, la transparencia y el
             compromiso con los objetivos de cada jugador y técnico que forma parte de nuestra familia.
           </Text>
 
           {/* Números + cómo trabajamos */}
-          <Grid className="gsap-reveal" mt={{ base: 9, md: 11 }} templateColumns="1fr" gap={{ base: 8, md: 10 }} alignItems="start">
+          <Grid className="gsap-reveal" mt={{ base: 5, md: 7, lg: 'clamp(18px, 4vh, 44px)' }} templateColumns="1fr" gap={{ base: 8, md: 10 }} alignItems="start">
             {/* Ancho del bloque de números: cambiar maxW para hacerlo más ancho o angosto */}
             <Box maxW={{ base: '100%', md: '560px' }}>
               <Grid templateColumns={`repeat(${STATS.length}, 1fr)`} borderTop="1px solid rgba(255,255,255,0.18)" borderBottom="1px solid rgba(255,255,255,0.09)">
                 {STATS.map((s, i) => <Stat key={s.label} {...s} first={i === 0} />)}
               </Grid>
-              <Flex mt={4} align="center" gap={3} px={4} py={3} borderRadius="10px" bg="rgba(22,22,22,0.8)" backdropFilter="blur(6px)" border="1px solid rgba(255,255,255,0.09)">
+              <Flex mt={{ base: 3, lg: 'clamp(8px, 1.6vh, 16px)' }} align="center" gap={3} px={4} py={{ base: 2, md: 3 }} borderRadius="10px" bg="rgba(22,22,22,0.8)" backdropFilter="blur(6px)" border="1px solid rgba(255,255,255,0.09)">
                 <Text fontFamily="display" fontSize="38px" lineHeight={0.8} color="brand.gold">{ACTIVE}</Text>
                 <Text fontSize="13.5px" color="brand.whiteMuted" lineHeight={1.4}>
                   representados en actividad hoy, en {CLUBS} clubes de {COUNTRIES} países.
