@@ -1,10 +1,12 @@
 // Genera public/og-image.jpg (1200×630) a partir de seo/og.html.
 // Uso, desde la raíz del proyecto:  node seo/og.mjs
-// Requiere Playwright con Chromium (npx playwright install chromium si no lo tenés).
-import { chromium } from 'playwright'
+// Requiere Playwright con Chromium, instalado en el proyecto o global
+// (npm i -D playwright && npx playwright install chromium).
+import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 
+const { chromium } = createRequire(import.meta.url)('playwright')
 const src = path.resolve('seo/og.html')
 const out = path.resolve('public/og-image.jpg')
 const browser = await chromium.launch()

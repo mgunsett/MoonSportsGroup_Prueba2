@@ -14,12 +14,14 @@
     background:radial-gradient(60% 80% at 78% 70%,rgba(201,168,76,.22),transparent 65%),var(--black)}
   .pitch{position:absolute;inset:0;z-index:-2;background:url(../src/assets/images/fondo_hero.webp) center 70%/cover;filter:grayscale(.6) brightness(.35);opacity:.55;
     -webkit-mask-image:linear-gradient(90deg,transparent 15%,#000 60%);mask-image:linear-gradient(90deg,transparent 15%,#000 60%)}
-  .moon{position:absolute;right:120px;top:70px;width:470px;height:470px;border-radius:50%;z-index:-1;
+  .moon{position:absolute;right:110px;top:40px;width:440px;height:440px;border-radius:50%;z-index:-1;
     background:radial-gradient(circle at 60% 40%,rgba(232,201,106,.35),rgba(201,168,76,.1) 55%,transparent 70%);box-shadow:inset 0 0 0 1.5px rgba(201,168,76,.35)}
-  .players{position:absolute;right:-10px;bottom:0;width:720px;height:600px}
-  .players img{position:absolute;bottom:0;height:var(--h);left:var(--x);filter:drop-shadow(0 20px 30px rgba(0,0,0,.7)) brightness(var(--b,1))}
+  .players{position:absolute;right:0;bottom:0;width:740px;height:630px}
+  .players img{position:absolute;bottom:var(--y,0px);height:var(--h);left:var(--x);transform:translateX(-50%);
+    filter:drop-shadow(0 12px 18px rgba(0,0,0,.7)) brightness(var(--b,1));
+    -webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 98%);mask-image:linear-gradient(180deg,#000 70%,transparent 98%)}
   .players::after{content:"";position:absolute;inset:auto 0 0;height:22%;background:linear-gradient(transparent,var(--black))}
-  .fade{position:absolute;inset:0;background:linear-gradient(90deg,var(--black) 30%,rgba(8,8,8,.75) 46%,transparent 64%)}
+  .fade{position:absolute;inset:0;background:linear-gradient(90deg,var(--black) 30%,rgba(8,8,8,.6) 40%,transparent 50%)}
   .txt{position:absolute;left:72px;top:0;bottom:0;width:560px;display:flex;flex-direction:column;justify-content:center;gap:22px}
   .brand{display:flex;align-items:center;gap:16px}
   .brand img{width:74px;height:74px;filter:brightness(0) invert(1)}
@@ -27,8 +29,7 @@
   h1{font-family:Bahianita,'Bebas Neue',sans-serif;font-weight:400;font-size:150px;line-height:.82;text-transform:uppercase;letter-spacing:.01em}
   h1 em{display:block;font-style:normal;color:var(--gold);font-size:96px;letter-spacing:.28em;margin-top:6px}
   p{font-size:27px;line-height:1.35;color:rgba(255,255,255,.82);max-width:17em}
-  .url{display:inline-flex;align-items:center;gap:12px;font-size:21px;font-weight:600;letter-spacing:.06em;color:var(--cream)}
-  .url::before{content:"";width:34px;height:2px;background:var(--gold)}
+  .url{font-size:22px;font-weight:600;letter-spacing:.06em;color:var(--cream)}
   .bar{position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,var(--gold-d),var(--gold-l),var(--gold-d))}
 </style>
 </head>
@@ -37,17 +38,25 @@
   <div class="pitch"></div>
   <div class="moon"></div>
   <div class="players">
-    <img src="../src/assets/images/cain_fara.webp" style="--h:420px;--x:0px;--b:.55" alt="">
-    <img src="../src/assets/images/miguel_rondelli.webp" style="--h:450px;--x:470px;--b:.6" alt="">
-    <img src="../src/assets/images/ezequiel_piovi.webp" style="--h:520px;--x:120px;--b:.8" alt="">
-    <img src="../src/assets/images/luis_ramos1.webp" style="--h:500px;--x:330px;--b:.8" alt="">
-    <img src="../src/assets/images/francisco_fydriszewski.webp" style="--h:585px;--x:230px" alt="">
+    <img src="../src/assets/images/hector_fertoli.webp" style="--x:170px;--h:230px;--b:0.5;--y:175px" alt="">
+    <img src="../src/assets/images/andres_zanini.webp" style="--x:265px;--h:250px;--b:0.5;--y:175px" alt="">
+    <img src="../src/assets/images/lisandro_alzugaray1.webp" style="--x:365px;--h:250px;--b:0.5;--y:175px" alt="">
+    <img src="../src/assets/images/matias_dibenedetto.webp" style="--x:465px;--h:250px;--b:0.5;--y:175px" alt="">
+    <img src="../src/assets/images/ivan_colman.webp" style="--x:565px;--h:250px;--b:0.5;--y:175px" alt="">
+    <img src="../src/assets/images/miguel_rondelli.webp" style="--x:665px;--h:250px;--b:0.5;--y:175px" alt="">
+    <img src="../src/assets/images/julian_aquino.webp" style="--x:205px;--h:280px;--b:0.72;--y:95px" alt="">
+    <img src="../src/assets/images/luis_ramos1.webp" style="--x:310px;--h:280px;--b:0.72;--y:95px" alt="">
+    <img src="../src/assets/images/facundo_callejo.webp" style="--x:415px;--h:280px;--b:0.72;--y:95px" alt="">
+    <img src="../src/assets/images/juan_ruizgomez.webp" style="--x:515px;--h:280px;--b:0.72;--y:95px" alt="">
+    <img src="../src/assets/images/nicolas_silva.webp" style="--x:615px;--h:280px;--b:0.72;--y:95px" alt="">
+    <img src="../src/assets/images/ezequiel_piovi.webp" style="--x:265px;--h:330px;--b:1;--y:0px" alt="">
+    <img src="../src/assets/images/francisco_fydriszewski.webp" style="--x:565px;--h:330px;--b:1;--y:0px" alt="">
+    <img src="../src/assets/images/cain_fara.webp" style="--x:415px;--h:370px;--b:1;--y:0px" alt="">
   </div>
   <div class="fade"></div>
   <div class="txt">
     <div class="brand"><img src="../src/assets/images/logo_principal.webp" alt=""><span>Agencia de representación</span></div>
     <h1>Moon Sports<em>Group</em></h1>
-    <p>Representamos futbolistas y técnicos profesionales en Sudamérica.</p>
     <span class="url">moonsports-group.com</span>
   </div>
   <div class="bar"></div>
