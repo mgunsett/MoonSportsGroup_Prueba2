@@ -200,6 +200,14 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
   const dorsal = isCoach ? 'DT' : String(p.number).trim()
   const age = getAge(p.birthDate)
   const socials = Object.entries(p.socials || {}).filter(([k, url]) => url && SOCIALS[k])
+  const socialLinks = socials.map(([k, url]) => {
+    const { icon: Icon, name } = SOCIALS[k]
+    return (
+      <Box key={k} as="a" href={url} target="_blank" rel="noopener noreferrer" aria-label={`${name} de ${p.name} ${p.lastname}`} w="38px" h="38px" {...roundBtn}>
+        <Icon size={15} />
+      </Box>
+    )
+  })
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={isMobile ? 'full' : '6xl'} isCentered={!isMobile} motionPreset={isMobile ? 'slideInBottom' : 'scale'} scrollBehavior="inside">
@@ -256,7 +264,8 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
           <Flex position="relative" zIndex={1} gridColumn={{ lg: 1 }} gridRow={{ lg: 1 }} direction="column" justify="space-between" gap={6}
             px={{ base: 4, lg: 0 }} pl={{ lg: 8 }} pt={{ base: 0, lg: 8 }} pb={{ base: 2, lg: 7 }} mt={{ base: '-110px', lg: 0 }}>
               
-            <Box>
+            <Flex justify="space-between" align="flex-end" gap={4}>
+            <Box minW={0}>
               <Text aria-hidden="true" display={{ base: 'block', lg: 'block' }} fontFamily="label" fontSize={{base:"80px", md:"110px"}} lineHeight={0.8} color="brand.gold">{dorsal}</Text>
               <Text as="h2" fontFamily="display" fontSize={{ base: '54px', lg: '54px' }} lineHeight={0.86} textTransform="uppercase">
                 {p.name}
@@ -264,6 +273,11 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
               </Text>
               <Text mt={2} fontSize="11px" fontWeight={600} letterSpacing="0.22em" textTransform="uppercase" color="brand.whiteMuted">{p.position}</Text>
             </Box>
+              {/* Mobile: redes a la derecha del nombre */}
+              {socials.length > 0 && (
+                <Flex display={{ base: 'flex', lg: 'none' }} direction="column" gap={2} flexShrink={0} pb="2px">{socialLinks}</Flex>
+              )}
+            </Flex>
 
             <Grid as="dl" templateColumns="auto 1fr" columnGap={4} rowGap={2} fontSize="13.5px">
               {[
@@ -280,16 +294,7 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
             </Grid>
 
             {socials.length > 0 && (
-              <Flex gap={2}>
-                {socials.map(([k, url]) => {
-                  const { icon: Icon, name } = SOCIALS[k]
-                  return (
-                    <Box key={k} as="a" href={url} target="_blank" rel="noopener noreferrer" aria-label={`${name} de ${p.name} ${p.lastname}`} w="38px" h="38px" {...roundBtn}>
-                      <Icon size={15} />
-                    </Box>
-                  )
-                })}
-              </Flex>
+              <Flex display={{ base: 'none', lg: 'flex' }} gap={2}>{socialLinks}</Flex>
             )}
           </Flex>
 
