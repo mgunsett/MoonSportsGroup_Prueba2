@@ -74,8 +74,8 @@ export default function Nosotros() {
         position="relative"
         h={{ base: '340px', sm: '420px' }}
         bgImage={`url(${bgJugadores})`}
-        bgSize={{ base: 'auto 165%', md: 'auto 150%' }}
-        bgPosition={{ base: '86% 38%', md: '80% 40%' }}
+        bgSize={{ base: 'auto 140%', md: 'auto 150%' }}
+        bgPosition={{ base: '100% 30%', md: '80% 40%' }}
         bgRepeat="no-repeat"
         pointerEvents="none"
         _after={{
