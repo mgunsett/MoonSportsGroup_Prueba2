@@ -20,10 +20,10 @@ export default function HomePage() {
       {/* Orden: quiénes son → a quién representan → dónde juegan esta
           semana → cómo trabajan → por qué confiar → contacto */}
       <Hero />
-      <PlayersPanels />
-      <MatchAgenda />
-      <Services />
       <Nosotros />
+      <Services />
+      <PlayersPanels />
+      <MatchAgenda />    
       <Contact />
       <Footer />
     </>

@@ -275,7 +275,7 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
             </Box>
               {/* Mobile: redes a la derecha del nombre */}
               {socials.length > 0 && (
-                <Flex display={{ base: 'flex', lg: 'none' }} direction="column" gap={2} flexShrink={0} pb="2px">{socialLinks}</Flex>
+                <Flex display={{ base: 'flex', lg: 'none' }}  gap={2} flexShrink={0} pb="2px">{socialLinks}</Flex>
               )}
             </Flex>
 
@@ -325,8 +325,8 @@ export default function PlayerModal({ player, isOpen, onClose, list }) {
             
 
             {order.length > 1 && (
-              <Flex gap={2} mt="auto">
-                {[[-1, 'Anterior', FiArrowLeft], [1, 'Siguiente', FiArrowRight]].map(([dir, txt, Icon]) => (
+              <Flex gap={2} mt="auto" justifyContent='flex-end' alignItems="center">
+                {[[-1, ' ', FiArrowLeft], [1, ' ', FiArrowRight]].map(([dir, txt, Icon]) => (
                   <Box key={txt} as="button" type="button" onClick={() => go(dir)} aria-label={`Representado ${txt.toLowerCase()}`}
                     gap={2} px="14px" py="9px" fontSize="12px" {...roundBtn} flexDirection={dir > 0 ? 'row-reverse' : 'row'}>
                     <Icon size={14} />{txt}

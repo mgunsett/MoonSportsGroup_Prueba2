@@ -85,7 +85,7 @@ export default function Hero() {
       ref={sectionRef}
       as="section"
       id="hero"
-      h={{ base: "130vh", md: "100vh" }}
+      h={{ base: "105vh", md: "100vh" }}
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -118,7 +118,7 @@ export default function Hero() {
 
       {/* Animated background orbs */}
       <Box
-        ref={bgGlow1}
+        ref={{ base: null, md: bgGlow1 }}
         position="absolute"
         top="-10%"
         right="10%"
@@ -131,7 +131,7 @@ export default function Hero() {
         opacity={0.06}
       />
       <Box
-        ref={bgGlow2}
+        ref={{ base: null, md: bgGlow2 }}
         position="absolute"
         bottom="-15%"
         left="5%"
@@ -144,7 +144,7 @@ export default function Hero() {
         opacity={0.04}
       />
       <Box
-        ref={bgGlow3}
+        ref={{ base: null, md: bgGlow3 }}
         position="absolute"
         top="30%"
         left="40%"
@@ -310,7 +310,7 @@ export default function Hero() {
             pointerEvents="none"
           />
           <Image
-            ref={logoRef}
+            ref={{ base: null, md: logoRef }}
             src={logo}
             alt="Moon Sports Group — agencia de representación de futbolistas"
             fetchpriority="high"
