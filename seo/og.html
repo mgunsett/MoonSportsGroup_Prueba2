@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>OG Moon Sports Group</title>
-<link href="https://fonts.googleapis.com/css2?family=Bahianita&family=Bebas+Neue&family=Outfit:wght@400;500;600&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Six+Caps&family=Bebas+Neue&family=Outfit:wght@400;500;600&display=block" rel="stylesheet">
 <style>
   /* 1200×630. Lo importante (marca + qué hace) queda en el centro-izquierda:
      WhatsApp y LinkedIn recortan la miniatura a cuadrado o la achican mucho. */
@@ -22,13 +22,13 @@
     -webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 98%);mask-image:linear-gradient(180deg,#000 70%,transparent 98%)}
   .players::after{content:"";position:absolute;inset:auto 0 0;height:22%;background:linear-gradient(transparent,var(--black))}
   .fade{position:absolute;inset:0;background:linear-gradient(90deg,var(--black) 30%,rgba(8,8,8,.6) 40%,transparent 50%)}
-  .txt{position:absolute;left:72px;top:0;bottom:0;width:560px;display:flex;flex-direction:column;justify-content:center;gap:22px}
-  .brand{display:flex;align-items:center;gap:16px}
-  .brand img{width:74px;height:74px;filter:brightness(0) invert(1)}
-  .brand span{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.32em;color:var(--gold)}
-  h1{font-family:Bahianita,'Bebas Neue',sans-serif;font-weight:400;font-size:150px;line-height:.82;text-transform:uppercase;letter-spacing:.01em}
-  h1 em{display:block;font-style:normal;color:var(--gold);font-size:96px;letter-spacing:.28em;margin-top:6px}
-  p{font-size:27px;line-height:1.35;color:rgba(255,255,255,.82);max-width:17em}
+  .txt{position:absolute;left:64px;top:0;bottom:0;width:520px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:18px}
+  /* Logo en grande, dorado (como en el Hero) */
+  .logo{width:210px;height:auto;filter:drop-shadow(0 0 40px rgba(201,168,76,.35))}
+  /* Título con el heading del proyecto: Six Caps (theme.fonts.heading) */
+  h1{font-family:'Six Caps',sans-serif;font-weight:400;font-size:150px;line-height:.8;letter-spacing:.01em;color:#fff;margin-top:4px}
+  h1 em{display:block;font-style:normal;color:var(--gold);font-size:118px;line-height:.85;letter-spacing:.02em}
+  .tag{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.32em;color:var(--gold)}
   .url{font-size:22px;font-weight:600;letter-spacing:.06em;color:var(--cream)}
   .bar{position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,var(--gold-d),var(--gold-l),var(--gold-d))}
 </style>
@@ -55,8 +55,8 @@
   </div>
   <div class="fade"></div>
   <div class="txt">
-    <div class="brand"><img src="../src/assets/images/logo_principal.webp" alt=""><span>Agencia de representación</span></div>
-    <h1>Moon Sports<em>Group</em></h1>
+    <img class="logo" src="../src/assets/images/logo_principal.webp" alt="">
+    <h1>MOON SPORTS<em>GROUP</em></h1>
     <span class="url">moonsports-group.com</span>
   </div>
   <div class="bar"></div>
